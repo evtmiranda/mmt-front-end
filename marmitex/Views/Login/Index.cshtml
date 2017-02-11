@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 resumo-pedido" style="text-align: center">
+                <h1>entrar</h1>
+                <hr />
+
+                <div class="form-group">
+                    <label for="email">e-mail:</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">senha:</label>
+                    <input type="password" class="form-control" id="pwd">
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox"> lembrar minha senha</label>
+                </div>
+
+                <a href="~/home" class="btn btn-vermelho-sem-animacao" role="button">entrar</a>
+                <br />
+                <br />
+                <p>ainda não tem um usuário?<a href="~/CadastroUsuario"> registre-se</a></p>
+                <p>esqueceu sua senha?<a href="~/EsqueciASenha"> envie uma nova para o seu e-mail</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+

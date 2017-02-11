@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "detalhes pedido";
+}
+
+<div class="container-fluid">
+    <div class="col-md-2 menu-lateral">
+        <h2>pedido</h2>
+        <hr />
+        <p>salmão ao molho <span class="badge">1</span></p>
+        <p>lasanha <span class="badge">1</span></p>
+        <a href="~/EditarPedido" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-edit"></i> editar</a>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-9 detalhes-pedido">
+        <div class="row">
+            <div class="col-md-5 detalhes-pedido-horario">
+                <h2>horário para entrega</h2>
+                <hr />
+                <div style="padding-left: 20px;">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" disabled>as 12 horas</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">as 13 horas</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="optradio">as 14 horas</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" name="optradio">as 15 horas</label>
+                    </div>
+                    <p>os pedidos devem ser feitos com no mínimo 40 minutos de antecedência do horário escolhido para a entrega</p>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5 detalhes-pedido-pagamento">
+                <h2>forma de pagamento</h2>
+                <hr />
+                <div style="padding-left: 20px;">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">dinheiro</label>
+                    </div>
+                    <div class="checkbox disabled">
+                        <label><input type="checkbox" value="">vale refeição</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">cartão visa</label>
+                    </div>
+                    <div class="checkbox disabled">
+                        <label><input type="checkbox" value="">cartão master</label>
+                    </div>
+                    <div class="checkbox disabled">
+                        <label><input type="checkbox" value="">outras bandeiras</label>
+                    </div>
+                    <label for="usr">precisa de troco?</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                        <input type="number" min="0" class="form-control" id="usr" placeholder="de quanto precisa? ">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: end">
+            <a href="~/ResumoPedido" class="btn btn-detalhes-pedido btn-lg" role="button">avançar</a>
+        </div>
+    </div>
+</div>
+
+
