@@ -185,6 +185,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\HttpRequestMarmitex.cs" />
     <Compile Include="HelperClasses\RequisicoesREST.cs" />
     <Compile Include="HttpConfiguration.cs" />
     <Compile Include="Models\Usuario.cs" />

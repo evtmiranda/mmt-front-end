@@ -22,6 +22,7 @@ namespace marmitex.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Index(Usuario usuario)
         {
