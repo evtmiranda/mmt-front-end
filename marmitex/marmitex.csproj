@@ -145,6 +145,7 @@
     <Content Include="Content\bootstrap\js\npm.js" />
     <Content Include="Content\images\user.png" />
     <Content Include="Content\images\user_small.png" />
+    <Content Include="Content\js\marmitex.js" />
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -176,6 +177,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CadastroUsuarioController.cs" />
+    <Compile Include="Controllers\CarrinhoController.cs" />
     <Compile Include="Controllers\DetalhesPedidoController.cs" />
     <Compile Include="Controllers\EditarPedidoController.cs" />
     <Compile Include="Controllers\EsqueciASenhaController.cs" />
@@ -186,6 +188,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\HttpRequestMarmitex.cs" />
+    <Compile Include="HelperClasses\Requisicoes.cs" />
     <Compile Include="HelperClasses\RequisicoesREST.cs" />
     <Compile Include="HttpConfiguration.cs" />
     <Compile Include="Models\Usuario.cs" />

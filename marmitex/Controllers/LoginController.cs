@@ -32,8 +32,12 @@ namespace marmitex.Controllers
 
                 //se o usuário for autenticado, direciona para a tela home
                 if (result == HttpStatusCode.Accepted)
+                {
                     return RedirectToAction("Index", "Home");
 
+                    //armazena o usuário na sessão "Usuário"
+                    Session["Usuario"] = usuario;
+                }
                 else if (result == HttpStatusCode.Unauthorized)
                 {
                     ViewBag.MensagemAutenticacao = "Usuário ou senha inválida";

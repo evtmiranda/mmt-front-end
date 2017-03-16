@@ -7,6 +7,15 @@
     <div class="col-md-2 menu-lateral">
         <h2>pedido</h2>
         <hr />
+        @foreach (ClassesMarmitex.Carrinho carrinho in ViewBag.Carrinho)
+        {
+            @foreach (ClassesMarmitex.Produto produto in carrinho.Produtos)
+            {
+                <p>@produto.Nome</p>
+            }
+        }
+
+        
         <p>salmão ao molho <span class="badge">1</span></p>
         <p>lasanha <span class="badge">1</span></p>
         <a href="~/EditarPedido" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-edit"></i> editar</a>

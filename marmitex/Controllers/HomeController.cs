@@ -1,9 +1,5 @@
 ﻿using ClassesMarmitex;
 using marmitex.HelperClasses;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using System.Web.Mvc;
 
 namespace marmitex.Controllers
@@ -12,6 +8,7 @@ namespace marmitex.Controllers
     {
         private RequisicoesREST rest;
         private Requisicoes requisicoes;
+        private Carrinho carrinho;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -37,5 +34,6 @@ namespace marmitex.Controllers
 
             return View();
         }
+
     }
 }
