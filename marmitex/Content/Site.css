@@ -21,6 +21,14 @@ body{
     background-color: #fff;
 }
 
+.escondeDiv{
+    display: none;
+}
+
+.exibeDiv{
+    display: block;
+}
+
 .detalhes-pedido{
     background-color: #fff;
 }

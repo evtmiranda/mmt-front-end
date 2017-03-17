@@ -7,31 +7,46 @@
         <h3>cardápio</h3>
         <div class="menu-lateral">
             <ul class="sidebar-nav">
-                @foreach (ClassesMarmitex.MenuCardapio mc in ViewBag.MenuCardapio)
+                @if (ViewBag.MenuCardapio != null)
                 {
-                    <li><a data-toggle="collapse" data-target=".@mc.Id" href="#">@mc.Nome</a></li>
+                    foreach (ClassesMarmitex.MenuCardapio mc in ViewBag.MenuCardapio)
+                    {
+                        if (mc.OrdemExibicao == 1)
+                        {
+                            ViewBag.IdPrimeiroMenu = @mc.Id;
+                        }
+
+                        string EsconderDiv = string.Format("EsconderDiv('menuCardapio', 'idCardapio {0}')", mc.Id);
+                        <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
+                    }
                 }
             </ul>
         </div>
     </div>
+
     <div class="col-md-1"></div>
     <div class="col-md-9 cardapio">
         <div class="row">
-            @foreach (ClassesMarmitex.Produto p in ViewBag.Produtos)
+            @if (ViewBag.Produtos != null)
             {
-                <div class="@p.IdMenuCardapio col-md-4 collapse">
-                    <div class="thumbnail">
-                        <img src="@p.Imagem" alt="imagem do produto">
-                        <div class="caption">
-                            <h3>produto</h3>
-                            <p>
-                                @p.Descricao<br />
-                                @p.Valor
-                            </p>
-                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="adicionarAoCarrinho(@p)"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                foreach (ClassesMarmitex.Produto p in ViewBag.Produtos)
+                {
+                    if (@ViewBag.IdPrimeiroMenu != @p.IdMenuCardapio) { ViewBag.PrimeiroMenu = "escondeDiv"; }
+
+                    <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4 @ViewBag.PrimeiroMenu">
+                        <div class="thumbnail">
+                            <img src="@p.Imagem" alt="imagem do produto">
+                            <div class="caption">
+                                <h3>produto</h3>
+                                <p>
+                                    @p.Descricao<br />
+                                    @p.Valor
+                                </p>
+                                <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="adicionarAoCarrinho(@p)"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
         </div>
     </div>
@@ -51,4 +66,3 @@
     </div>
 
 </div>
-

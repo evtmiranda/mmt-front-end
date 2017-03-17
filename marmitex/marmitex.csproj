@@ -145,7 +145,7 @@
     <Content Include="Content\bootstrap\js\npm.js" />
     <Content Include="Content\images\user.png" />
     <Content Include="Content\images\user_small.png" />
-    <Content Include="Content\js\marmitex.js" />
+    <Content Include="Scripts\marmitex.js" />
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

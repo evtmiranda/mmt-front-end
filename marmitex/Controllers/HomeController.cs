@@ -1,9 +1,11 @@
-﻿using ClassesMarmitex;
-using marmitex.HelperClasses;
-using System.Web.Mvc;
-
-namespace marmitex.Controllers
+﻿namespace marmitex.Controllers
 {
+    using ClassesMarmitex;
+    using marmitex.HelperClasses;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+    using System.Linq;
+
     public class HomeController : Controller
     {
         private RequisicoesREST rest;
@@ -24,6 +26,10 @@ namespace marmitex.Controllers
             try
             {
                 ViewBag.MenuCardapio = requisicoes.ListarMenuCardapio();
+                List<MenuCardapio> listaMenuCardapio = (List<MenuCardapio>)ViewBag.MenuCardapio;
+
+                ViewBag.CardapioTelaHome = listaMenuCardapio.Where(p => p.OrdemExibicao == 1).First().Id;
+
                 ViewBag.Produtos = requisicoes.ListarProdutos();
             }
             catch (System.Exception)
