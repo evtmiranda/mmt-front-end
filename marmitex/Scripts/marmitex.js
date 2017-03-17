@@ -1,9 +1,30 @@
-﻿function adicionarAoCarrinho(Produto) {
-    $post("/Carrinho/AdicionarProduto", { produto: Produto });
+﻿
+
+function adicionarAoCarrinho(Produto) {
+    //$post("/Carrinho/AdicionarProduto", { produto: Produto });
+    alert("oi");
 }
 
 function fecharCarrinho() {
     $post("/Carrinho/FecharCarrinho");
+}
+
+function Post(url, prod) {
+
+    alert(prod);
+    //$.ajax({
+    //    type: "POST",
+    //    url: url, // the URL of the controller action method
+    //    data: prod, // optional data
+    //    success: function (result) {
+    //        // do something with result
+    //    },
+    //    error: function (req, status, error) {
+    //        // do something with error   
+    //    }
+    //});
+
+    $.post(url, { produtoJson: prod });
 }
 
 function EsconderDiv(classEsconder, classExibir) {

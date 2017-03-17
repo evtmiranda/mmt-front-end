@@ -11,11 +11,13 @@
                 {
                     foreach (ClassesMarmitex.MenuCardapio mc in ViewBag.MenuCardapio)
                     {
+                        //identifica o IDCardapio do cardapio com prioridade de exibicao
                         if (mc.OrdemExibicao == 1)
                         {
                             ViewBag.IdPrimeiroMenu = @mc.Id;
                         }
 
+                        //monta a função javascript responsavel por esconder e exibir produtos
                         string EsconderDiv = string.Format("EsconderDiv('menuCardapio', 'idCardapio {0}')", mc.Id);
                         <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
                     }
@@ -31,9 +33,13 @@
             {
                 foreach (ClassesMarmitex.Produto p in ViewBag.Produtos)
                 {
+                    //se o IdMenuCardapio do produto atual não for igual ao cardapio com prioridade de exibicao, os produtos são "escondidos"
+                    //assim, a tela sempre será iniciada com o cardápio do menu com código de exibicao = 1
                     if (@ViewBag.IdPrimeiroMenu != @p.IdMenuCardapio) { ViewBag.PrimeiroMenu = "escondeDiv"; }
 
-                    <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4 @ViewBag.PrimeiroMenu">
+                    string AdicionarCarrinho = string.Format("Post('/Carrinho/AdicionarProduto', '{0}')", @Html.Raw(Json.Encode(@p)));
+
+                    <div class="idCardapio @p.IdMenuCardapio @ViewBag.PrimeiroMenu menuCardapio col-md-4">
                         <div class="thumbnail">
                             <img src="@p.Imagem" alt="imagem do produto">
                             <div class="caption">
@@ -42,7 +48,8 @@
                                     @p.Descricao<br />
                                     @p.Valor
                                 </p>
-                                <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="adicionarAoCarrinho(@p)"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+
+                                <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
                             </div>
                         </div>
                     </div>

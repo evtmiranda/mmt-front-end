@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Linq;
+    using Newtonsoft.Json;
 
     public class HomeController : Controller
     {
@@ -22,6 +23,9 @@
 
         public ActionResult Index()
         {
+
+            JsonConvert.SerializeObject("aa", Formatting.Indented);
+
             //carrega a tela com os cardápios e produtos
             try
             {
