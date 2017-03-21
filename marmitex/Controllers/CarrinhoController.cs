@@ -11,39 +11,44 @@
         List<ProdutoPedido> listaProdutoPedido;
         List<ProdutoPedido> listaProdutoPedidoCalculada;
 
-        public CarrinhoController()
-        {
-            if(listaProdutoPedido == null)
-                listaProdutoPedido = new List<ProdutoPedido>();
-
-            System.Web.HttpContext.Current.Session["Carrinho"] = "";
-        }
+        public CarrinhoController() { }
 
         public void AdicionarProduto(string produtoJson)
         {
+            //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
+            listaProdutoPedido = new List<ProdutoPedido>();
+
+            if (Session["Carrinho"] != null)
+                listaProdutoPedido = (List<ProdutoPedido>)Session["Carrinho"];
+
+
             Produto produto = new Produto();
 
+            //verifica se recebeu realmente um produto
             if (produtoJson != null)
                 produto = JsonConvert.DeserializeObject<Produto>(produtoJson);
             else
                 return;
 
             //se já existir na lista este produto, somente a quantidade é atualizada
-            if (listaProdutoPedido != null && listaProdutoPedido.Where(p => p.Produto.Id == produto.Id).Count() > 1)
+            if (listaProdutoPedido.Where(p => p.Produto.Id == produto.Id).Count() > 0)
             {
                 //incrementa a quantidade do produto
                 listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).Quantidade++;
             }
             //adiciona o produto se ele ainda não existir no carrinho
-            else {
-
+            else
+            {
                 ProdutoPedido prodPedido = new ProdutoPedido();
 
                 prodPedido.Produto = produto;
                 prodPedido.Quantidade = 1;
-                 
+
                 listaProdutoPedido.Add(prodPedido);
             }
+
+            //atualiza a sessão
+            Session["Carrinho"] = listaProdutoPedido;
         }
 
         public ActionResult FecharCarrinho()
@@ -63,6 +68,11 @@
 
             //vai para os detalhes do pedido
             return RedirectToAction("Index", "DetalhesPedido");
+        }
+
+        public PartialViewResult AtualizarVisualizacaoCarrinho()
+        {
+            return PartialView("_CarrinhoCompra");
         }
     }
 }

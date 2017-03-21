@@ -11,7 +11,6 @@
     {
         private RequisicoesREST rest;
         private Requisicoes requisicoes;
-        private Carrinho carrinho;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -24,7 +23,7 @@
         public ActionResult Index()
         {
 
-            JsonConvert.SerializeObject("aa", Formatting.Indented);
+            //JsonConvert.SerializeObject("aa", Formatting.Indented);
 
             //carrega a tela com os cardápios e produtos
             try

@@ -10,21 +10,23 @@ function fecharCarrinho() {
 }
 
 function Post(url, prod) {
+    //após adicionar um produto, chama o método para atualizar
+    //a visualização do carrinho
+    $.post(url, { produtoJson: prod }, function () { AtualizarVisualizacaoCarrinho(); });
+}
 
-    alert(prod);
-    //$.ajax({
-    //    type: "POST",
-    //    url: url, // the URL of the controller action method
-    //    data: prod, // optional data
-    //    success: function (result) {
-    //        // do something with result
-    //    },
-    //    error: function (req, status, error) {
-    //        // do something with error   
-    //    }
-    //});
-
-    $.post(url, { produtoJson: prod });
+function AtualizarVisualizacaoCarrinho() {
+    $.ajax(
+    {
+        type: 'GET',
+        url: '/Carrinho/AtualizarVisualizacaoCarrinho',
+        dataType: 'html',
+        cache: false,
+        async: false,
+        success: function (data) {
+            $('#visualizacaoCarrinho').html(data);
+        }
+    });
 }
 
 function EsconderDiv(classEsconder, classExibir) {

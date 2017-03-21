@@ -24,6 +24,14 @@
                 }
             </ul>
         </div>
+
+        <h3>seu carrinho</h3>
+        <div id="visualizacaoCarrinho">
+            @{
+                //Html.RenderPartial("_CarrinhoCompra");
+                @Html.Partial("_CarrinhoCompra")
+            }
+        </div>
     </div>
 
     <div class="col-md-1"></div>

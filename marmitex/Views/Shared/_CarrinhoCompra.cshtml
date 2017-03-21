@@ -1,0 +1,21 @@
+﻿<div class="menu-lateral">
+    @if (Session["Carrinho"] != null)
+    {
+        <ul class="sidebar-nav">
+            @foreach (ClassesMarmitex.ProdutoPedido p in (List
+                    <ClassesMarmitex.ProdutoPedido>
+                        )Session["Carrinho"])
+            {
+                //exibe os produtos e a quantidade
+                <li>@p.Produto.Nome <span class="badge">@p.Quantidade</span></li>
+            }
+        </ul>
+
+        <a href="EditarPedido">editar</a>
+    }
+    else
+    {
+        <p>seu carrinho ainda está vazio ;(</p>
+    }
+
+</div>

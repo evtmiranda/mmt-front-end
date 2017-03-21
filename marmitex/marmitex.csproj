@@ -205,6 +205,7 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\CadastroUsuario\Index.cshtml" />
     <Content Include="Views\EsqueciASenha\Index.cshtml" />
+    <Content Include="Views\Shared\_CarrinhoCompra.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

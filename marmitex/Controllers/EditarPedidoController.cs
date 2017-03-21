@@ -13,5 +13,10 @@ namespace marmitex.Controllers
         {
             return View();
         }
+
+        public void Editar(string produto, string quantidade)
+        {
+
+        }
     }
 }
