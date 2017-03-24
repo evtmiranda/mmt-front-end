@@ -1,10 +1,10 @@
-﻿using System.Web.Mvc;
-using ClassesMarmitex;
-using System.Net;
-using marmitex.HelperClasses;
-
-namespace marmitex.Controllers
+﻿namespace marmitex.Controllers
 {
+    using System.Web.Mvc;
+    using ClassesMarmitex;
+    using System.Net;
+    using marmitex.HelperClasses;
+
     public class LoginController : Controller
     {
 

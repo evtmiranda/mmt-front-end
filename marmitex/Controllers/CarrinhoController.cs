@@ -21,7 +21,6 @@
             if (Session["Carrinho"] != null)
                 listaProdutoPedido = (List<ProdutoPedido>)Session["Carrinho"];
 
-
             Produto produto = new Produto();
 
             //verifica se recebeu realmente um produto
@@ -51,6 +50,40 @@
             Session["Carrinho"] = listaProdutoPedido;
         }
 
+        public void AtualizarQtdProduto(int idProduto, int qtd)
+        {
+            //lista para armazenar a sessão
+            List<ProdutoPedido> listaProdutoEditar = new List<ProdutoPedido>();
+            listaProdutoEditar = (List<ProdutoPedido>)Session["Carrinho"];
+
+            //atualiza a quantidade do produto
+            listaProdutoEditar.Where(p => p.ID == idProduto).SingleOrDefault().Quantidade = qtd;
+
+            //atualiza a sessão
+            Session["Carrinho"] = listaProdutoEditar;
+        }
+
+        public void RemoverProduto(string produtoJson)
+        {
+            Produto produto = new Produto();
+
+            //verifica se recebeu realmente um produto
+            if (produtoJson != null)
+                produto = JsonConvert.DeserializeObject<Produto>(produtoJson);
+            else
+                return;
+
+            //lista para armazenar a sessão
+            List<ProdutoPedido> listaProdutoRemover = new List<ProdutoPedido>();
+            listaProdutoRemover = (List<ProdutoPedido>)Session["Carrinho"];
+
+            //remove o produto
+            listaProdutoRemover.Remove(listaProdutoRemover.Where(p => p.Produto.Id == produto.Id).SingleOrDefault());
+
+            //atualiza a sessão
+            Session["Carrinho"] = listaProdutoRemover;
+        }
+
         public ActionResult FecharCarrinho()
         {
             listaProdutoPedidoCalculada = new List<ProdutoPedido>();
@@ -70,9 +103,21 @@
             return RedirectToAction("Index", "DetalhesPedido");
         }
 
-        public PartialViewResult AtualizarVisualizacaoCarrinho()
+        public ActionResult EditarPedido()
         {
-            return PartialView("_CarrinhoCompra");
+            return View();
+        }
+
+        public PartialViewResult AtualizarVisualizacaoViewParcial(string id)
+        {
+            string nomeViewParcial = id;
+
+            return PartialView(nomeViewParcial);
+        }
+
+        public ViewResult AtualizarVisualizacaoView(string nomeView)
+        {
+            return View(nomeView);
         }
     }
 }

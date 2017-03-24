@@ -9,24 +9,34 @@ function fecharCarrinho() {
     $post("/Carrinho/FecharCarrinho");
 }
 
-function Post(url, prod) {
+function PostAdicionarProduto(url, prod) {
     //após adicionar um produto, chama o método para atualizar
     //a visualização do carrinho
-    $.post(url, { produtoJson: prod }, function () { AtualizarVisualizacaoCarrinho(); });
+    $.post(url, { produtoJson: prod }, function () {
+        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra', '#visualizacaoCarrinho');
+    });
 }
 
-function AtualizarVisualizacaoCarrinho() {
-    $.ajax(
-    {
-        type: 'GET',
-        url: '/Carrinho/AtualizarVisualizacaoCarrinho',
-        dataType: 'html',
-        cache: false,
-        async: false,
-        success: function (data) {
-            $('#visualizacaoCarrinho').html(data);
-        }
+function PostRemoverProduto(url, prod) {
+    //após remover um produto, chama o método para atualizar
+    //a visualização da tela de edição do carrinho
+    $.post(url, { produtoJson: prod }, function () {
+        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoView/EditarPedido', '#visualizacaoEdicaoCarrinho');
     });
+}
+
+function AtualizarVisualizacaoDiv(recurso, idDiv) {
+    $.ajax(
+        {
+            type: 'GET',
+            url: recurso,
+            dataType: 'html',
+            cache: false,
+            async: false,
+            success: function (data) {
+                $(idDiv).html(data);
+            }
+        });
 }
 
 function EsconderDiv(classEsconder, classExibir) {

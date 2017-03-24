@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace marmitex.Controllers
+﻿namespace marmitex.Controllers
 {
+    using System.Web.Mvc;
+
     public class DetalhesPedidoController : Controller
     {
         // GET: DetalhesPedido

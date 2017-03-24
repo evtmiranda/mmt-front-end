@@ -45,7 +45,7 @@
                     //assim, a tela sempre será iniciada com o cardápio do menu com código de exibicao = 1
                     if (@ViewBag.IdPrimeiroMenu != @p.IdMenuCardapio) { ViewBag.PrimeiroMenu = "escondeDiv"; }
 
-                    string AdicionarCarrinho = string.Format("Post('/Carrinho/AdicionarProduto', '{0}')", @Html.Raw(Json.Encode(@p)));
+                    string AdicionarCarrinho = string.Format("PostAdicionarProduto('/Carrinho/AdicionarProduto', '{0}')", @Html.Raw(Json.Encode(@p)));
 
                     <div class="idCardapio @p.IdMenuCardapio @ViewBag.PrimeiroMenu menuCardapio col-md-4">
                         <div class="thumbnail">

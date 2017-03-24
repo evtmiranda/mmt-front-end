@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace marmitex.Controllers
+﻿namespace marmitex.Controllers
 {
+    using System.Web.Mvc;
+
     public class EsqueciASenhaController : Controller
     {
         // GET: EsqueciASenha
