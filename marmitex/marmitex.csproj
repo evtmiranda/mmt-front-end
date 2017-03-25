@@ -191,7 +191,6 @@
     <Compile Include="HelperClasses\Requisicoes.cs" />
     <Compile Include="HelperClasses\RequisicoesREST.cs" />
     <Compile Include="HttpConfiguration.cs" />
-    <Compile Include="Models\PostAjax.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

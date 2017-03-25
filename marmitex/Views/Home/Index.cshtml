@@ -46,7 +46,7 @@
                     if (@ViewBag.IdPrimeiroMenu != @p.IdMenuCardapio) { ViewBag.PrimeiroMenu = "escondeDiv"; }
 
                     //objeto para realizar um post com ajax e atualizar o conteudo de uma determinada div
-                    marmitex.Models.PostAjax postAjax = new marmitex.Models.PostAjax();
+                    ClassesMarmitex.DadosPostAjax postAjax = new ClassesMarmitex.DadosPostAjax();
                     postAjax.Recurso = "/Carrinho/AdicionarProduto";
                     postAjax.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra";
                     postAjax.DivASerAtualizada = "#visualizacaoCarrinho";

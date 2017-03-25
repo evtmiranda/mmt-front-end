@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Linq;
-    using Newtonsoft.Json;
 
     public class HomeController : Controller
     {
@@ -22,6 +21,8 @@
 
         public ActionResult Index()
         {
+            //cria sessão para armazenar a url base
+            Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
 
             //JsonConvert.SerializeObject("aa", Formatting.Indented);
 

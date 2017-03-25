@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace marmitex.HelperClasses
+﻿namespace marmitex.HelperClasses
 {
+    using Newtonsoft.Json;
+    using System.IO;
+    using System.Net;
+    using System.Text;
+    using ClassesMarmitex;
+
     public class RequisicoesREST
     {
-        public HttpStatusCode Post(string recurso, object objeto)
+        public DadosRequisicaoRest Post(string recurso, object objeto)
         {
+            DadosRequisicaoRest dadosPost = new DadosRequisicaoRest();
+
             //faz o post de um objeto em um determinado recurso
             try
             {
@@ -28,7 +28,124 @@ namespace marmitex.HelperClasses
 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                return response.StatusCode;
+                dadosPost.HttpStatusCode = response.StatusCode;
+
+                return dadosPost;
+            }
+            //se for algum erro do protocolo HTTP, captura o retorno HTTP para utilizar no retorno do método
+            catch (WebException wEx)
+            {
+                //cria um webResponse
+                var webResponse = wEx.Response as System.Net.HttpWebResponse;
+
+                //verifica se não é erro do protocolo HTTP. Se não for, devolve um InternalServerError
+                if (wEx.Status != WebExceptionStatus.ProtocolError) {
+                    dadosPost.HttpStatusCode = HttpStatusCode.InternalServerError;
+                    return dadosPost;
+                }
+
+                //Retorna o status HTTP
+                dadosPost.HttpStatusCode = webResponse.StatusCode;
+
+                return dadosPost;
+            }
+            //Se ocorrer qualquer outra exceção retorna um InternalServerError
+            catch (System.Exception)
+            {
+                dadosPost.HttpStatusCode = HttpStatusCode.InternalServerError;
+
+                return dadosPost;
+            }
+        }
+
+        public DadosRequisicaoRest Get(string recurso, int id = 0)
+        {
+            DadosRequisicaoRest retorno = new DadosRequisicaoRest();
+            string conteudo;
+
+            //faz o get de um objeto em um determinado recurso
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:29783/api/" + recurso);
+
+                if (id != 0)
+                    request.Headers.Add("id", id.ToString());
+
+                request.Method = "GET";
+                request.Accept = "application/json";
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                retorno.HttpStatusCode = response.StatusCode;
+
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    conteudo = reader.ReadToEnd();
+                }
+
+                retorno.objeto = conteudo;
+
+                return retorno;
+            }
+            //se for algum erro do protocolo HTTP, captura o retorno HTTP para utilizar no retorno do método
+            catch (WebException wEx)
+            {
+                //cria um webResponse
+                var webResponse = wEx.Response as HttpWebResponse;
+
+                //verifica se não é erro do protocolo HTTP. Se não for, devolve um InternalServerError
+                if (wEx.Status != WebExceptionStatus.ProtocolError)
+                {
+                    retorno.HttpStatusCode = HttpStatusCode.InternalServerError;
+                    return retorno;
+                }
+
+                //Retorna o status HTTP
+                retorno.HttpStatusCode = webResponse.StatusCode;
+                return retorno;
+            }
+            //Se ocorrer qualquer outra exceção retorna um InternalServerError
+            catch (System.Exception)
+            {
+                retorno.HttpStatusCode = HttpStatusCode.InternalServerError;
+                return retorno;
+            }
+        }
+
+        public DadosRequisicaoRest PostComRetorno(string recurso, object objeto)
+        {
+            DadosRequisicaoRest retorno = new DadosRequisicaoRest();
+
+            string conteudo;
+
+            //faz o get de um objeto em um determinado recurso
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:29783/api/" + recurso);
+                request.Method = "POST";
+                request.Accept = "application/json";
+
+                string json = JsonConvert.SerializeObject(objeto);
+
+                byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+                request.GetRequestStream().Write(jsonBytes, 0, jsonBytes.Length);
+
+                request.ContentType = "application/json";
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                retorno.HttpStatusCode = response.StatusCode;
+
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    conteudo = reader.ReadToEnd();
+                }
+
+                retorno.objeto = conteudo;
+
+                return retorno;
             }
             //se for algum erro do protocolo HTTP, captura o retorno HTTP para utilizar no retorno do método
             catch (WebException wEx)
@@ -38,110 +155,21 @@ namespace marmitex.HelperClasses
 
                 //verifica se não é erro do protocolo HTTP. Se não for, devolve um InternalServerError
                 if (wEx.Status != WebExceptionStatus.ProtocolError)
-                    return HttpStatusCode.InternalServerError;
-
-                //Retorna o status HTTP
-                return webResponse.StatusCode;
-            }
-            //Se ocorrer qualquer outra exceção retorna um InternalServerError
-            catch (System.Exception)
-            {
-                return HttpStatusCode.InternalServerError;
-            }
-        }
-
-        public HttpRequestMarmitex Get(string recurso, int id)
-        {
-            HttpRequestMarmitex retorno = new HttpRequestMarmitex();
-
-            //faz o post de um objeto em um determinado recurso
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:29783/api/" + recurso);
-
-                request.Headers.Add("id", id.ToString());
-
-                request.Method = "GET";
-                request.Accept = "application/json";
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                retorno.StatusCode = response.StatusCode;
-
-                return retorno;
-            }
-            //se for algum erro do protocolo HTTP, captura o retorno HTTP para utilizar no retorno do método
-            catch (WebException wEx)
-            {
-                //cria um webResponse
-                var webResponse = wEx.Response as HttpWebResponse;
-
-                //verifica se não é erro do protocolo HTTP. Se não for, devolve um InternalServerError
-                if (wEx.Status != WebExceptionStatus.ProtocolError) {
-                    retorno.StatusCode = HttpStatusCode.InternalServerError;
+                {
+                    retorno.HttpStatusCode = HttpStatusCode.InternalServerError;
                     return retorno;
                 }
 
                 //Retorna o status HTTP
-                retorno.StatusCode = webResponse.StatusCode;
+                retorno.HttpStatusCode = webResponse.StatusCode;
+
                 return retorno;
             }
             //Se ocorrer qualquer outra exceção retorna um InternalServerError
             catch (System.Exception)
             {
-                retorno.StatusCode = HttpStatusCode.InternalServerError;
-                return retorno;
-            }
-        }
+                retorno.HttpStatusCode = HttpStatusCode.InternalServerError;
 
-        public HttpRequestMarmitex Get(string recurso)
-        {
-            HttpRequestMarmitex retorno = new HttpRequestMarmitex();
-            string conteudo;
-
-            //faz o post de um objeto em um determinado recurso
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:29783/api/" + recurso);
-
-                request.Method = "GET";
-                request.Accept = "application/json";
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                retorno.StatusCode = response.StatusCode;
-
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    conteudo = reader.ReadToEnd();
-                }
-
-                retorno.T = conteudo;
-
-                return retorno;
-            }
-            //se for algum erro do protocolo HTTP, captura o retorno HTTP para utilizar no retorno do método
-            catch (WebException wEx)
-            {
-                //cria um webResponse
-                var webResponse = wEx.Response as HttpWebResponse;
-
-                //verifica se não é erro do protocolo HTTP. Se não for, devolve um InternalServerError
-                if (wEx.Status != WebExceptionStatus.ProtocolError)
-                {
-                    retorno.StatusCode = HttpStatusCode.InternalServerError;
-                    return retorno;
-                }
-
-                //Retorna o status HTTP
-                retorno.StatusCode = webResponse.StatusCode;
-                return retorno;
-            }
-            //Se ocorrer qualquer outra exceção retorna um InternalServerError
-            catch (System.Exception)
-            {
-                retorno.StatusCode = HttpStatusCode.InternalServerError;
                 return retorno;
             }
         }

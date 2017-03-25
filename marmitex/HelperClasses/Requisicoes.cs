@@ -1,14 +1,10 @@
-﻿using ClassesMarmitex;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace marmitex.HelperClasses
+﻿namespace marmitex.HelperClasses
 {
+    using ClassesMarmitex;
+    using Newtonsoft.Json;
+    using System.Collections.Generic;
+    using System.Net;
+
     public class Requisicoes
     {
         private RequisicoesREST rest;
@@ -22,14 +18,16 @@ namespace marmitex.HelperClasses
 
         public List<MenuCardapio> ListarMenuCardapio()
         {
+            DadosRequisicaoRest retornoGet = new DadosRequisicaoRest();
+
             List<MenuCardapio> listaMenuCardapio;
 
-            HttpRequestMarmitex result = rest.Get("/menucardapio/listar");
+            retornoGet = rest.Get("/menucardapio/listar");
 
-            if (result.StatusCode != HttpStatusCode.OK)
+            if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
                 return null;
 
-            string json = result.T.ToString();
+            string json = retornoGet.objeto.ToString();
 
             listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(json);
 
@@ -38,14 +36,16 @@ namespace marmitex.HelperClasses
 
         public List<Produto> ListarProdutos()
         {
+            DadosRequisicaoRest retornoGet = new DadosRequisicaoRest();
+
             List<Produto> listaProdutos;
 
-            HttpRequestMarmitex result = rest.Get("/produto/listar");
+            retornoGet = rest.Get("/produto/listar");
 
-            if (result.StatusCode != HttpStatusCode.OK)
+            if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
                 return null;
 
-            string json = result.T.ToString();
+            string json = retornoGet.objeto.ToString();
 
             listaProdutos = JsonConvert.DeserializeObject<List<Produto>>(json);
 

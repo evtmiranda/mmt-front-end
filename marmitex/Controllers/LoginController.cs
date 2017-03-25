@@ -3,7 +3,9 @@
     using System.Web.Mvc;
     using ClassesMarmitex;
     using System.Net;
-    using marmitex.HelperClasses;
+    using HelperClasses;
+    using System;
+    using Newtonsoft.Json;
 
     public class LoginController : Controller
     {
@@ -24,38 +26,73 @@
         }
 
         [HttpPost]
-        public ActionResult Index(Usuario usuario)
+        public ActionResult Autenticar(Usuario usuario)
         {
+            DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
+            DadosRequisicaoRest retornoDadosUsuario = new DadosRequisicaoRest();
+
             try
             {
-                HttpStatusCode result = rest.Post("/usuario/autenticar", usuario);
+                retornoAutenticacao = rest.Post("/usuario/autenticar", usuario);
 
                 //se o usuário for autenticado, direciona para a tela home
-                if (result == HttpStatusCode.Accepted)
+                if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Accepted)
                 {
-                    return RedirectToAction("Index", "Home");
+                    Usuario usuarioLogado = new Usuario();
+                    try
+                    {
+                        //busca os dados do usuário
+                        retornoDadosUsuario = rest.PostComRetorno("usuario/buscarPorEmail", usuario);
 
-                    //armazena o usuário na sessão "Usuário"
-                    Session["Usuario"] = usuario;
+                        //verifica se os dados do usuário foram encontrados
+                        if (retornoDadosUsuario.HttpStatusCode != HttpStatusCode.OK)
+                            throw new Exception();
+
+                        usuarioLogado = JsonConvert.DeserializeObject<Usuario>(retornoDadosUsuario.objeto.ToString());
+
+                        //armazena o usuário na sessão "Usuário"
+                        Session["usuarioLogado"] = usuarioLogado;
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    //se não for possível consultar os dados do usuário
+                    catch (Exception)
+                    {
+                        ViewBag.MensagemAutenticacao = "Estamos com dificuldade em buscar dados no servidor. Por favor, tente novamente";
+                        return View();
+                    }
                 }
-                else if (result == HttpStatusCode.Unauthorized)
+                else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
                     ViewBag.MensagemAutenticacao = "Usuário ou senha inválida";
-                    return View();
+                    return View("Index");
                 }
 
                 //se for algum outro erro
                 else
                 {
                     ViewBag.MensagemAutenticacao = "Não foi possível realizar o login. Por favor, tente novamente";
-                    return View();
+                    return View("Index");
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 ViewBag.MensagemAutenticacao = "Não foi possível realizar o login. Por favor, tente novamente";
-                return View();
+                return View("Index");
             }
+        }
+
+        /// <summary>
+        /// Limpa todas as sessões e direciona para a tela de login
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Deslogar()
+        {
+            //Limpa todas as sessões
+            Session.Clear();
+
+            //Direciona para a tela de login
+            return View("Index");
         }
     }
 }

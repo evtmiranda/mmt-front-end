@@ -25,26 +25,34 @@
             </div>
             <div class="collapse navbar-collapse" id="menuResponsivo">
                 <ul class="nav navbar-nav navbar-right">
-                    @*<li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">
-                            meu pedido
-                            <span class="badge">2</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><p>salmão ao molho</p></li>
-                            <li><p>lasanha</p></li>
-                            <li><a href="~/EditarPedido" class="btn btn-editar-pedido-dropdown" role="button"><i class="glyphicon glyphicon-edit"></i> editar</a></li>
-                        </ul>
-                    </li>*@
+
                     <li class="dropdown" style="margin-right: 10px">
-                        <a class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user"></span> meu perfil
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="~/Login">entrar</a></li>
-                            @*<li><a href="#" style="display:none">meus pedidos</a></li>*@
-                        </ul>
+                        @{ if (Session["usuarioLogado"] == null)
+                            {
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    meu perfil <span class="glyphicon glyphicon-user"></span> 
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="~/Login">entrar</a></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                ClassesMarmitex.Usuario usuarioLogado = (ClassesMarmitex.Usuario)Session["usuarioLogado"];
+
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    Olá @usuarioLogado.Nome <span class="glyphicon glyphicon-user"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">meus dados</a></li>
+                                    <li><a href="#">histórico de pedidos</a></li>
+                                    <li><a href="#">quanto economizei</a></li>
+                                    <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
+                                </ul>
+                            }
+                        }
                     </li>
+
                 </ul>
             </div>
         </nav>
