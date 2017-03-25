@@ -45,7 +45,13 @@
                     //assim, a tela sempre será iniciada com o cardápio do menu com código de exibicao = 1
                     if (@ViewBag.IdPrimeiroMenu != @p.IdMenuCardapio) { ViewBag.PrimeiroMenu = "escondeDiv"; }
 
-                    string AdicionarCarrinho = string.Format("PostAdicionarProduto('/Carrinho/AdicionarProduto', '{0}')", @Html.Raw(Json.Encode(@p)));
+                    //objeto para realizar um post com ajax e atualizar o conteudo de uma determinada div
+                    marmitex.Models.PostAjax postAjax = new marmitex.Models.PostAjax();
+                    postAjax.Recurso = "/Carrinho/AdicionarProduto";
+                    postAjax.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra";
+                    postAjax.DivASerAtualizada = "#visualizacaoCarrinho";
+
+                    string AdicionarCarrinho = string.Format("Post('{0}', '{1}')", @Html.Raw(Json.Encode(postAjax)), @Html.Raw(Json.Encode(@p)));
 
                     <div class="idCardapio @p.IdMenuCardapio @ViewBag.PrimeiroMenu menuCardapio col-md-4">
                         <div class="thumbnail">

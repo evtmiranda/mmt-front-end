@@ -191,6 +191,7 @@
     <Compile Include="HelperClasses\Requisicoes.cs" />
     <Compile Include="HelperClasses\RequisicoesREST.cs" />
     <Compile Include="HttpConfiguration.cs" />
+    <Compile Include="Models\PostAjax.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -206,6 +207,7 @@
     <Content Include="Views\EsqueciASenha\Index.cshtml" />
     <Content Include="Views\Shared\_CarrinhoCompra.cshtml" />
     <Content Include="Views\Carrinho\EditarPedido.cshtml" />
+    <Content Include="Views\Shared\_EditarPedido.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

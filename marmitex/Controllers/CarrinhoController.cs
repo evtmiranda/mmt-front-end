@@ -13,7 +13,7 @@
 
         public CarrinhoController() { }
 
-        public void AdicionarProduto(string produtoJson)
+        public void AdicionarProduto(string dadosJson)
         {
             //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
             listaProdutoPedido = new List<ProdutoPedido>();
@@ -24,8 +24,8 @@
             Produto produto = new Produto();
 
             //verifica se recebeu realmente um produto
-            if (produtoJson != null)
-                produto = JsonConvert.DeserializeObject<Produto>(produtoJson);
+            if (dadosJson != null)
+                produto = JsonConvert.DeserializeObject<Produto>(dadosJson);
             else
                 return;
 
@@ -113,11 +113,6 @@
             string nomeViewParcial = id;
 
             return PartialView(nomeViewParcial);
-        }
-
-        public ViewResult AtualizarVisualizacaoView(string nomeView)
-        {
-            return View(nomeView);
         }
     }
 }

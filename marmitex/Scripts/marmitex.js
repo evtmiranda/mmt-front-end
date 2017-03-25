@@ -1,25 +1,21 @@
 ﻿
-
-function adicionarAoCarrinho(Produto) {
-    //$post("/Carrinho/AdicionarProduto", { produto: Produto });
-    alert("oi");
-}
-
 function fecharCarrinho() {
     $post("/Carrinho/FecharCarrinho");
 }
 
-function PostAdicionarProduto(url, prod) {
-    //após adicionar um produto, chama o método para atualizar
-    //a visualização do carrinho
-    $.post(url, { produtoJson: prod }, function () {
-        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra', '#visualizacaoCarrinho');
+//após realizar um post, chama o método para atualizar
+//a visualização de uma view parcial
+function Post(jsonHeaderPost, jsonBodyPost) {
+    var dadosPost = JSON.parse(jsonHeaderPost);
+
+    $.post(dadosPost.Recurso, { dadosJson: jsonBodyPost }, function () {
+        AtualizarVisualizacaoDiv(dadosPost.ViewParcial, dadosPost.DivASerAtualizada);
     });
 }
 
+//após remover um produto, chama o método para atualizar
+//a visualização da tela de edição do carrinho
 function PostRemoverProduto(url, prod) {
-    //após remover um produto, chama o método para atualizar
-    //a visualização da tela de edição do carrinho
     $.post(url, { produtoJson: prod }, function () {
         AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoView/EditarPedido', '#visualizacaoEdicaoCarrinho');
     });
