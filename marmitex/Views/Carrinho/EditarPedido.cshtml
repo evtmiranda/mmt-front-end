@@ -19,9 +19,9 @@
                @{ //objetos utilizados para atualizar a quantidade de um produto
                    ClassesMarmitex.DadosPostAjax postAtualizarQtd = new ClassesMarmitex.DadosPostAjax();
                    postAtualizarQtd.Recurso = "/Carrinho/AtualizarQtdProdutos";
-                   postAtualizarQtd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
-                   postAtualizarQtd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
-                   string AtualizarQtd = string.Format("PostAtualizarQuantidade('{0}', '{1}')", @Html.Raw(Json.Encode(postAtualizarQtd)), @Session["urlBase"]);
+                   //postAtualizarQtd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
+                   //postAtualizarQtd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
+                   string AtualizarQtd = string.Format("PostAtualizarQuantidade('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postAtualizarQtd)), @Session["urlBase"], "/Home/Index");
                }
 
                 <br />

@@ -49,6 +49,7 @@
             //atualiza a sessão
             Session["Carrinho"] = listaProdutoPedido;
         }
+
         /// <summary>
         /// Atualiza a sessão com a quantidade de produtos definida pelo usuário
         /// </summary>

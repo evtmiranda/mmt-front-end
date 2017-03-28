@@ -1,7 +1,6 @@
-﻿
-function fecharCarrinho() {
-    $post("/Carrinho/FecharCarrinho");
-}
+﻿//function fecharCarrinho() {
+//    $post("/Carrinho/FecharCarrinho");
+//}
 
 //após realizar um post, chama o método para atualizar
 //a visualização de uma view parcial
@@ -13,9 +12,8 @@ function Post(jsonHeaderPost, jsonBodyPost) {
     });
 }
 
-//após realizar um post, chama o método para atualizar
-//a visualização de uma view parcial
-function PostAtualizarQuantidade(jsonHeaderPost, urlBase) {
+//após realizar um post, faz o redirect para o destino enviado como parâmetro
+function PostAtualizarQuantidade(jsonHeaderPost, urlBase, destino) {
     //variáveis para armazenar qual produto deve ter a quantidade atualizada
     // e qual a quantidade
     var produtosHtml = document.getElementsByClassName('js-produtos-atualizar');
@@ -38,7 +36,7 @@ function PostAtualizarQuantidade(jsonHeaderPost, urlBase) {
     var atualizarProdutoJson = JSON.stringify(produtos, null, 0);
 
     $.post(dadosPost.Recurso, { dadosJson: atualizarProdutoJson }, function () {
-        Redirecionar(urlBase);
+        Redirecionar(urlBase, destino);
     });
 }
 
