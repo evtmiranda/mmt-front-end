@@ -7,6 +7,9 @@
         // GET: ResumoPedido
         public ActionResult Index()
         {
+            if (Session["Carrinho"] == null)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
     }

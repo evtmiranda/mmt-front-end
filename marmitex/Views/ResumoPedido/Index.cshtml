@@ -11,18 +11,48 @@
                 <h1>resumo do pedido</h1>
                 <hr />
                 <h3>pedido</h3>
-                <p>1 lasanha</p>
-                <p>1 coca-lata 350 ml</p>
 
-                <h3>horário de entrega</h3>
-                <p>as 13:00 horas</p>
+                @* exibe os detalhes do pedido *@
+                @if (Session["Carrinho"] != null)
+                {
+                    foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
+                    {
+                        //exibe os produtos e a quantidade
+                        <p>@p.Quantidade @p.Produto.Nome</p>
+                    }
 
-                <h3>forma de pagamento</h3>
-                <p>dinheiro</p>
-                <p>vale refeição</p>
-                <p>R$ 1,50 de troco</p>
 
-                <a href="~/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
+                    <h3>horário de entrega</h3>
+                    if (Session["HorarioEntrega"] != null)
+                    {
+                        <p>as @Session["HorarioEntrega"] horas</p>
+                    }
+
+                    <h3>forma de pagamento</h3>
+                    if (Session["FormaPagamento"] != null)
+                    {
+                        <p>@Session["FormaPagamento"]</p>
+                    }
+
+                    if (Session["ValorTroco"] != null)
+                    {
+                        <p>R$ @Session["ValorTroco"] de troco</p>
+                    }
+
+                    <h3>observações</h3>
+                    if (Session["Observacao"] != null)
+                    {
+                        <p>@Session["Observacao"]</p>
+                    }
+                    else
+                    {
+                        <p>nenhuma observação...</p>
+                    }
+
+                    <br />
+                }
+
+                <a href="@Session["urlBase"]/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
                 <a href="#" onclick="avisoConfirmacao()" class="btn btn-vermelho-sem-animacao" role="button">confirmar</a>
             </div>
             <div class="col-md-3"></div>
@@ -31,8 +61,8 @@
 </div>
 
 <script>
-function avisoConfirmacao() {
-    alert('Pedido enviado com sucesso');
-    window.open("../", "_self");
-}
+    function avisoConfirmacao() {
+        alert('Pedido enviado com sucesso');
+        window.open("../", "_self");
+    }
 </script>

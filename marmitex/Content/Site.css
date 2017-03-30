@@ -35,12 +35,14 @@ body{
 
 .detalhes-pedido-horario{
     background-color: #f8f8f8;
-    height:300px;
+    height:auto;
+    padding-bottom: 1em;
 }
 
 .detalhes-pedido-pagamento{
     background-color: #f8f8f8;
-    height:300px;
+    height:auto;
+    padding-bottom: 1em;
 }
 
 .resumo-pedido{
@@ -54,7 +56,8 @@ body{
 
 .editar-pedido{
     background-color: #f8f8f8;
-    height:300px;
+    height:auto;
+    padding-bottom: 1em;
 }
 
 /*#region botões */
