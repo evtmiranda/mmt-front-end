@@ -53,6 +53,16 @@
                         //armazena o usuário na sessão "Usuário"
                         Session["usuarioLogado"] = usuarioLogado;
 
+                        //verifica qual tela chamou o login
+                        if(Session["ControllerDestinoAposLogar"] != null)
+                        {
+                            string controllerDestinho = (string)Session["ControllerDestinoAposLogar"];
+
+                            Session["ControllerDestinoAposLogar"] = null;
+
+                            return RedirectToAction("Index", controllerDestinho);
+                        }
+
                         return RedirectToAction("Index", "Home");
                     }
                     //se não for possível consultar os dados do usuário

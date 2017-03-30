@@ -21,7 +21,7 @@
                    postAtualizarQtd.Recurso = "/Carrinho/AtualizarQtdProdutos";
                    //postAtualizarQtd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
                    //postAtualizarQtd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
-                   string AtualizarQtd = string.Format("PostAtualizarQuantidade('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postAtualizarQtd)), @Session["urlBase"], "/Home/Index");
+                   string AtualizarQtd = string.Format("PostAtualizarQuantidade('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postAtualizarQtd)), @Session["urlBase"], "Home/Index");
                }
 
                 <br />
