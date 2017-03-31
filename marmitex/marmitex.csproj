@@ -207,6 +207,7 @@
     <Content Include="Views\Shared\_CarrinhoCompra.cshtml" />
     <Content Include="Views\Carrinho\EditarPedido.cshtml" />
     <Content Include="Views\Shared\_EditarPedido.cshtml" />
+    <Content Include="Views\Shared\_Promocoes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

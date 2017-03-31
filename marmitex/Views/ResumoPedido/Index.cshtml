@@ -15,6 +15,17 @@
                 @* exibe os detalhes do pedido *@
                 @if (Session["Carrinho"] != null)
                 {
+                    //se o usuario não preenche o horario de entrega e forma de pagamento direciona para a tela detalhespedido
+                    //e avisa que o preenchimento é obrigatório
+                    if (Session["HorarioEntrega"] == null || Session["FormaPagamento"] ==  null)
+                    {
+                        Session["MensagemCamposDetalhesPedido"] = "o horário de entrega ou forma de pagamento não escolhidos";
+
+                        <script>
+                            Redirecionar(@Session["urlBase"], "/DetalhesPedido");
+                        </script>
+                    }
+
                     foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
                     {
                         //exibe os produtos e a quantidade

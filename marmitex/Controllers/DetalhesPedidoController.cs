@@ -43,6 +43,8 @@
             if (!string.IsNullOrEmpty(detalhesPedido.Observacao))
                 Session["Observacao"] = detalhesPedido.Observacao;
 
+            Session["MensagemCamposDetalhesPedido"] = null;
+
         }
     }
 }

@@ -32,6 +32,14 @@
                 @Html.Partial("_CarrinhoCompra")
             }
         </div>
+
+        <h3 class="vermelho-marmitex">confira as promoções</h3>
+        <div >
+            @{
+                @Html.Partial("_Promocoes")
+            }
+        </div>
+
     </div>
 
     <div class="col-md-1"></div>
@@ -57,7 +65,7 @@
                         <div class="thumbnail">
                             <img src="@p.Imagem" alt="imagem do produto">
                             <div class="caption">
-                                <h3>produto</h3>
+                                <h3>@p.Nome</h3>
                                 <p>
                                     @p.Descricao<br />
                                     @p.Valor

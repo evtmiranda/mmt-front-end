@@ -13,7 +13,7 @@ body{
 
 .menu-lateral{
     background-color: #f8f8f8;
-    padding: 20px;
+    padding: 2px;
     margin-bottom: 10px;
 }
 
@@ -31,6 +31,10 @@ body{
 
 .detalhes-pedido{
     background-color: #fff;
+}
+
+.detalhes-pedido-carrinho{
+    background-color: #f8f8f8;
 }
 
 .detalhes-pedido-horario{
@@ -59,6 +63,17 @@ body{
     height:auto;
     padding-bottom: 1em;
 }
+
+.carrinho-compras li {
+    margin-top: 1em;
+}
+
+.btn-carrinho-compras {
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
+
+
 
 /*#region botões */
 
@@ -130,6 +145,10 @@ body{
 .btn-editar-pedido-dropdown:hover{
   background-color: #f8f8f8;
   border-color: #fff;
+}
+
+.vermelho-marmitex{
+    color: #bc2026;
 }
 
 /*#endregion */
@@ -280,4 +299,3 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 
 
 /*#endregion */
-

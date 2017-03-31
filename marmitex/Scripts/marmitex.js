@@ -91,7 +91,7 @@ function ExibirCampoTroco() {
 
     var divTroco = document.getElementById("divTroco");
 
-    if (checkDinheiro.checked == false){
+    if (checkDinheiro.checked == false) {
         divTroco.setAttribute("style", "display:none");
     }
     else {
@@ -106,20 +106,29 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
     var listaHorarioEntrega = document.getElementsByClassName("radioHorarioEntrega");
     var horarioEntrega;
 
-    for (i = 0; i < listaHorarioEntrega.length; i++) {
-        if (listaHorarioEntrega[i].checked == true) {
-            horarioEntrega = listaHorarioEntrega[i].value;
-        }
-    }
-
     //verifica qual a forma de pagamento escolhida
     var listaFormaPagamento = document.getElementsByClassName("checkFormaPagamento");
     var formaPagamento;
 
-    for (i = 0; i < listaFormaPagamento.length; i++) {
-        if (listaFormaPagamento[i].checked == true) {
+    //procura o horário de entrega escolhido
+    for (i = 0; i < listaHorarioEntrega.length; i++)
+        if (listaHorarioEntrega[i].checked == true)
+            horarioEntrega = listaHorarioEntrega[i].value;
+
+    //procura a forma de pagamento escolhida
+    for (i = 0; i < listaFormaPagamento.length; i++)
+        if (listaFormaPagamento[i].checked == true)
             formaPagamento = listaFormaPagamento[i].value;
-        }
+
+    //verifica se os checkbox foram preenchidos
+    if (horarioEntrega == null) {
+        alert('selecione o horário de entrega');
+        return;
+    }
+
+    if (formaPagamento == null){
+        alert('selecione a forma de pagamento');
+        return;
     }
 
     //monta um objeto com os detalhes do pedido
