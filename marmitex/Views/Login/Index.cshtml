@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-@model marmitex.Models.Usuario
+@model ClassesMarmitex.UsuarioParceiro
 
 <div class="container-fluid">
     <div class="row">
@@ -33,8 +33,8 @@
 
                 <br />
                 <br />
-                <p>ainda não tem um usuário?<a href="~/CadastroUsuario"> registre-se</a></p>
-                <p>esqueceu sua senha?<a href="~/EsqueciASenha"> envie uma nova para o seu e-mail</a></p>
+                <p>ainda não tem um usuário?<a href="@Session["urlBase"]/CadastroUsuario"> registre-se</a></p>
+                <p>esqueceu sua senha?<a href="@Session["urlBase"]/EsqueciASenha"> envie uma nova para o seu e-mail</a></p>
 
             </div>
         </div>
