@@ -12,7 +12,7 @@
             <div class="col-md-6 resumo-pedido" style="text-align: center">
                 <h1>entrar</h1>
                 <hr />
-                <form method="post" action="/Login/Autenticar">
+                <form method="post" action="@Session["urlBase"]/Login/Autenticar">
                     <div class="form-group">
                         <label for="email">e-mail:</label>
                         <input type="email" class="form-control" id="email" name="Email">
@@ -25,7 +25,8 @@
                         <label><input type="checkbox"> lembrar minha senha</label>
                     </div>
 
-                    @if (ViewBag.MensagemAutenticacao != null) { <br /><label style="color: red">@ViewBag.MensagemAutenticacao</label><br />}
+                    @if (ViewBag.MensagemAutenticacao != null)
+                    { <br /><label style="color: red">@ViewBag.MensagemAutenticacao</label><br />}
 
                     @*<a href="~/home" class="btn btn-vermelho-sem-animacao" role="button">entrar</a>*@
                     <input type="submit" class="btn btn-vermelho-sem-animacao" value="entrar" />

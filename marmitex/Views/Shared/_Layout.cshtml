@@ -3,14 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - GetFood</title>
-    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <title>@ViewBag.Title - Marmitex.Me</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/simple-sidebar.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    <script src="~/Content/bootstrap/js/jquery-3.1.1.min.js"></script>
-    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/marmitex.js"></script>
 </head>
 <body>
     <div class="container">
@@ -30,7 +26,7 @@
                         @{ if (Session["usuarioLogado"] == null)
                             {
                                 <a class="dropdown-toggle" data-toggle="dropdown">
-                                    meu perfil <span class="glyphicon glyphicon-user"></span> 
+                                    meu perfil <span class="glyphicon glyphicon-user"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="~/Login">entrar</a></li>
@@ -66,7 +62,8 @@
         <footer></footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/marmitex.js"></script>
 </body>
