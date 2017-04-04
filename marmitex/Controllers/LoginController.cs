@@ -126,5 +126,6 @@
             //captura o host atual
             return Request.Url.Host.Replace('"', ' ').Trim();
         }
+
     }
 }

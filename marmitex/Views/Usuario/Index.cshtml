@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@model ClassesMarmitex.UsuarioParceiro
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" style="text-align: center">
+                <h1>entrar</h1>
+                <hr />
+                <form method="post" action="@Session["urlBase"]/Usuario/Cadastrar">
+                    <div class="form-group">
+                        <label for="nome">nome:</label>
+                        <input type="text" class="form-control" id="nome" name="Nome">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apelido">como prefere ser chamado?</label>
+                        <input type="text" class="form-control" id="apelido" name="Apelido">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chaveParceiro">código de sua empresa:</label>
+                        <input type="text" class="form-control" id="chaveParceiro" name="chaveParceiro">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">e-mail:</label>
+                        <input type="email" class="form-control" id="email" name="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pwd">senha:</label>
+                        <input type="password" class="form-control" id="pwd" name="Senha">
+                    </div>
+
+                    @if (ViewBag.MensagemCadastro != null)
+                    { <br /><label style="color: red">@ViewBag.MensagemCadastro</label><br />}
+
+                    <input type="submit" class="btn btn-vermelho-sem-animacao" value="cadastrar" />
+                </form>
+
+                <br />
+                <br />
+                <p><a href="@Session["urlBase"]/Login"> já tenho conta e quero fazer login</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
