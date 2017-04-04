@@ -11,5 +11,15 @@
             if (Session["UsuarioLogado"] == null)
                 filterContext.HttpContext.Response.Redirect("/Default/Index");
         }
+
+        /// <summary>
+        /// identifica a rede de lojas pela URL
+        /// </summary>
+        /// <returns></returns>
+        public string PreencherSessaoDominioRede()
+        {
+            //captura o host atual
+            return Request.Url.Host.Replace('"', ' ').Trim();
+        }
     }
 }

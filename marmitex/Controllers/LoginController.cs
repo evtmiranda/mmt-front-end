@@ -6,7 +6,7 @@
     using System;
     using Newtonsoft.Json;
 
-    public class LoginController : Controller
+    public class LoginController : BaseLoginController
     {
 
         private RequisicoesREST rest;
@@ -115,16 +115,6 @@
 
             //Direciona para a tela de login
             return View("Index");
-        }
-
-        /// <summary>
-        /// identifica a rede de lojas pela URL
-        /// </summary>
-        /// <returns></returns>
-        public string PreencherSessaoDominioRede()
-        {
-            //captura o host atual
-            return Request.Url.Host.Replace('"', ' ').Trim();
         }
 
     }
