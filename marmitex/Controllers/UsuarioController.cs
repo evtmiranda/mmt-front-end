@@ -39,7 +39,7 @@
 
             try
             {
-                string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{1}'", dominioRede);
+                string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioRede);
 
                 retornoAutenticacao = rest.Post(urlPost, usuario);
 
