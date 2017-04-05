@@ -34,9 +34,6 @@
         [HttpPost]
         public ActionResult Autenticar(Usuario usuario)
         {
-            //guarda o usuário que está tentando fazer login
-            Session["usuarioLogin"] = usuario;
-
             //captura a rede de lojas em questão
             //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
             Session["dominioRede"] = PreencherSessaoDominioRede();
@@ -72,35 +69,37 @@
 
                         usuarioLogado = JsonConvert.DeserializeObject<UsuarioParceiro>(retornoDadosUsuario.objeto.ToString());
 
-                        //armazena o usuário na sessão "Usuário"
+                        //armazena o usuário na sessão "usuarioLogado"
                         Session["usuarioLogado"] = usuarioLogado;
+
+                        Session["usuarioLogin"] = null;
 
                         return RedirectToAction("Index", "Home");
                     }
                     //se não for possível consultar os dados do usuário
                     catch (Exception)
                     {
-                        ViewBag.MensagemAutenticacao = "Estamos com dificuldade em buscar dados no servidor. Por favor, tente novamente";
+                        ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. Por favor, tente novamente";
                         return View("Index");
                     }
                 }
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
-                    ViewBag.MensagemAutenticacao = "Usuário ou senha inválida";
-                    return View("Index");
+                    ViewBag.MensagemAutenticacao = "usuário ou senha inválida";
+                    return View("Index", usuario);
                 }
 
                 //se for algum outro erro
                 else
                 {
-                    ViewBag.MensagemAutenticacao = "Não foi possível realizar o login. Por favor, tente novamente";
-                    return View("Index");
+                    ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
+                    return View("Index", usuario);
                 }
             }
             catch (Exception)
             {
-                ViewBag.MensagemAutenticacao = "Não foi possível realizar o login. Por favor, tente novamente";
-                return View("Index");
+                ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
+                return View("Index", usuario);
             }
         }
 

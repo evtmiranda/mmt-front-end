@@ -24,6 +24,38 @@
 
         public ActionResult Cadastrar(UsuarioParceiro usuario)
         {
+            //guarda o usuário que está tentando fazer o cadastro
+            Session["usuarioCadastro"] = usuario;
+
+            #region validação dos campos do formulário
+
+            if (string.IsNullOrEmpty(usuario.Nome))
+            {
+                ViewBag.MensagemCadastro = "O preenchimento do nome é obrigatório";
+                return View("Index");
+            }
+
+            if (string.IsNullOrEmpty(usuario.Email))
+            {
+                ViewBag.MensagemCadastro = "O preenchimento do e-mail é obrigatório";
+                return View("Index");
+            }
+
+            if (string.IsNullOrEmpty(usuario.Senha))
+            {
+                ViewBag.MensagemCadastro = "O preenchimento da senha é obrigatório";
+                return View("Index");
+            }
+
+            if (string.IsNullOrEmpty(usuario.CodigoParceiro))
+            {
+                ViewBag.MensagemCadastro = "O preenchimento do código da empresa é obrigatório";
+                return View("Index");
+            }
+
+            #endregion
+
+
             //captura a rede de lojas em questão
             //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
             Session["dominioRede"] = PreencherSessaoDominioRede();
@@ -48,16 +80,21 @@
                 {
                     return View("Index", "Login");
                 }
+                else if(retornoAutenticacao.HttpStatusCode != HttpStatusCode.InternalServerError)
+                {
+                    ViewBag.MensagemCadastro = retornoAutenticacao.objeto.ToString();
+                    return View("Index");
+                }
                 //se ocorrer algum erro no cadastro
                 else
                 {
-                    ViewBag.MensagemCadastro = "Não foi possível realizar o cadastro. Por favor, tente novamente";
+                    ViewBag.MensagemCadastro = "empresa não encontrada. por favor, verifique se o código da empresa está correto";
                     return View("Index");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.MensagemCadastro = "Não foi possível realizar o cadastro. Por favor, tente novamente";
+                ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
                 return View("Index");
             }
         }

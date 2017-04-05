@@ -37,6 +37,14 @@ body{
     background-color: #f8f8f8;
 }
 
+.mmt-bg-branco{
+    background-color: #fff;
+}
+
+.mmt-bg-cinza{
+    background-color: #f8f8f8;
+}
+
 .detalhes-pedido-horario{
     background-color: #f8f8f8;
     height:auto;
