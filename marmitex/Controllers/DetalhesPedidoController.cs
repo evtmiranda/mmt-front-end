@@ -4,9 +4,23 @@
     using System.Web.Mvc;
     using ClassesMarmitex;
     using System;
+    using System.Collections.Generic;
+    using System.Net;
 
-    public class DetalhesPedidoController : Controller
+    public class DetalhesPedidoController : BaseController
     {
+        private RequisicoesREST rest;
+        private UsuarioParceiro usuarioLogado;
+        private DadosRequisicaoRest retornoGet;
+        private List<FormaDePagamento> listaFormaPagamento;
+        private List<HorarioEntrega> listaHorarioEntrega;
+
+        //O Ninject é o responsável por cuidar da criação de todos esses objetos
+        public DetalhesPedidoController(RequisicoesREST rest)
+        {
+            this.rest = rest;
+        }
+
         // GET: DetalhesPedido
         //Tela onde o consumidor irá escolher o horário de entrega e a forma de pagamento
         public ActionResult Index()
@@ -15,13 +29,58 @@
             if (Session["Carrinho"] == null)
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Carrinho = Session["Carrinho"];
+            //cria um usuário com a sessão existente
+            usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
 
-            //validação de sessão de usuário
-            if (Session["UsuarioLogado"] == null)
+            try
             {
-                Session["ControllerDestinoAposLogar"] = "DetalhesPedido";
-                return RedirectToAction("Index", "Login");
+                //alimenta a view bag com os dados do carrinho
+                ViewBag.Carrinho = Session["Carrinho"];
+
+                #region busca as formas de pagamento
+
+                retornoGet = new DadosRequisicaoRest();
+
+                retornoGet = rest.Get("/formaPagamento/listar/" + usuarioLogado.IdParceiro);
+
+                if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemDetalhesPedido = "ocorreu um problema ao buscar as formas de pagamento. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                    return View("Index");
+                }
+
+                string jsonFormasPagamento = retornoGet.objeto.ToString();
+
+                listaFormaPagamento = JsonConvert.DeserializeObject<List<FormaDePagamento>>(jsonFormasPagamento);
+
+                ViewBag.FormaPagamento = listaFormaPagamento;
+
+                #endregion
+
+                #region busca os horários de entrega
+
+                retornoGet = new DadosRequisicaoRest();
+
+                retornoGet = rest.Get("/HorarioEntrega/listar/" + usuarioLogado.IdParceiro);
+
+                if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemDetalhesPedido = "ocorreu um problema ao buscar as formas de pagamento. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                    return View("Index");
+                }
+
+                string jsonHorariosEntrega = retornoGet.objeto.ToString();
+
+                listaHorarioEntrega = JsonConvert.DeserializeObject<List<HorarioEntrega>>(jsonHorariosEntrega);
+
+                ViewBag.HorariosEntrega = listaHorarioEntrega;
+
+                #endregion
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemDetalhesPedido = "ocorreu um problema ao exibir os dados. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                return View("Index");
             }
 
             return View();

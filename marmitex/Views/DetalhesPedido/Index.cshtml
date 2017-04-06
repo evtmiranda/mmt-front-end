@@ -4,7 +4,7 @@
 }
 
 @*Se a sessão tiver alguma mensagem, lança um alert com a mensagem*@
-@if(Session["MensagemCamposDetalhesPedido"] != null)
+@if (Session["MensagemCamposDetalhesPedido"] != null)
 {
     <script>alert(Session["MensagemCamposDetalhesPedido"])</script>
 }
@@ -26,18 +26,22 @@
                 <h2>horário para entrega</h2>
                 <hr />
                 <div style="padding-left: 20px;">
-                    <div class="radio disabled">
-                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="12" disabled>as 12 horas</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="13">as 13 horas</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="14">as 14 horas</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="15">as 15 horas</label>
-                    </div>
+                    @foreach (ClassesMarmitex.HorarioEntrega p in ViewBag.HorariosEntrega)
+                    {
+                        if (p.HorarioDisponivel == false)
+                        {
+                            <div class="radio disabled">
+                                <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@p.Horario" disabled>as @p.Horario horas</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="radio">
+                                <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@p.Horario">as @p.Horario horas</label>
+                            </div>
+                        }
+                    }
+                    
                     <p>os pedidos devem ser feitos com no mínimo 40 minutos de antecedência do horário escolhido para a entrega</p>
                 </div>
             </div>
@@ -46,21 +50,23 @@
                 <h2>forma de pagamento</h2>
                 <hr />
                 <div style="padding-left: 20px;">
-                    <div class="checkbox">
-                        <label><input type="checkbox" onclick="ExibirCampoTroco()" id="checkDinheiro" value="dinheiro" class="checkFormaPagamento">dinheiro</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="vale refeição" class="checkFormaPagamento">vale refeição</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="cartão visa" class="checkFormaPagamento">cartão visa</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="cartão master" class="checkFormaPagamento">cartão master</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="outras bandeiras" class="checkFormaPagamento">outras bandeiras</label>
-                    </div>
+                    @foreach (ClassesMarmitex.FormaDePagamento p in ViewBag.FormaPagamento)
+                    {
+                        if (p.Nome == "dinheiro" || p.Nome == "Dinheiro")
+                        {
+                            <div class="checkbox">
+                                <label><input type="checkbox" onclick="ExibirCampoTroco()" id="checkDinheiro" value="@p.Nome" class="checkFormaPagamento">@p.Nome</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="@p.Nome" class="checkFormaPagamento">@p.Nome</label>
+                            </div>
+                        }
+
+                    }
+
                     <div id="divTroco" style="display:none">
                         <label for="valorTroco">precisa de troco?</label>
                         <div class="input-group">
@@ -72,17 +78,24 @@
                     <div>
                         <br />
                         <label>observação:</label>
-                        <input type="text" placeholder="alguma observação? escreva aqui..." class="form-control" id="textObservacao" value=""/>
+                        <input type="text" placeholder="alguma observação? escreva aqui..." class="form-control" id="textObservacao" value="" />
                     </div>
                 </div>
             </div>
         </div>
 
-        @{ //objetos utilizados para atualizar a quantidade de um produto
+        @{ //monta ação do botão avançar
             ClassesMarmitex.DadosPostAjax postDetalhesPedido = new ClassesMarmitex.DadosPostAjax();
             postDetalhesPedido.Recurso = "/DetalhesPedido/AtualizarDetalhesPedido";
             string AvancarParaResumoPedido = string.Format("AvancarParaResumoPedido('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postDetalhesPedido)), @Session["urlBase"], "ResumoPedido/Index");
         }
+
+        <div>
+            @if (ViewBag.MensagemDetalhesPedido != null)
+            {
+                <br /><p style="color: #bc2026">@ViewBag.MensagemAutenticacao</p><br />
+            }
+        </div>
 
         <div style="text-align: end">
             <a class="btn btn-detalhes-pedido btn-lg" role="button" onclick="@AvancarParaResumoPedido">avançar</a>

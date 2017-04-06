@@ -36,9 +36,12 @@
                             {
                                 ClassesMarmitex.Usuario usuarioLogado = (ClassesMarmitex.Usuario)Session["usuarioLogado"];
 
+                                string nomeUsuario = usuarioLogado.Apelido != null ? usuarioLogado.Apelido : usuarioLogado.Nome;
+
                                 <a class="dropdown-toggle" data-toggle="dropdown">
-                                    Olá @usuarioLogado.Nome <span class="glyphicon glyphicon-user"></span>
+                                    Olá @nomeUsuario <span class="glyphicon glyphicon-user"></span>
                                 </a>
+
                                 <ul class="dropdown-menu">
                                     <li><a href="#">meus dados</a></li>
                                     <li><a href="#">histórico de pedidos</a></li>

@@ -7,7 +7,6 @@
 
     public class HomeController : BaseController
     {
-        private RequisicoesREST rest;
         private Requisicoes requisicoes;
         private UsuarioParceiro usuarioLogado;
 
@@ -15,7 +14,6 @@
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
         public HomeController(RequisicoesREST rest, Requisicoes requisicoes)
         {
-            this.rest = rest;
             this.requisicoes = requisicoes;
         }
 
@@ -55,7 +53,7 @@
             }
             catch (System.Exception ex)
             {
-                ViewBag.MenuCardapioMensagem = "Não foi possível consultar o cardápio";
+                ViewBag.MenuCardapioMensagem = "ocorreu um problema ao buscar o cardápio. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
                 return RedirectToAction("Index", "Erro");
             }
 
