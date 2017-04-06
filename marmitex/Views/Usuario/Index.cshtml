@@ -16,7 +16,8 @@
                 <hr />
                 <form method="post" action="@Session["urlBase"]/Usuario/Cadastrar">
                     <div class="form-group">
-                        <label for="nome">nome: *</label>
+                        <label for="nome">nome *</label><br />
+                        @Html.ValidationMessage("Nome", "", new { @class = "text-danger" })
                         <input type="text" class="form-control" required title="O preenchimento do nome é obrigatório" id="nome" name="Nome" placeholder="digite o seu nome">
                     </div>
 
@@ -26,34 +27,38 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email">e-mail: *</label>
+                        @Html.ValidationMessage("Email")
+                        <label for="email">e-mail *</label>
                         <input type="email" class="form-control" required title="o preenchimento do e-mail é obrigatório" id="email" name="Email" placeholder="digite o seu e-mail">
                     </div>
 
                     <div class="form-group">
-                        <label for="celular">celular:</label>
-                        <input type="tel" class="form-control" id="celular" name="NumeroCelular" placeholder="digite o seu número de celular com DDD">
+                        @Html.ValidationMessage("NumeroCelular")
+                        <label for="NumeroCelular">celular</label>
+                        <input type="tel" class="form-control" id="NumeroCelular" name="NumeroCelular" placeholder="digite o seu número de celular com DDD">
                     </div>
 
                     <div class="form-group">
-                        <label for="pwd">senha: *</label>
+                        @Html.ValidationMessage("Senha")
+                        <label for="pwd">senha *</label>
                         <input type="password" class="form-control" required title="o preenchimento da senha é obrigatório" id="pwd" name="Senha" placeholder="digite uma senha">
                     </div>
 
                     <div class="form-group">
-                        <label for="codigoParceiro">código de sua empresa: *</label>
+                        @Html.ValidationMessage("CodigoParceiro")
+                        <label for="codigoParceiro">código de sua empresa *</label>
                         <input type="text" class="form-control" required title="o preenchimento do código da empresa é obrigatório" id="codigoParceiro" name="CodigoParceiro" placeholder="digite o código de sua empresa">
                     </div>
 
                     @if (ViewBag.MensagemCadastro != null)
-                    { <br /><label style="color: red">@ViewBag.MensagemCadastro</label><br />}
+                    { <br /><p style="color: #bc2026">@ViewBag.MensagemCadastro</p><br />}
 
                     <input type="submit" class="btn btn-vermelho-sem-animacao" value="cadastrar" />
                 </form>
 
                 <br />
                 <br />
-                <p><a href="@Session["urlBase"]/Login"> já tenho conta e quero fazer login</a></p>
+                <p><a href="@Session["urlBase"]/Login"> já sou cadastrado e quero fazer login</a></p>
 
             </div>
         </div>

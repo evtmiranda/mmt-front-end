@@ -14,38 +14,45 @@
                 <hr />
                 <form method="post" action="@Session["urlBase"]/Login/Autenticar">
                     <div class="form-group">
-                        <label for="email">e-mail:</label>
+                        <input id="nome" name="Nome" value="NomeParaValidarOsCampos" style="display:none;"/>
+                        <label for="email">e-mail</label><br />
+                        @Html.ValidationMessage("Email", "", new { @class = "text-danger" })
                         @if (Model != null && Model.Email != null)
                         {
-                            <input type="email" class="form-control" required tile="preencha o e-mail" id="email" name="Email" value="@Model.Email" placeholder="digite o seu e-mail">
+                            <input type="email" class="form-control" required title="preencha o e-mail" id="email" name="Email" value="@Model.Email" placeholder="digite o seu e-mail">
                         }
                         else
                         {
-                            <input type="email" class="form-control" required tile="preencha o e-mail" id="email" name="Email" placeholder="digite o seu e-mail">
+                            <input type="email" class="form-control" required title="preencha o e-mail" id="email" name="Email" placeholder="digite o seu e-mail">
                         }
 
                     </div>
                     <div class="form-group">
-                        <label for="pwd">senha:</label>
+                        <label for="pwd">senha</label><br />
+                        @Html.ValidationMessage("Senha", "", new { @class = "text-danger" })
                         @if (Model != null && Model.Senha != null)
                         {
-                            <input type="password" class="form-control" required tile="preencha a senha" id="pwd" name="Senha" value="@Model.Senha" placeholder="digite a sua senha">
+                            <input type="password" class="form-control" required title="preencha a senha" id="pwd" name="Senha" value="@Model.Senha" placeholder="digite a sua senha">
                         }
                         else
                         {
-                            <input type="password" class="form-control" required tile="preencha a senha" id="pwd" name="Senha" placeholder="digite a sua senha">
+                            <input type="password" class="form-control" required title="preencha a senha" id="pwd" name="Senha" placeholder="digite a sua senha">
                         }
                     </div>
-                    @*<div class="checkbox">
-                            <label><input type="checkbox"> lembrar minha senha</label>
-                        </div>*@
+
+                    @if (Session["MensagemCadastroSucesso"] != null)
+                    {
+                        <br /><label style="color: forestgreen">@Session["MensagemCadastroSucesso"]</label><br />
+                    }
 
                     @if (ViewBag.MensagemAutenticacao != null)
-                    { <br /><label style="color: red">@ViewBag.MensagemAutenticacao</label><br />}
+                    {
+                        <br /><p style="color: #bc2026">@ViewBag.MensagemAutenticacao</p><br />
+                    }
 
-                    @*<a href="~/home" class="btn btn-vermelho-sem-animacao" role="button">entrar</a>*@
                     <input type="submit" class="btn btn-vermelho-sem-animacao" value="entrar" />
                 </form>
+
 
                 <br />
                 <br />

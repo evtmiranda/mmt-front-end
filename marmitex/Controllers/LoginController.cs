@@ -34,6 +34,15 @@
         [HttpPost]
         public ActionResult Autenticar(Usuario usuario)
         {
+            //limpa a sessão com a mensagem de cadastro com sucesso
+            Session["MensagemCadastroSucesso"] = null;
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+            {
+                return View("Index", usuario);
+            }
+
             //captura a rede de lojas em questão
             //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
             Session["dominioRede"] = PreencherSessaoDominioRede();
@@ -61,7 +70,7 @@
                     try
                     {
                         //busca os dados do usuário
-                        retornoDadosUsuario = rest.PostComRetorno(string.Format("usuario/buscarPorEmail/{0}", TipoUsuario.Parceiro), usuario);
+                        retornoDadosUsuario = rest.Post(string.Format("usuario/buscarPorEmail/{0}", TipoUsuario.Parceiro), usuario);
 
                         //verifica se os dados do usuário foram encontrados
                         if (retornoDadosUsuario.HttpStatusCode != HttpStatusCode.OK)
@@ -79,7 +88,7 @@
                     //se não for possível consultar os dados do usuário
                     catch (Exception)
                     {
-                        ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. Por favor, tente novamente";
+                        ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                         return View("Index");
                     }
                 }

@@ -1,8 +1,10 @@
 ﻿namespace marmitex.Controllers
 {
     using ClassesMarmitex;
+    using Newtonsoft.Json;
     using System;
     using System.Net;
+    using System.Web.Http;
     using System.Web.Mvc;
 
     public class UsuarioController : BaseLoginController
@@ -22,76 +24,63 @@
             return View();
         }
 
+        /// <summary>
+        /// realiza o cadastro do usuário através do consumo da API de cadastro
+        /// </summary>
+        /// <param name="usuario">dados do usuário que será cadastrado</param>
+        /// <returns></returns>
         public ActionResult Cadastrar(UsuarioParceiro usuario)
         {
-            //guarda o usuário que está tentando fazer o cadastro
-            Session["usuarioCadastro"] = usuario;
-
-            #region validação dos campos do formulário
-
-            if (string.IsNullOrEmpty(usuario.Nome))
+            //validação dos campos
+            if (!ModelState.IsValid)
             {
-                ViewBag.MensagemCadastro = "O preenchimento do nome é obrigatório";
-                return View("Index");
+                return View("Index", usuario);
             }
-
-            if (string.IsNullOrEmpty(usuario.Email))
-            {
-                ViewBag.MensagemCadastro = "O preenchimento do e-mail é obrigatório";
-                return View("Index");
-            }
-
-            if (string.IsNullOrEmpty(usuario.Senha))
-            {
-                ViewBag.MensagemCadastro = "O preenchimento da senha é obrigatório";
-                return View("Index");
-            }
-
-            if (string.IsNullOrEmpty(usuario.CodigoParceiro))
-            {
-                ViewBag.MensagemCadastro = "O preenchimento do código da empresa é obrigatório";
-                return View("Index");
-            }
-
-            #endregion
-
 
             //captura a rede de lojas em questão
             //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
-            Session["dominioRede"] = PreencherSessaoDominioRede();
+            string dominioRede = PreencherSessaoDominioRede();
 
             //se não conseguir capturar a rede, direciona para a tela de erro
-            if (Session["dominioRede"] == null)
+            if (dominioRede == null)
                 return RedirectToAction("Index", "Erro");
 
-            string dominioRede = Session["dominioRede"].ToString();
-
+            //variável para armazenar o retorno da api
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
-            DadosRequisicaoRest retornoDadosUsuario = new DadosRequisicaoRest();
 
+            //tratamento de erros
             try
             {
+                //monta a url de chamada na api
                 string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioRede);
 
+                //realiza o post passando o usuário no body
                 retornoAutenticacao = rest.Post(urlPost, usuario);
 
                 //se o usuário for criado, direciona para a tela de login
-                if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Created)
-                {
-                    return View("Index", "Login");
+                if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Created) {
+                    Session["MensagemCadastroSucesso"] = "usuário cadastrado com sucesso. realize o login";
+                    return RedirectToAction("Index", "Login", ViewBag.MensagemCadastroSucesso);
                 }
-                else if(retornoAutenticacao.HttpStatusCode != HttpStatusCode.InternalServerError)
+                //se a empresa não for encontrada pelo código digitado
+                else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.NotFound)
                 {
-                    ViewBag.MensagemCadastro = retornoAutenticacao.objeto.ToString();
+                    ViewBag.MensagemCadastro = JsonConvert.DeserializeObject<HttpError>(retornoAutenticacao.objeto.ToString()).Message;
                     return View("Index");
                 }
-                //se ocorrer algum erro no cadastro
-                else
+                //se já existir um usuário com o e-mail digitado
+                else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
-                    ViewBag.MensagemCadastro = "empresa não encontrada. por favor, verifique se o código da empresa está correto";
+                    ViewBag.MensagemCadastro = JsonConvert.DeserializeObject<HttpError>(retornoAutenticacao.objeto.ToString()).Message;
+                    return View("Index");
+                }
+                //se ocorrer algum erro inesperado
+                else { 
+                    ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
                     return View("Index");
                 }
             }
+            //se ocorrer algum erro inesperado
             catch
             {
                 ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
