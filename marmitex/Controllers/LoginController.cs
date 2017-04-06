@@ -81,6 +81,7 @@
                         //armazena o usuário na sessão "usuarioLogado"
                         Session["usuarioLogado"] = usuarioLogado;
 
+                        //limpa a sessão "usuarioLogin"
                         Session["usuarioLogin"] = null;
 
                         return RedirectToAction("Index", "Home");

@@ -9,7 +9,7 @@
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             if (Session["UsuarioLogado"] == null)
-                filterContext.HttpContext.Response.Redirect("/Default/Index");
+                filterContext.HttpContext.Response.Redirect("/Login/Index");
         }
 
         /// <summary>

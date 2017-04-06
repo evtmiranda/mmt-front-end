@@ -5,10 +5,11 @@
     using System.Web.Mvc;
     using System.Linq;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private RequisicoesREST rest;
         private Requisicoes requisicoes;
+        private UsuarioParceiro usuarioLogado;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -21,21 +22,38 @@
         public ActionResult Index()
         {
             //cria sessão para armazenar a url base
-            Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+            //Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
 
-            //JsonConvert.SerializeObject("aa", Formatting.Indented);
+            //cria um usuário com a sessão existente
+            usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
 
             //carrega a tela com os cardápios e produtos
             try
             {
-                ViewBag.MenuCardapio = requisicoes.ListarMenuCardapio();
+                //view bag com os cardápios
+                ViewBag.MenuCardapio = requisicoes.ListarMenuCardapio(usuarioLogado.IdParceiro);
+
+                //busca o cardápio com ordem de exibicao 1 para exibir na tela inicial
                 List<MenuCardapio> listaMenuCardapio = (List<MenuCardapio>)ViewBag.MenuCardapio;
 
                 ViewBag.CardapioTelaHome = listaMenuCardapio.Where(p => p.OrdemExibicao == 1).First().Id;
 
-                ViewBag.Produtos = requisicoes.ListarProdutos();
+                //carrega os produtos do cardápio
+                List<Produto> produtos = new List<Produto>();
+
+                foreach (var menuCardapio in listaMenuCardapio)
+                {
+                    foreach (var produto in menuCardapio.Produtos)
+                    {
+                        produtos.Add(produto);
+                    }
+                }
+
+                //view bag com os produtos
+                ViewBag.Produtos = produtos;
+
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 ViewBag.MenuCardapioMensagem = "Não foi possível consultar o cardápio";
                 return RedirectToAction("Index", "Erro");
