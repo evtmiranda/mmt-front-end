@@ -208,6 +208,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Erro\Index.cshtml" />
+    <Content Include="Views\DetalhesPedido\PedidoConcluido.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

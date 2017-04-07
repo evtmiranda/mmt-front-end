@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "recebemos o seu pedido ;)";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 resumo-pedido" style="text-align: center">
+                <h1>obrigado!!! recebemos o seu pedido e iremos cuidar de cada detalhe <p style="font-style: normal; font-weight: bold; color: #bc2026">;)<p></p></h1>
+                <hr />
+
+                @* exibe os detalhes do pedido *@
+                @if (Session["pedidoConcluido"] != null)
+                {
+                    ClassesMarmitex.Pedido pedido = new ClassesMarmitex.Pedido();
+                    pedido = (ClassesMarmitex.Pedido)Session["pedidoConcluido"];
+
+                    <h1>detalhes do pedido</h1>
+
+                    decimal valorTotalPedido = 0;
+
+                    <h3>pedido</h3>
+                    foreach (ClassesMarmitex.ProdutoPedido p in pedido.ListaProdutos)
+                    {
+                        { valorTotalPedido += @p.ValorTotal; }
+                        //exibe os produtos e a quantidade
+                        <p>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal</p>
+                    }
+
+                    <h3>horário de entrega</h3>
+                    <p>às @pedido.HorarioEntrega horas</p>
+
+                    <h3>formas de pagamento</h3>
+                    foreach (var formaPagamento in pedido.ListaFormaPagamento)
+                    {
+                        <p>@formaPagamento.Nome</p>
+                    }
+
+                    if (!string.IsNullOrEmpty(pedido.Troco))
+                    {
+                        <p>R$ @pedido.Troco de troco</p>
+                    }
+
+                    if (!string.IsNullOrEmpty(pedido.Observacao))
+                    {
+                        <h3>observações</h3>
+                        <p>@pedido.Observacao</p>
+                    }
+
+                    <h3>valor total do pedido</h3>
+                    <p>R$ @valorTotalPedido</p>
+                }
+                else
+                {
+                    <h3>não conseguimos receber o seu pedido ;(</h3>
+                    <a href="@Session["urlBase"]/ResumoPedido/Index"><p>clique aqui para tentar enviar novamente</p></a>
+                }
+
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>

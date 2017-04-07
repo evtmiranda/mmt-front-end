@@ -37,7 +37,7 @@
                 Pedido pedido = JsonConvert.DeserializeObject<Pedido>(dadosJson);
 
                 //monta a url de chamada na api
-                string urlPost = string.Format("api/pedido/cadastrar");
+                string urlPost = string.Format("/pedido/cadastrar");
 
                 //realiza o post passando o pedido no body
                 retornoCadastroPedido = rest.Post(urlPost, pedido);
@@ -45,7 +45,22 @@
                 //se o pedido for cadastrado com sucesso, direciona para a tela home
                 if (retornoCadastroPedido.HttpStatusCode == HttpStatusCode.Created)
                 {
-                    return RedirectToAction("Index", "Home");
+                    Pedido pedidoConcluido = new Pedido();
+                    pedidoConcluido = JsonConvert.DeserializeObject<Pedido>(retornoCadastroPedido.objeto.ToString());
+
+                    //guarda as sessões que devem ser mantidas
+                    var urlBase = Session["urlBase"];
+                    var usuarioLogado = Session["usuarioLogado"];
+
+                    //limpa todas as sessões
+                    Session.Clear();
+
+                    //monta as sessões novamente
+                    Session["urlBase"] = urlBase;
+                    Session["usuarioLogado"] = usuarioLogado;
+                    Session["pedidoConcluido"] = pedidoConcluido;
+
+                    return RedirectToAction("PedidoConcluido", "DetalhesPedido");
                 }
                 //se o pedido não for cadastrado com sucesso
                 else if (retornoCadastroPedido.HttpStatusCode == HttpStatusCode.NotModified)

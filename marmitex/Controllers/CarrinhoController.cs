@@ -6,7 +6,7 @@
     using System.Linq;
     using Newtonsoft.Json;
 
-    public class CarrinhoController : Controller
+    public class CarrinhoController : BaseController
     {
         List<ProdutoPedido> listaProdutoPedido;
         List<ProdutoPedido> listaProdutoPedidoCalculada;

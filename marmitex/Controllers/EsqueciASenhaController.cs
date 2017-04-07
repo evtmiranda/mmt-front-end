@@ -2,7 +2,7 @@
 {
     using System.Web.Mvc;
 
-    public class EsqueciASenhaController : Controller
+    public class EsqueciASenhaController : BaseLoginController
     {
         // GET: EsqueciASenha
         public ActionResult Index()

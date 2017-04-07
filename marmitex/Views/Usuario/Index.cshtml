@@ -35,7 +35,7 @@
                     <div class="form-group">
                         @Html.ValidationMessage("NumeroCelular")
                         <label for="NumeroCelular">celular</label>
-                        <input type="tel" class="form-control" id="NumeroCelular" name="NumeroCelular" placeholder="digite o seu número de celular com DDD">
+                        <input type="tel" class="form-control" id="NumeroCelular" name="NumeroCelular" onkeyup="formataTelefone(this, event);" maxlength="15" placeholder="digite o seu número de celular com DDD">
                     </div>
 
                     <div class="form-group">

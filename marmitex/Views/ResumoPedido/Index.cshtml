@@ -14,10 +14,14 @@
                 @* exibe os detalhes do pedido *@
                 @if (Session["Carrinho"] != null)
                 {
+                    decimal valorTotalPedido = 0;
+
                     foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
                     {
                         //exibe os produtos e a quantidade
-                        <p>@p.Quantidade @p.Produto.Nome</p>
+                        <p>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal</p>
+
+                        {valorTotalPedido += p.ValorTotal;}
                     }
 
                     <h3>horário de entrega</h3>
@@ -50,6 +54,9 @@
                         <p>nenhuma observação...</p>
                     }
 
+                    <h3>valor total do pedido</h3>
+                    <p>R$ @valorTotalPedido</p>
+
                     <br />
 
                     //monta o pedido
@@ -76,7 +83,7 @@
                     ClassesMarmitex.DadosPostAjax postAjax = new ClassesMarmitex.DadosPostAjax();
                     postAjax.Recurso = "/ResumoPedido/ConfirmarPedido";
 
-                    string ConfirmarPedido = string.Format("ConfirmarPedido('{0}', '{1}')", @Html.Raw(Json.Encode(@postAjax)), @Html.Raw(Json.Encode(pedidoFinal)));
+                    string ConfirmarPedido = string.Format("ConfirmarPedido('{0}', '{1}', '{2}', '{3}')", @Html.Raw(Json.Encode(@postAjax)), @Html.Raw(Json.Encode(pedidoFinal)), @Session["urlBase"], "/DetalhesPedido/PedidoConcluido");
 
                     <a href="@Session["urlBase"]/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
                     <a href="#" onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" role="button">confirmar</a>
