@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "resumo pedido";
 }
 
@@ -15,23 +14,11 @@
                 @* exibe os detalhes do pedido *@
                 @if (Session["Carrinho"] != null)
                 {
-                    //se o usuario não preenche o horario de entrega e forma de pagamento direciona para a tela detalhespedido
-                    //e avisa que o preenchimento é obrigatório
-                    if (Session["HorarioEntrega"] == null || Session["FormaPagamento"] ==  null)
-                    {
-                        Session["MensagemCamposDetalhesPedido"] = "o horário de entrega ou forma de pagamento não escolhidos";
-
-                        <script>
-                            Redirecionar(@Session["urlBase"], "/DetalhesPedido");
-                        </script>
-                    }
-
                     foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
                     {
                         //exibe os produtos e a quantidade
                         <p>@p.Quantidade @p.Produto.Nome</p>
                     }
-
 
                     <h3>horário de entrega</h3>
                     if (Session["HorarioEntrega"] != null)
@@ -39,10 +26,13 @@
                         <p>as @Session["HorarioEntrega"] horas</p>
                     }
 
-                    <h3>forma de pagamento</h3>
+                    <h3>formas de pagamento</h3>
                     if (Session["FormaPagamento"] != null)
                     {
-                        <p>@Session["FormaPagamento"]</p>
+                        foreach (var formaPagamento in (List<string>)Session["FormaPagamento"])
+                        {
+                            <p>@formaPagamento</p>
+                        }
                     }
 
                     if (Session["ValorTroco"] != null)
@@ -61,19 +51,38 @@
                     }
 
                     <br />
-                }
 
-                <a href="@Session["urlBase"]/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
-                <a href="#" onclick="avisoConfirmacao()" class="btn btn-vermelho-sem-animacao" role="button">confirmar</a>
+                    //monta o pedido
+                    ClassesMarmitex.Pedido pedidoFinal = new ClassesMarmitex.Pedido();
+                    pedidoFinal.Cliente = (ClassesMarmitex.UsuarioParceiro)Session["UsuarioLogado"];
+                    pedidoFinal.ListaProdutos = (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"];
+                    pedidoFinal.HorarioEntrega = (string)Session["HorarioEntrega"];
+
+                    //monta as formas de pagamento
+                    List<ClassesMarmitex.FormaDePagamento> pagamentos = new List<ClassesMarmitex.FormaDePagamento>();
+                    foreach (var formaPagamento in (List<string>)Session["FormaPagamento"])
+                    {
+                        pagamentos.Add(new ClassesMarmitex.FormaDePagamento { Nome = formaPagamento });
+                    }
+
+                    pedidoFinal.ListaFormaPagamento = pagamentos;
+
+                    pedidoFinal.Troco = Session["ValorTroco"] != null ? Session["ValorTroco"].ToString() : "";
+
+                    pedidoFinal.Observacao = @Session["Observacao"] != null ? (string)@Session["Observacao"] : "";
+
+
+                    //objeto para realizar um post com ajax e atualizar o conteudo de uma determinada div
+                    ClassesMarmitex.DadosPostAjax postAjax = new ClassesMarmitex.DadosPostAjax();
+                    postAjax.Recurso = "/ResumoPedido/ConfirmarPedido";
+
+                    string ConfirmarPedido = string.Format("ConfirmarPedido('{0}', '{1}')", @Html.Raw(Json.Encode(@postAjax)), @Html.Raw(Json.Encode(pedidoFinal)));
+
+                    <a href="@Session["urlBase"]/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
+                    <a href="#" onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" role="button">confirmar</a>
+                }
             </div>
             <div class="col-md-3"></div>
         </div>
     </div>
 </div>
-
-<script>
-    function avisoConfirmacao() {
-        alert('Pedido enviado com sucesso');
-        window.open("../", "_self");
-    }
-</script>

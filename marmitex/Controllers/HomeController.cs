@@ -20,7 +20,7 @@
         public ActionResult Index()
         {
             //cria sessão para armazenar a url base
-            //Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+            Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
 
             //cria um usuário com a sessão existente
             usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];

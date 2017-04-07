@@ -89,21 +89,20 @@
         public void AtualizarDetalhesPedido(string dadosJson)
         {
             //monta o objeto detalhesPedido com os dados preenchidos pelo usuário
-            //DetalhePedido detalhesPedido = new DetalhePedido();
-            //detalhesPedido = JsonConvert.DeserializeObject<DetalhePedido>(dadosJson);
+            DetalhePedido detalhesPedido = new DetalhePedido();
+            detalhesPedido = JsonConvert.DeserializeObject<DetalhePedido>(dadosJson);
 
-            ////alimenta as sessões com os detalhes do pedido
-            //Session["HorarioEntrega"] = detalhesPedido.HorarioEntrega;
-            //Session["FormaPagamento"] = detalhesPedido.FormaPagamento;
+            //alimenta as sessões com os detalhes do pedido
+            Session["HorarioEntrega"] = detalhesPedido.HorarioEntrega;
+            Session["FormaPagamento"] = detalhesPedido.FormaPagamento;
 
-            //if(Convert.ToDecimal(detalhesPedido.Troco) > 0)
-            //    Session["ValorTroco"] = detalhesPedido.Troco;
+            if (Convert.ToDecimal(detalhesPedido.Troco) > 0)
+                Session["ValorTroco"] = detalhesPedido.Troco;
 
-            //if (!string.IsNullOrEmpty(detalhesPedido.Observacao))
-            //    Session["Observacao"] = detalhesPedido.Observacao;
+            if (!string.IsNullOrEmpty(detalhesPedido.Observacao))
+                Session["Observacao"] = detalhesPedido.Observacao;
 
             Session["MensagemCamposDetalhesPedido"] = null;
-
         }
     }
 }

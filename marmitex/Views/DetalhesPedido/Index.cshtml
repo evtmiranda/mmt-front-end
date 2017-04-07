@@ -71,7 +71,7 @@
                         <label for="valorTroco">precisa de troco?</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                            <input type="text" class="form-control" id="valorTroco" placeholder="de quanto precisa?">
+                            <input type="number" step="0.50" class="form-control" id="valorTroco" placeholder="de quanto precisa?">
                         </div>
                     </div>
 
@@ -87,13 +87,14 @@
         @{ //monta ação do botão avançar
             ClassesMarmitex.DadosPostAjax postDetalhesPedido = new ClassesMarmitex.DadosPostAjax();
             postDetalhesPedido.Recurso = "/DetalhesPedido/AtualizarDetalhesPedido";
-            string AvancarParaResumoPedido = string.Format("AvancarParaResumoPedido('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postDetalhesPedido)), @Session["urlBase"], "ResumoPedido/Index");
+
+            string AvancarParaResumoPedido = string.Format("AvancarParaResumoPedido('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postDetalhesPedido)), @Session["urlBase"], "/ResumoPedido/Index");
         }
 
         <div>
             @if (ViewBag.MensagemDetalhesPedido != null)
             {
-                <br /><p style="color: #bc2026">@ViewBag.MensagemAutenticacao</p><br />
+                <br /><p style="color: #bc2026">@ViewBag.MensagemDetalhesPedido</p><br />
             }
         </div>
 

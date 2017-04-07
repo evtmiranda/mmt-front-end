@@ -108,7 +108,7 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
 
     //verifica qual a forma de pagamento escolhida
     var listaFormaPagamento = document.getElementsByClassName("checkFormaPagamento");
-    var formaPagamento;
+    var formaPagamento = new Array();
 
     //procura o horário de entrega escolhido
     for (i = 0; i < listaHorarioEntrega.length; i++)
@@ -118,7 +118,7 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
     //procura a forma de pagamento escolhida
     for (i = 0; i < listaFormaPagamento.length; i++)
         if (listaFormaPagamento[i].checked == true)
-            formaPagamento = listaFormaPagamento[i].value;
+            formaPagamento[i] = listaFormaPagamento[i].value;
 
     //verifica se os checkbox foram preenchidos
     if (horarioEntrega == null) {
@@ -151,8 +151,6 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
         detalhesPedido.Observacao = textoObservacao;
     }
 
-    console.log(jsonHeaderPost);
-
     //variável com os dados do cabeçalho do post
     var dadosPost = JSON.parse(jsonHeaderPost);
     var detalhesPedidoJson = JSON.stringify(detalhesPedido, null, 0);
@@ -161,4 +159,20 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
         Redirecionar(urlBase, destino);
     });
 
+}
+
+function avisoConfirmacaoPedido() {
+    alert('Pedido enviado com sucesso');
+    window.open("../", "_self");
+}
+
+function ConfirmarPedido(jsonHeaderPost, jsonBodyPost) {
+    //variável com os dados do cabeçalho do post
+    var dadosPost = JSON.parse(jsonHeaderPost);
+
+    console.log(jsonBodyPost);
+
+    $.post(dadosPost.Recurso, { dadosJson: jsonBodyPost }, function () {
+        avisoConfirmacaoPedido();
+    });
 }

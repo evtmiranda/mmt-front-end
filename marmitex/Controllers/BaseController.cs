@@ -10,6 +10,10 @@
         {
             if (Session["UsuarioLogado"] == null)
                 filterContext.HttpContext.Response.Redirect("/Login/Index");
+
+            if (Session["urlBase"] == null)
+                //cria sessão para armazenar a url base
+                Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
         }
 
         /// <summary>
