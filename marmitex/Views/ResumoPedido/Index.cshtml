@@ -44,14 +44,10 @@
                         <p>R$ @Session["ValorTroco"] de troco</p>
                     }
 
-                    <h3>observações</h3>
                     if (Session["Observacao"] != null)
                     {
+                        <h3>observações</h3>
                         <p>@Session["Observacao"]</p>
-                    }
-                    else
-                    {
-                        <p>nenhuma observação...</p>
                     }
 
                     <h3>valor total do pedido</h3>

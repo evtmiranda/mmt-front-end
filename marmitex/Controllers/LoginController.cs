@@ -11,7 +11,6 @@
 
         private RequisicoesREST rest;
 
-        //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
         public LoginController(RequisicoesREST rest)
         {
@@ -43,22 +42,21 @@
                 return View("Index", usuario);
             }
 
-            //captura a rede de lojas em questão
-            //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
-            Session["dominioRede"] = PreencherSessaoDominioRede();
+            //captura a loja em questão
+            Session["dominioLoja"] = PreencherSessaoDominioLoja();
 
-            //se não conseguir capturar a rede, direciona para a tela de erro
-            if (Session["dominioRede"] == null)
+            //se não conseguir capturar a loja, direciona para a tela de erro
+            if (Session["dominioLoja"] == null)
                 return RedirectToAction("Index", "Erro");
 
-            string dominioRede = Session["dominioRede"].ToString();
+            string dominioLoja = Session["dominioLoja"].ToString();
 
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
             DadosRequisicaoRest retornoDadosUsuario = new DadosRequisicaoRest();
 
             try
             {
-                string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Parceiro, dominioRede);
+                string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Parceiro, dominioLoja);
 
                 retornoAutenticacao = rest.Post(urlPost, usuario);
 

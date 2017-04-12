@@ -10,12 +10,12 @@
     public class HomeController : BaseLoginController
     {
         private Requisicoes requisicoes;
-        private Utils.RequisicoesREST rest;
+        private RequisicoesREST rest;
         private Loja loja;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
-        public HomeController(Utils.RequisicoesREST rest, Requisicoes requisicoes)
+        public HomeController(RequisicoesREST rest, Requisicoes requisicoes)
         {
             this.requisicoes = requisicoes;
             this.rest = rest;

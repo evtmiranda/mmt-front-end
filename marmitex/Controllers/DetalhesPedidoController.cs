@@ -32,23 +32,21 @@
             //valida se o usuário está logado
             //se não estiver, direciona para a tela de login
             if (Session["usuarioLogado"] == null)
-            {
                 return RedirectToAction("Index", "Login");
-            }
 
             //cria um usuário com a sessão existente
             usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
 
             try
             {
-                //alimenta a view bag com os dados do carrinho
+                //alimenta a viewbag com os dados do carrinho
                 ViewBag.Carrinho = Session["Carrinho"];
 
                 #region busca as formas de pagamento
 
                 retornoGet = new DadosRequisicaoRest();
 
-                retornoGet = rest.Get("/formaPagamento/listar/" + usuarioLogado.IdParceiro);
+                retornoGet = rest.Get("/FormaPagamento/listar/" + usuarioLogado.IdParceiro);
 
                 if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
                 {
@@ -117,10 +115,12 @@
             //alimenta as sessões com os detalhes do pedido
             Session["HorarioEntrega"] = detalhesPedido.HorarioEntrega;
             Session["FormaPagamento"] = detalhesPedido.FormaPagamento;
-
-            if(!string.IsNullOrEmpty(detalhesPedido.Troco))
+            
+            if (!string.IsNullOrEmpty(detalhesPedido.Troco))
                 if (Convert.ToDecimal(detalhesPedido.Troco) > 0)
                     Session["ValorTroco"] = detalhesPedido.Troco;
+                else
+                    Session["ValorTroco"] = null;
 
             if (!string.IsNullOrEmpty(detalhesPedido.Observacao))
                 Session["Observacao"] = detalhesPedido.Observacao;

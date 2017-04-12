@@ -37,12 +37,11 @@
                 return View("Index", usuario);
             }
 
-            //captura a rede de lojas em questão
-            //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
-            string dominioRede = PreencherSessaoDominioRede();
+            //captura a loja em questão
+            string dominioLoja = PreencherSessaoDominioLoja();
 
             //se não conseguir capturar a rede, direciona para a tela de erro
-            if (dominioRede == null)
+            if (dominioLoja == null)
                 return RedirectToAction("Index", "Erro");
 
             //variável para armazenar o retorno da api
@@ -52,7 +51,7 @@
             try
             {
                 //monta a url de chamada na api
-                string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioRede);
+                string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioLoja);
 
                 //realiza o post passando o usuário no body
                 retornoAutenticacao = rest.Post(urlPost, usuario);

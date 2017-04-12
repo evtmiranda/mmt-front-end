@@ -90,9 +90,11 @@ function ExibirCampoTroco() {
     var checkDinheiro = document.getElementById("checkDinheiro");
 
     var divTroco = document.getElementById("divTroco");
+    var divValorTroco = document.getElementById("valorTroco");
 
     if (checkDinheiro.checked == false) {
         divTroco.setAttribute("style", "display:none");
+        divValorTroco.value = 0;
     }
     else {
         divTroco.setAttribute("style", "display:");

@@ -7,11 +7,23 @@
 */
 /*#endregion */
 
-body{
+body {
     margin-top: 10px;
 }
+h1, h2, h3, h4, h5, h6 {
+     font-family: 'Bangers', cursive !important; 
+}
 
-.menu-lateral{
+a, p {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-brand {
+    font-family: 'Bangers', cursive !important;
+    letter-spacing: 2px;
+}
+
+.menu-lateral {
     background-color: #f8f8f8;
     padding: 2px;
     margin-bottom: 10px;
@@ -124,6 +136,11 @@ body{
   color: #fff;
   background-color: #bc2026;
   border-color: #fff;
+}
+.btn-vermelho-sem-animacao:checked {
+    color: #fff;
+    background-color: #bc2026;
+    border-color: #fff;
 }
 
 .btn-amarelo-sem-animacao{
