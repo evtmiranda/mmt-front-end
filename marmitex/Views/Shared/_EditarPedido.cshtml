@@ -1,27 +1,30 @@
-﻿    @if (Session["Carrinho"] != null)
+﻿@if (Session["Carrinho"] != null)
+{
+    decimal vlrTotal = 0;
+
+    foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
     {
-        foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
-        {
 
-            //objetos utilizados para remover um produto
-            ClassesMarmitex.DadosPostAjax postRemoverProd = new ClassesMarmitex.DadosPostAjax();
-            postRemoverProd.Recurso = "/Carrinho/RemoverProduto";
-            postRemoverProd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
-            postRemoverProd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
-            string RemoverProduto = string.Format("Post('{0}', '{1}')", @Html.Raw(Json.Encode(postRemoverProd)), @Html.Raw(Json.Encode(@p)));
+        //objetos utilizados para remover um produto
+        ClassesMarmitex.DadosPostAjax postRemoverProd = new ClassesMarmitex.DadosPostAjax();
+        postRemoverProd.Recurso = "/Carrinho/RemoverProduto";
+        postRemoverProd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
+        postRemoverProd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
+        string RemoverProduto = string.Format("Post('{0}', '{1}')", @Html.Raw(Json.Encode(postRemoverProd)), @Html.Raw(Json.Encode(@p)));
 
-            //exibe os produtos e a quantidade
-            <div class="col-md-12 form-group">
-                <div class="col-md-6">
-                    <input name="produto @p.Produto.Id" type="text" style="display:none" value="@p.Produto.Nome" />
-                    <label for="@p.Produto.Id">@p.Produto.Nome</label>
-                </div>
-                <div class="col-md-6">
-                    <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99" 
-                           value="@p.Quantidade">
-
-                    <a href="#" style="color: #bc2026" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
-                </div>
+        //exibe os produtos e a quantidade
+        <div class="col-md-12 form-group">
+            <div class="col-md-6">
+                <input name="produto @p.Produto.Id" type="text" style="display:none" value="@p.Produto.Nome" />
+                <label for="@p.Produto.Id">@p.Produto.Nome</label>
             </div>
-        }
+            <div class="col-md-6">
+                <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99"
+                       value="@p.Quantidade">
+
+                <a href="#" style="color: #bc2026" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </div>
+        <br />
     }
+}

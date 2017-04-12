@@ -1,18 +1,35 @@
 ﻿<div class="menu-lateral">
     @if (Session["Carrinho"] != null)
     {
+        decimal vlrProduto = 0;
+        decimal vlrCarrinho = 0;
+
+        Session["vlrCarrinho"] = 0;
+
         <ul class="sidebar-nav carrinho-compras">
             @foreach (ClassesMarmitex.ProdutoPedido p in (List
-                        <ClassesMarmitex.ProdutoPedido>
-                            )Session["Carrinho"])
+                <ClassesMarmitex.ProdutoPedido>
+                    )Session["Carrinho"])
             {
                 //exibe os produtos e a quantidade
+
+
+                vlrProduto = p.Quantidade * p.Produto.Valor;
+                vlrCarrinho = Convert.ToDecimal(Session["vlrCarrinho"]);
+                vlrCarrinho += vlrProduto;
+                Session["vlrCarrinho"] = vlrCarrinho;
+
+
                 <li>@p.Produto.Nome <span class="badge">@p.Quantidade</span></li>
             }
         </ul>
 
-        @*<a href="EditarPedido">editar</a>*@
-        <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
+        <ul class="sidebar-nav carrinho-compras">
+            <li>valor total do pedido R$@Session["vlrCarrinho"]</li>
+        </ul>
+
+            @*<a href="EditarPedido">editar</a>*@
+            <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
     }
     else
     {

@@ -6,7 +6,7 @@
     using System.Linq;
     using Newtonsoft.Json;
 
-    public class CarrinhoController : BaseController
+    public class CarrinhoController : BaseLoginController
     {
         List<ProdutoPedido> listaProdutoPedido;
         List<ProdutoPedido> listaProdutoPedidoCalculada;
@@ -15,6 +15,7 @@
 
         public void AdicionarProduto(string dadosJson)
         {
+
             //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
             listaProdutoPedido = new List<ProdutoPedido>();
 

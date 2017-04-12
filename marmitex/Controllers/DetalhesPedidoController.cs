@@ -29,6 +29,13 @@
             if (Session["Carrinho"] == null)
                 return RedirectToAction("Index", "Home");
 
+            //valida se o usuário está logado
+            //se não estiver, direciona para a tela de login
+            if (Session["usuarioLogado"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             //cria um usuário com a sessão existente
             usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
 
