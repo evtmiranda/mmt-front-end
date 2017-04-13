@@ -1,5 +1,4 @@
 ﻿using ClassesMarmitex;
-using ClassesMarmitex.Utils;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net;
@@ -81,7 +80,6 @@ namespace marmitex
         {
             DadosRequisicaoRest retorno = new DadosRequisicaoRest();
             string conteudo;
-            Token token = new Token();
 
             //faz o get de um objeto em um determinado recurso
             try
