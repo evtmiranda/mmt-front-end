@@ -27,7 +27,7 @@
         </div>
 
         <h3 class="vermelho-marmitex">confira as promoções</h3>
-        <div >
+        <div>
             @{
                 @Html.Partial("_Promocoes")
             }
@@ -51,20 +51,67 @@
                     //monta a ação de post para atualizar a visualização do carrinho
                     string AdicionarCarrinho = string.Format("Post('{0}', '{1}')", @Html.Raw(Json.Encode(postAjax)), @Html.Raw(Json.Encode(@p)));
 
-                    <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
-                        <div class="thumbnail">
-                            <img src="@p.Imagem" alt="imagem do produto">
-                            <div class="caption">
-                                <h3>@p.Nome</h3>
-                                <p>
-                                    @p.Descricao<br />
-                                    R$ @p.Valor
-                                </p>
+                    <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id">
+                        <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
+                            <div class="thumbnail">
+                                <img src="@p.Imagem" alt="imagem do produto">
+                                <div class="caption">
+                                    <h3>@p.Nome</h3>
+                                    <p>
+                                        @p.Descricao<br />
+                                        R$ @p.Valor
+                                    </p>
 
-                                <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                                    <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+
+                    foreach (var adicional in p.DadosAdicionaisProdutos)
+                    {
+                        <div class="modal fade" id="modalProduto_@p.Id" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h3 class="modal-title">@adicional.Nome</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Cliente</h4>
+                                        <p>Gabriela Ferreira dos Santos</p>
+
+                                        <br />
+
+                                        <h4>Produtos</h4>
+                                        <p>1 Coca Cola Lata</p>
+                                        <p>1 Lasanha</p>
+
+                                        <br />
+
+                                        <h4>Horário de entrega</h4>
+                                        <p>às 12:00 horas</p>
+
+                                        <br />
+
+                                        <h4>Forma de pagamento</h4>
+                                        <p>Dinheiro</p>
+                                        <p>R$ 1,50 de troco</p>
+
+                                        <br />
+
+                                        <h4>Observação</h4>
+                                        <p>acrescentar queijo na lasanha</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
                 }
             }
         </div>
