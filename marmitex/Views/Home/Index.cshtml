@@ -48,8 +48,6 @@
                     postAjax.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra";
                     postAjax.DivASerAtualizada = "#visualizacaoCarrinho";
 
-                    int qtdModal = 0;
-
                     //monta a ação de post para atualizar a visualização do carrinho
                     string AdicionarCarrinho = string.Format("Post('{0}', '{1}')", @Html.Raw(Json.Encode(postAjax)), @Html.Raw(Json.Encode(@p)));
 
@@ -65,72 +63,64 @@
                                 </p>
 
                                 <!-- ao clicar em adicionar produto, o primeiro modal com os itens adicionais é aberto -->
-                                <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id@qtdModal" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                                <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
                             </div>
                         </div>
                     </div>
 
+                    //variável para controlar a navegação dentro do modal
+                    int numeroOpcao = 1;
+
                     //modal
                     //dados adicionais do produto em questão, por exemplo: ingredientes, tipo de massa e etc
-                    
-                    foreach (var adicional in p.DadosAdicionaisProdutos)
-                    {
-                        <div class="modal fade" id="modalProduto_@p.Id@qtdModal" role="dialog">
-                            <div class="modal-dialog modal-md">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h3 class="modal-title">@adicional.Nome</h3>
-                                        <p>escolha entre @adicional.QtdMin e @adicional.QtdMax @adicional.Nome</p>
-                                    </div>
-                                    <div class="modal-body">
+                    <div class="modal fade" id="modalProduto_@p.Id" role="dialog">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
 
-                                        <!-- itens do adicional do produto. por exemplo, dentro do adicional
+                                <div id="modalProduto_@p.Id @numeroOpcao">
+                                    @foreach (var adicional in p.DadosAdicionaisProdutos)
+                                    {
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h3 class="modal-title">@adicional.Nome</h3>
+                                            <p>escolha entre @adicional.QtdMin e @adicional.QtdMax @adicional.Nome</p>
+                                        </div>
+
+                                        <div class="modal-body" style="display: none;">
+
+                                            <!-- itens do adicional do produto. por exemplo, dentro do adicional
                                             ingredientes temos os itens: cenoura, bacon, brócolis e etc...-->
-                                        @foreach (var itemAdicional in adicional.ItensAdicionais)
-                                        {
-                                            <div class="form-group">
-                                                <label for="@itemAdicional.Id">@itemAdicional.Nome</label>
-                                                <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" id="@itemAdicional.Id" class="form-control" />
+                                            @foreach (var itemAdicional in adicional.ItensAdicionais)
+                                            {
+                                                <div class="form-group">
+                                                    <label for="@itemAdicional.Id">@itemAdicional.Nome</label>
+                                                    <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" id="@itemAdicional.Id" class="form-control" />
 
 
-                                                @if (itemAdicional.Valor > 0)
-                                                {
+                                                    @if (itemAdicional.Valor > 0)
+                                                    {
 
-                                                    <p>valor R$ @itemAdicional.Valor</p>
+                                                        <p>valor R$ @itemAdicional.Valor</p>
 
-                                                }
-                                            </div>
-                                        }
-                                    </div>
-
-                                    @{ 
-                                        int proximoModal = (qtdModal + 1);
-                                        int modalAnterior = (qtdModal);
-                                    }
-
-                                    @if (qtdModal == 0)
-                                    {
-                                        <div class="modal-footer">
-                                            <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id@proximoModal" class="btn btn-default" role="button">Próximo</a>
+                                                    }
+                                                </div>
+                                            }
                                         </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="modal-footer">
-                                            <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id@modalAnterior" class="btn btn-default" role="button">Anterior</a>
-                                            <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id@proximoModal" class="btn btn-default" role="button">Próximo</a>
-                                        </div>
-                                    }
 
-
+                                    }
                                 </div>
+
+                                @if (numeroOpcao != 1)
+                                {
+                                    <script>
+                                        document.getElementById(modalProduto_@p.Id @numeroOpcao).setAttribute("style","none");
+                                    </script>
+                                }
                             </div>
                         </div>
+                    </div>
 
-                        qtdModal++;
-                    }
-
+                    numeroOpcao++;
                 }
             }
         </div>
