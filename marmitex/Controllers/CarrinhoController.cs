@@ -126,5 +126,26 @@
 
             return PartialView(nomeViewParcial);
         }
+
+        public void AtualizarProdutoAdicional(string dadosJson)
+        {
+            List<DadosAtualizarProdutoAdicional> listaProdAdicionaisAtualizar = new List<DadosAtualizarProdutoAdicional>();
+
+            listaProdAdicionaisAtualizar = JsonConvert.DeserializeObject<List<DadosAtualizarProdutoAdicional>>(dadosJson);
+
+            //lista para armazenar a sessão
+            List<ProdutoPedido> listaProdutoEditar = new List<ProdutoPedido>();
+            listaProdutoEditar = (List<ProdutoPedido>)Session["Carrinho"];
+
+            foreach (var dadosProdAdicionalAtualizar in listaProdAdicionaisAtualizar)
+            {
+                //atualiza a quantidade do produto
+                //listaProdutoEditar.Where(p => p.Produto.Id == dadosProdAtualizar.idProduto).SingleOrDefault().Quantidade = dadosProdAtualizar.QuantidadeAtualizada;
+            }
+
+            //atualiza a sessão
+            Session["Carrinho"] = listaProdutoEditar;
+        }
+        
     }
 }

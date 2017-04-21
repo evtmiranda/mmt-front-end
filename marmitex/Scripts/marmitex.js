@@ -1,9 +1,9 @@
-﻿//function fecharCarrinho() {
-//    $post("/Carrinho/FecharCarrinho");
-//}
-
-//após realizar um post, chama o método para atualizar
-//a visualização de uma view parcial
+﻿/**
+ * após realizar um post, chama o método para atualizar
+  a visualização de uma view parcial
+ * @param {any} jsonHeaderPost
+ * @param {any} jsonBodyPost
+ */
 function Post(jsonHeaderPost, jsonBodyPost) {
     var dadosPost = JSON.parse(jsonHeaderPost);
 
@@ -12,7 +12,13 @@ function Post(jsonHeaderPost, jsonBodyPost) {
     });
 }
 
-//após realizar um post, faz o redirect para o destino enviado como parâmetro
+
+/**
+ * após realizar um post, faz o redirect para o destino enviado como parâmetro
+ * @param {any} jsonHeaderPost
+ * @param {any} urlBase
+ * @param {any} destino
+ */
 function PostAtualizarQuantidade(jsonHeaderPost, urlBase, destino) {
     //variáveis para armazenar qual produto deve ter a quantidade atualizada
     // e qual a quantidade
@@ -40,14 +46,25 @@ function PostAtualizarQuantidade(jsonHeaderPost, urlBase, destino) {
     });
 }
 
-//após remover um produto, chama o método para atualizar
-//a visualização da tela de edição do carrinho
+
+/**
+ * após remover um produto, chama o método para atualizar
+   a visualização da tela de edição do carrinho
+ * @param {any} url
+ * @param {any} prod
+ */
 function PostRemoverProduto(url, prod) {
     $.post(url, { produtoJson: prod }, function () {
         AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoView/EditarPedido', '#visualizacaoEdicaoCarrinho');
     });
 }
 
+
+/**
+ * atualiza o html de uma determinada div
+ * @param {any} recurso
+ * @param {any} idDiv
+ */
 function AtualizarVisualizacaoDiv(recurso, idDiv) {
     $.ajax(
         {
@@ -62,8 +79,14 @@ function AtualizarVisualizacaoDiv(recurso, idDiv) {
         });
 }
 
+
+/**
+ * esconde as divs de uma classe e exibe as divs de outra classe
+ * @param {any} classEsconder
+ * @param {any} classExibir
+ */
 function EsconderDiv(classEsconder, classExibir) {
-    //esconde views
+    //esconde divs
     var listaDivsEsconder = document.getElementsByClassName(classEsconder);
 
     for (i = 0; i < listaDivsEsconder.length; i++) {
@@ -71,7 +94,7 @@ function EsconderDiv(classEsconder, classExibir) {
         listaDivsEsconder[i].classList.remove("exibeDiv");
     }
 
-    //exibe views
+    //exibe divs
     var listaDivsExibir = document.getElementsByClassName(classExibir);
 
     for (i = 0; i < listaDivsExibir.length; i++) {
@@ -81,10 +104,143 @@ function EsconderDiv(classEsconder, classExibir) {
 
 }
 
+
+/** informações do método NavegarModal
+ * 1 - captura a quantidade de itens adicionais escolhida pelo cliente
+ * 2 - monta um objeto com o id do produto, id do produto adicional e uma lista dos itens adicionais
+ * 3 - faz um post do objeto para o recurso 'Carrinho/AtualizarProdutoAdicional' que é responsável por atualizar
+       o produto adicional do produto
+ * 4 - esconde todas as divs do modal
+ * 5 - exibe a div escolhida
+ * @param {any} classEsconder
+ * @param {any} nomeDivExibir
+ * @param {any} classeProdAdicionalAtual
+ * @param {any} idProdutoAdicional
+ * @param {any} idProduto
+ * @param {any} qtdMaxItensAdicional
+ */
+function NavegarModal(classEsconder, nomeDivExibir, classeProdAdicionalAtual, idProdutoAdicional, idProduto, qtdMaxItensAdicional, headerPostAddProd = null, bodyPostAddProd = null) {
+
+    try {
+        //limpa a div de mensagem
+        document.getElementById('mensagemAviso').textContent = "";
+
+        //captura todos os adicionais do produto
+        var itensAdicionais = document.getElementsByClassName(classeProdAdicionalAtual);
+
+        //busca a quantidade escolhida dos itens do produto adicional desta div
+        var itensProdutoAdicional = new Array();
+
+        //variável para armazenar a quantidade de itens adicionais escolhidos
+        var qtdItensProdAdicional = Number(0);
+
+        for (var i = 0; i < itensAdicionais.length; i++) {
+            itemAdicional = new Object();
+            itemAdicional.Id = itensAdicionais[i].getElementsByClassName('idAdicional')[0].value;
+            itemAdicional.Qtd = itensAdicionais[i].getElementsByClassName('qtdAdicional')[0].value;
+
+            itensProdutoAdicional[i] = itemAdicional;
+
+            //vai somando a quantidade escolhida
+            qtdItensProdAdicional = qtdItensProdAdicional + Number(itemAdicional.Qtd);
+        }
+
+        //monta o produto adicional
+        var produtoAdicional = new Object();
+        produtoAdicional.Id = idProdutoAdicional;
+        produtoAdicional.IdProduto = idProduto;
+        produtoAdicional.ListaProdutosAdicionais = itensProdutoAdicional;
+
+        //verifica se a quantidade de itens escolhidos é superior ao máximo permitido
+        //se sim, exibe uma mensagem ao cliente e não prossegue com o processamento
+        if (qtdItensProdAdicional > qtdMaxItensAdicional) {
+            document.getElementById('mensagemAviso').textContent = 'a quantidade escolhida é maior que o máximo permitido';
+            return;
+        }
+
+        //faz um post para atualizar o produto adicional do produto
+        //variável com o recurso do post
+        var recurso = '/Carrinho/AtualizarProdutoAdicional';
+
+        var atualizarProdutoAdicionalJson = JSON.stringify(produtoAdicional, null, 0);
+
+        //se for a escolha do último produto adicional, atualiza o produto 
+        //adicional e depois faz o post para incluir o produto
+        if (headerPostAddProd != null) {
+            $.post(recurso, { dadosJson: atualizarProdutoAdicionalJson }, function () {
+                Post(headerPostAddProd, bodyPostAddProd)
+            });
+        }
+        //faz o post para atualizar o produto adicional do produto e depois avança para a próxima div
+        else {
+            $.post(recurso, { dadosJson: atualizarProdutoAdicionalJson }, function () {
+                //esconde divs
+                var listaDivsEsconder = document.getElementsByClassName(classEsconder);
+
+                for (i = 0; i < listaDivsEsconder.length; i++) {
+                    listaDivsEsconder[i].classList.add("escondeDiv");
+                    listaDivsEsconder[i].classList.remove("exibeDiv");
+                }
+
+                //exibe divs
+                var divExibir = document.getElementById(nomeDivExibir);
+
+                divExibir.classList.remove("escondeDiv");
+                divExibir.classList.add("exibeDiv");
+            });
+        }
+    } catch (e) {
+        document.getElementById('mensagemAviso').textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
+    }
+
+}
+
+
+/**
+ * Esconde a div atual e exibe a div anterior do modal
+ * @param {any} classEsconder
+ * @param {any} nomeDivExibir
+ */
+function DivAnteriorModal(classEsconder, nomeDivExibir) {
+
+    try {
+        //limpa a div de mensagem
+        document.getElementById('mensagemAviso').textContent = "";
+
+        //esconde divs
+        var listaDivsEsconder = document.getElementsByClassName(classEsconder);
+
+        for (i = 0; i < listaDivsEsconder.length; i++) {
+            listaDivsEsconder[i].classList.add("escondeDiv");
+            listaDivsEsconder[i].classList.remove("exibeDiv");
+        }
+
+        //exibe divs
+        var divExibir = document.getElementById(nomeDivExibir);
+
+        divExibir.classList.remove("escondeDiv");
+        divExibir.classList.add("exibeDiv");
+    }
+    catch (e) {
+        document.getElementById('mensagemAviso').textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
+    }
+
+}
+
+
+/**
+ * Redireciona o cliente para um determinado destino
+ * @param {any} urlBase
+ * @param {any} destino
+ */
 function Redirecionar(urlBase, destino) {
     window.location.href = urlBase + destino;
 }
 
+
+/**
+ * Torna a div para troco visível
+ */
 function ExibirCampoTroco() {
 
     var checkDinheiro = document.getElementById("checkDinheiro");
@@ -101,7 +257,16 @@ function ExibirCampoTroco() {
     }
 }
 
-//após realizar um post, faz o redirect para o destino enviado como parâmetro
+
+/**
+ * 1 - captura os dados preenchidos na tela
+ * 2 - valida se os campos obrigatórios estão preenchidos
+ * 3 - faz um post dos dados no recurso ''
+ * 4 - redireciona o cliente para a tela ''
+ * @param {any} jsonHeaderPost
+ * @param {any} urlBase
+ * @param {any} destino
+ */
 function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
 
     //verifica qual o horário de entrega escolhido
@@ -128,7 +293,7 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
         return;
     }
 
-    if (formaPagamento == null){
+    if (formaPagamento == null) {
         alert('selecione a forma de pagamento');
         return;
     }
@@ -143,8 +308,6 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
     //se o cliente deseja troco, preenche com o valor
     //se o cliente não precisa de troco o valor irá sempre 0
     var trocoEscolhido = document.getElementById("valorTroco").value;
-
-    console.log(trocoEscolhido);
 
     if (trocoEscolhido != null && trocoEscolhido != "0") {
         detalhesPedido.Troco = trocoEscolhido;
@@ -167,10 +330,15 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
 
 }
 
+
+/**
+ * exibe uma mensagem de que o pedido foi enviado com sucesso
+ */
 function avisoConfirmacaoPedido() {
     alert('Pedido enviado com sucesso');
     window.location.href = "/DetalhesPedido/PedidoConcluido";
 }
+
 
 function ConfirmarPedido(jsonHeaderPost, jsonBodyPost, urlBase, destino) {
     //variável com os dados do cabeçalho do post
@@ -183,7 +351,6 @@ function ConfirmarPedido(jsonHeaderPost, jsonBodyPost, urlBase, destino) {
 
 
 //mascaras
-
 function formataMascara(campo, evt, formato) {
     evt = getEvent(evt);
     var tecla = getKeyCode(evt);
@@ -419,12 +586,12 @@ function filtraCampo(campo) {
     tam = vr.length;
     for (i = 0; i < tam; i++) {
         if (vr.substring(i, i + 1) != "/"
-                  && vr.substring(i, i + 1) != "-"
-                  && vr.substring(i, i + 1) != "."
-                  && vr.substring(i, i + 1) != "("
-                  && vr.substring(i, i + 1) != ")"
-                  && vr.substring(i, i + 1) != ":"
-                  && vr.substring(i, i + 1) != ",") {
+            && vr.substring(i, i + 1) != "-"
+            && vr.substring(i, i + 1) != "."
+            && vr.substring(i, i + 1) != "("
+            && vr.substring(i, i + 1) != ")"
+            && vr.substring(i, i + 1) != ":"
+            && vr.substring(i, i + 1) != ",") {
             s = s + vr.substring(i, i + 1);
         }
     }
@@ -439,15 +606,15 @@ function filtraNumeros(campo) {
     tam = vr.length;
     for (i = 0; i < tam; i++) {
         if (vr.substring(i, i + 1) == "0" ||
-                  vr.substring(i, i + 1) == "1" ||
-                  vr.substring(i, i + 1) == "2" ||
-                  vr.substring(i, i + 1) == "3" ||
-                  vr.substring(i, i + 1) == "4" ||
-                  vr.substring(i, i + 1) == "5" ||
-                  vr.substring(i, i + 1) == "6" ||
-                  vr.substring(i, i + 1) == "7" ||
-                  vr.substring(i, i + 1) == "8" ||
-                  vr.substring(i, i + 1) == "9") {
+            vr.substring(i, i + 1) == "1" ||
+            vr.substring(i, i + 1) == "2" ||
+            vr.substring(i, i + 1) == "3" ||
+            vr.substring(i, i + 1) == "4" ||
+            vr.substring(i, i + 1) == "5" ||
+            vr.substring(i, i + 1) == "6" ||
+            vr.substring(i, i + 1) == "7" ||
+            vr.substring(i, i + 1) == "8" ||
+            vr.substring(i, i + 1) == "9") {
             s = s + vr.substring(i, i + 1);
         }
     }
@@ -460,8 +627,8 @@ function filtraCaracteres(campo) {
     for (i = 0; i < tam; i++) {
         //Caracter
         if (vr.charCodeAt(i) != 32 && vr.charCodeAt(i) != 94 && (vr.charCodeAt(i) < 65 ||
-              (vr.charCodeAt(i) > 90 && vr.charCodeAt(i) < 96) ||
-                  vr.charCodeAt(i) > 122) && vr.charCodeAt(i) < 192) {
+            (vr.charCodeAt(i) > 90 && vr.charCodeAt(i) < 96) ||
+            vr.charCodeAt(i) > 122) && vr.charCodeAt(i) < 192) {
             vr = vr.replace(vr.substr(i, 1), "");
         }
     }
@@ -476,16 +643,16 @@ function filtraNumerosComVirgula(campo) {
     var complemento = 0; //flag paga contar o nÃºmero de virgulas
     for (i = 0; i < tam; i++) {
         if ((vr.substring(i, i + 1) == "," && complemento == 0 && s != "") ||
-                  vr.substring(i, i + 1) == "0" ||
-                  vr.substring(i, i + 1) == "1" ||
-                  vr.substring(i, i + 1) == "2" ||
-                  vr.substring(i, i + 1) == "3" ||
-                  vr.substring(i, i + 1) == "4" ||
-                  vr.substring(i, i + 1) == "5" ||
-                  vr.substring(i, i + 1) == "6" ||
-                  vr.substring(i, i + 1) == "7" ||
-                  vr.substring(i, i + 1) == "8" ||
-                  vr.substring(i, i + 1) == "9") {
+            vr.substring(i, i + 1) == "0" ||
+            vr.substring(i, i + 1) == "1" ||
+            vr.substring(i, i + 1) == "2" ||
+            vr.substring(i, i + 1) == "3" ||
+            vr.substring(i, i + 1) == "4" ||
+            vr.substring(i, i + 1) == "5" ||
+            vr.substring(i, i + 1) == "6" ||
+            vr.substring(i, i + 1) == "7" ||
+            vr.substring(i, i + 1) == "8" ||
+            vr.substring(i, i + 1) == "9") {
             if (vr.substring(i, i + 1) == ",")
                 complemento = complemento + 1;
             s = s + vr.substring(i, i + 1);
@@ -741,17 +908,17 @@ function teclaValida(tecla) {
     if (tecla == 8 //backspace
         //Esta evitando o post, quando sÃ£o pressionadas estas teclas.
         //Foi comentado pois, se for utilizado o evento texchange, Ã© necessario o post.
-           || tecla == 9 //TAB
-           || tecla == 27 //ESC
-           || tecla == 16 //Shif TAB 
-           || tecla == 45 //insert
-           || tecla == 46 //delete
-           || tecla == 35 //home
-           || tecla == 36 //end
-           || tecla == 37 //esquerda
-           || tecla == 38 //cima
-           || tecla == 39 //direita
-           || tecla == 40)//baixo
+        || tecla == 9 //TAB
+        || tecla == 27 //ESC
+        || tecla == 16 //Shif TAB 
+        || tecla == 45 //insert
+        || tecla == 46 //delete
+        || tecla == 35 //home
+        || tecla == 36 //end
+        || tecla == 37 //esquerda
+        || tecla == 38 //cima
+        || tecla == 39 //direita
+        || tecla == 40)//baixo
         return false;
     else
         return true;
