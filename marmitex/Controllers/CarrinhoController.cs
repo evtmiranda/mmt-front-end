@@ -5,6 +5,7 @@
     using System.Web.Mvc;
     using System.Linq;
     using Newtonsoft.Json;
+    using System;
 
     public class CarrinhoController : BaseLoginController
     {
@@ -15,7 +16,6 @@
 
         public void AdicionarProduto(string dadosJson)
         {
-
             //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
             listaProdutoPedido = new List<ProdutoPedido>();
 
@@ -127,25 +127,109 @@
             return PartialView(nomeViewParcial);
         }
 
-        public void AtualizarProdutoAdicional(string dadosJson)
+        /// <summary>
+        /// Atualiza o produto adicional de um produto
+        /// </summary>
+        /// <param name="dadosJson">Objeto com o produto adicional</param>
+        public void AtualizarProdutoAdicional(string adicionalProdutoJson, bool adicionarAoCarrinho = false)
         {
-            List<DadosAtualizarProdutoAdicional> listaProdAdicionaisAtualizar = new List<DadosAtualizarProdutoAdicional>();
+            //cria um novo produto
+            Produto produto = new Produto();
 
-            listaProdAdicionaisAtualizar = JsonConvert.DeserializeObject<List<DadosAtualizarProdutoAdicional>>(dadosJson);
+            //verifica se a sessão "ProdutoComProdutoAdicional" existe
+            if (Session["ProdutoComProdutoAdicional"] != null)
+                produto = (Produto)Session["ProdutoComProdutoAdicional"];
+            else
+                return;
 
-            //lista para armazenar a sessão
-            List<ProdutoPedido> listaProdutoEditar = new List<ProdutoPedido>();
-            listaProdutoEditar = (List<ProdutoPedido>)Session["Carrinho"];
+            //cria um produto adicional para adicionar ao produto
+            DadosProdutoAdicional produtoAdicional = new DadosProdutoAdicional();
 
-            foreach (var dadosProdAdicionalAtualizar in listaProdAdicionaisAtualizar)
+            //verifica se recebeu realmente um produto adicional
+            if (adicionalProdutoJson != null)
+                produtoAdicional = JsonConvert.DeserializeObject<DadosProdutoAdicional>(adicionalProdutoJson);
+            else
+                return;
+
+            //atualiza a quantidade de itens adicionais do produto adicional em questão
+            foreach (var itemProdutoAdicional in produto.DadosAdicionaisProdutos)
             {
-                //atualiza a quantidade do produto
-                //listaProdutoEditar.Where(p => p.Produto.Id == dadosProdAtualizar.idProduto).SingleOrDefault().Quantidade = dadosProdAtualizar.QuantidadeAtualizada;
+                if (itemProdutoAdicional.Id == produtoAdicional.Id)
+                    foreach (var itemAdicionalAtualizar in itemProdutoAdicional.ItensAdicionais)
+                    {
+                        foreach (var itemAdicional in produtoAdicional.ItensAdicionais)
+                        {
+                            if (itemAdicionalAtualizar.Id == itemAdicional.Id)
+                                itemAdicionalAtualizar.Qtd = itemAdicional.Qtd;
+                        }
+                    }
             }
 
-            //atualiza a sessão
-            Session["Carrinho"] = listaProdutoEditar;
+            //se for o último adicional do produto é necessário adicionar o produto na sessão "carrinho"
+            if (adicionarAoCarrinho)
+            {
+                //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
+                listaProdutoPedido = new List<ProdutoPedido>();
+
+                if (Session["Carrinho"] != null)
+                    listaProdutoPedido = (List<ProdutoPedido>)Session["Carrinho"];
+
+                ProdutoPedido prodPedido = new ProdutoPedido()
+                {
+                    Produto = produto,
+                    Quantidade = 1
+                };
+
+                listaProdutoPedido.Add(prodPedido);
+
+                //atualiza a sessão
+                Session["Carrinho"] = listaProdutoPedido;
+            }
+
+            //limpa a sessão de produto com produto adicional
+            Session["ProdutoComProdutoAdicional"] = null;
         }
-        
+
+        /// <summary>
+        /// Cria um Produto e um Produto Adicional com os json's recebidos.
+        /// Cria a sessão "ProdutoComProdutoAdicional" com o produto
+        /// </summary>
+        /// <param name="produtoJson"></param>
+        /// <param name="adicionalProdutoJson"></param>
+        public void AdicionarProdutoComAdicional(string produtoJson, string adicionalProdutoJson)
+        {
+            //cria um novo produto
+            Produto produto = new Produto();
+
+            //verifica se recebeu realmente um produto
+            if (produtoJson != null)
+                produto = JsonConvert.DeserializeObject<Produto>(produtoJson);
+            else
+                return;
+
+            //cria um produto adicional para adicionar ao produto
+            DadosProdutoAdicional produtoAdicional = new DadosProdutoAdicional();
+
+            //verifica se recebeu realmente um produto adicional
+            if (adicionalProdutoJson != null)
+                produtoAdicional = JsonConvert.DeserializeObject<DadosProdutoAdicional>(adicionalProdutoJson);
+            else
+                return;
+
+            //atualiza a quantidade de itens adicionais do produto adicional em questão
+            foreach (var itemProdutoAdicional in produto.DadosAdicionaisProdutos) { 
+                if(itemProdutoAdicional.Id == produtoAdicional.Id)
+                    foreach (var itemAdicionalAtualizar in itemProdutoAdicional.ItensAdicionais) { 
+                        foreach (var itemAdicional in produtoAdicional.ItensAdicionais) { 
+                            if(itemAdicionalAtualizar.Id == itemAdicional.Id)
+                                itemAdicionalAtualizar.Qtd = itemAdicional.Qtd;
+                        }
+                    }
+            }
+
+            //adiciona o produto na sessão
+            Session["ProdutoComProdutoAdicional"] = produto;
+        }
+
     }
 }

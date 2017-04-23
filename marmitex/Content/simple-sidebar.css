@@ -23,6 +23,30 @@
     background: none;
 }
 
+.sub-sidebar-nav {
+    list-style: none;
+}
+
+    .sub-sidebar-nav li a {
+        line-height: 30px;
+        color: #333;
+    }
+
+        .sub-sidebar-nav li a:hover {
+            text-decoration: none;
+            color: #bc2026;
+        }
+
+        .sub-sidebar-nav li a:active,
+        .sub-sidebar-nav li a:focus {
+            text-decoration: none;
+        }
+
+    .sub-sidebar-nav > .sub-sidebar-brand a:hover {
+        color: #fff;
+        background: none;
+    }
+
 
 /*#region evento hover menu */
 

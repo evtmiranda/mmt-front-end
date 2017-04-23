@@ -94,16 +94,22 @@ a, p {
     margin-bottom: 1em;
 }
 
+.produtos-nome{
+    display: inline;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 
 /*#region botões */
-
 .btn-detalhes-pedido,
-.btn-pedido{
-  color: #fff;
-  background-color: #bc2026;
-  border-color: #fff;
-  margin-bottom: 20px;
+.btn-pedido {
+    color: #fff;
+    background-color: #bc2026;
+    border-color: #fff;
+    margin-bottom: 20px;
 }
 .btn-detalhes-pedido:focus,
 .btn-pedido.focus {

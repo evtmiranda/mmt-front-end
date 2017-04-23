@@ -119,16 +119,20 @@ function EsconderDiv(classEsconder, classExibir) {
  * @param {any} idProduto
  * @param {any} qtdMaxItensAdicional
  */
-function NavegarModal(classEsconder, nomeDivExibir, classeProdAdicionalAtual, idProdutoAdicional, idProduto, qtdMaxItensAdicional, headerPostAddProd = null, bodyPostAddProd = null) {
+function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, produtoJson) {
 
     try {
+        //nome da classe que deve ter as divs escondidas
+        var classEsconder = 'divModal';
+
         //limpa a div de mensagem
         document.getElementById('mensagemAviso').textContent = "";
 
-        //captura todos os adicionais do produto
+        //captura o adicional da div em questão
         var itensAdicionais = document.getElementsByClassName(classeProdAdicionalAtual);
 
         //busca a quantidade escolhida dos itens do produto adicional desta div
+        //array para armazenar os itens
         var itensProdutoAdicional = new Array();
 
         //variável para armazenar a quantidade de itens adicionais escolhidos
@@ -138,6 +142,10 @@ function NavegarModal(classEsconder, nomeDivExibir, classeProdAdicionalAtual, id
             itemAdicional = new Object();
             itemAdicional.Id = itensAdicionais[i].getElementsByClassName('idAdicional')[0].value;
             itemAdicional.Qtd = itensAdicionais[i].getElementsByClassName('qtdAdicional')[0].value;
+
+            //se o item vier em branco, é marcado como 0.
+            if (itemAdicional.Qtd == "")
+                itemAdicional.Qtd = 0;
 
             itensProdutoAdicional[i] = itemAdicional;
 
@@ -149,7 +157,7 @@ function NavegarModal(classEsconder, nomeDivExibir, classeProdAdicionalAtual, id
         var produtoAdicional = new Object();
         produtoAdicional.Id = idProdutoAdicional;
         produtoAdicional.IdProduto = idProduto;
-        produtoAdicional.ListaProdutosAdicionais = itensProdutoAdicional;
+        produtoAdicional.ItensAdicionais = itensProdutoAdicional;
 
         //verifica se a quantidade de itens escolhidos é superior ao máximo permitido
         //se sim, exibe uma mensagem ao cliente e não prossegue com o processamento
@@ -158,43 +166,58 @@ function NavegarModal(classEsconder, nomeDivExibir, classeProdAdicionalAtual, id
             return;
         }
 
-        //faz um post para atualizar o produto adicional do produto
-        //variável com o recurso do post
-        var recurso = '/Carrinho/AtualizarProdutoAdicional';
+        //dados do produto adicional a ser atualizado
+        var produtoAdicionalJson = JSON.stringify(produtoAdicional, null, 0);
 
-        var atualizarProdutoAdicionalJson = JSON.stringify(produtoAdicional, null, 0);
-
-        //se for a escolha do último produto adicional, atualiza o produto 
-        //adicional e depois faz o post para incluir o produto
-        if (headerPostAddProd != null) {
-            $.post(recurso, { dadosJson: atualizarProdutoAdicionalJson }, function () {
-                Post(headerPostAddProd, bodyPostAddProd)
-            });
+        //se for a escolha do primeiro adicional do produto o produto deve ser criado
+        //e este adicional adicionado a ele. Os próximos adicionais escolhidos serão adicionados a este produto
+        //quando for a escolha do último adicional o produto será incluido na sessão "carrinho"
+        if (ehPrimeiroAdicional) {
+            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
+                ProximaDivModal(classEsconder, nomeDivExibir));
         }
-        //faz o post para atualizar o produto adicional do produto e depois avança para a próxima div
+        //se não for o primeiro nem o último produto adicional
+        else if (!ehUltimoAdicional) {
+            //faz um post para atualizar o produto adicional do produto
+            $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson },
+                ProximaDivModal(classEsconder, nomeDivExibir));
+        }
+        //se for o último produto adicional
         else {
-            $.post(recurso, { dadosJson: atualizarProdutoAdicionalJson }, function () {
-                //esconde divs
-                var listaDivsEsconder = document.getElementsByClassName(classEsconder);
-
-                for (i = 0; i < listaDivsEsconder.length; i++) {
-                    listaDivsEsconder[i].classList.add("escondeDiv");
-                    listaDivsEsconder[i].classList.remove("exibeDiv");
-                }
-
-                //exibe divs
-                var divExibir = document.getElementById(nomeDivExibir);
-
-                divExibir.classList.remove("escondeDiv");
-                divExibir.classList.add("exibeDiv");
-            });
+            //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
+            $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
+                function () {
+                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
+                        '#visualizacaoCarrinho');
+                });
         }
+
+
+
+
+        
+
     } catch (e) {
         document.getElementById('mensagemAviso').textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
     }
 
 }
 
+function ProximaDivModal(classEsconder, nomeDivExibir) {
+    //esconde divs
+    var listaDivsEsconder = document.getElementsByClassName(classEsconder);
+
+    for (i = 0; i < listaDivsEsconder.length; i++) {
+        listaDivsEsconder[i].classList.add("escondeDiv");
+        listaDivsEsconder[i].classList.remove("exibeDiv");
+    }
+
+    //exibe divs
+    var divExibir = document.getElementById(nomeDivExibir);
+
+    divExibir.classList.remove("escondeDiv");
+    divExibir.classList.add("exibeDiv");
+}
 
 /**
  * Esconde a div atual e exibe a div anterior do modal

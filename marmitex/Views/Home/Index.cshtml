@@ -52,9 +52,11 @@
                     string AdicionarCarrinho = string.Format("Post('{0}', '{1}')",
                         @Html.Raw(Json.Encode(postAjax)), @Html.Raw(Json.Encode(@p)));
 
-                    string headerPostAddProd = string.Format("'{0}'", @Html.Raw(Json.Encode(postAjax)));
+                    //variáveis para o post de adição de produto que contém produtos adicionais
+                    string produtoJson = string.Format("'{0}'", @Html.Raw(Json.Encode(@p)));
 
-                    string bodyPostAddProd = string.Format("'{0}'", @Html.Raw(Json.Encode(@p)));
+                    //variável para guardar o id do primeiro item adicional
+                    int idPrimeiroAdicional = 0;
 
                     //visão do produto
                     <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
@@ -108,6 +110,10 @@
                                         styleNone = "escondeDiv";
                                     }
 
+                                    if (adicional.OrdemExibicao == 1) {
+                                        idPrimeiroAdicional = adicional.Id;
+                                    }
+
                                     //monta o nome da div anterior
                                     string divAnteriorModal = "'divModal_" + p.Id + (numeroOpcao - 1) + "'";
 
@@ -135,6 +141,7 @@
                                             ingredientes temos os itens: cenoura, bacon, brócolis e etc...-->
                                             @foreach (var itemAdicional in adicional.ItensAdicionais)
                                             {
+
                                                 <div class="form-group @classeProdAdicionalAtual">
                                                     <input type="hidden" class="idAdicional" value="@itemAdicional.Id" />
                                                     <label class="nomeAdicional" for="@itemAdicional.Id">@itemAdicional.Nome</label>
@@ -157,11 +164,19 @@
                                             }
                                             @if (p.DadosAdicionaisProdutos.Count == numeroOpcao)
                                             {
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="NavegarModal('divModal', @proximaDivModal, @nomeClasseProdAdicionalAtual, @adicional.Id, @p.Id, @adicional.QtdMax, @headerPostAddProd, @bodyPostAddProd)">adicionar e concluir</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @produtoJson)">adicionar e concluir</button>
                                             }
                                             @if (p.DadosAdicionaisProdutos.Count > numeroOpcao)
                                             {
-                                                <button type="button" class="btn btn-default" onclick="NavegarModal('divModal', @proximaDivModal, @nomeClasseProdAdicionalAtual, @adicional.Id, @p.Id, @adicional.QtdMax)">próximo</button>
+                                                if (numeroOpcao == 1)
+                                                {
+                                                    <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @adicional.Id, @p.Id, 1, 0, @adicional.QtdMax, @produtoJson)">próximo</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @adicional.Id, @p.Id, 0, 0, @adicional.QtdMax, @produtoJson)">próximo</button>
+                                                }
+
                                             }
 
                                         </div>

@@ -1,26 +1,47 @@
 ﻿<div class="menu-lateral">
     @if (Session["Carrinho"] != null)
     {
-        decimal vlrProduto = 0;
         decimal vlrCarrinho = 0;
-
         Session["vlrCarrinho"] = 0;
 
         <ul class="sidebar-nav carrinho-compras">
-            @foreach (ClassesMarmitex.ProdutoPedido p in (List
-                <ClassesMarmitex.ProdutoPedido>
-                    )Session["Carrinho"])
+            @foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
             {
-                //exibe os produtos e a quantidade
-
-
-                vlrProduto = p.Quantidade * p.Produto.Valor;
+                //soma o valor total do carrinho
                 vlrCarrinho = Convert.ToDecimal(Session["vlrCarrinho"]);
-                vlrCarrinho += vlrProduto;
+                vlrCarrinho += p.ValorTotal;
                 Session["vlrCarrinho"] = vlrCarrinho;
 
+                //exibe os produtos adicionais se houver
+                if (p.Produto.DadosAdicionaisProdutos.Count > 0)
+                {
+                    //exibe o produto e o valor total
+                    <li>
+                        @p.Produto.Nome R$ @p.ValorTotal
+                    </li>
 
-                <li>@p.Produto.Nome <span class="badge">@p.Quantidade</span></li>
+                    foreach (var prodAdicional in p.Produto.DadosAdicionaisProdutos)
+                    {
+                        foreach (var itemAdicional in prodAdicional.ItensAdicionais)
+                        {
+                            if (itemAdicional.Qtd > 0)
+                            {
+                                <li>
+                                    <ul class="sub-sidebar-nav carrinho-compras">
+                                        <li>@itemAdicional.Nome <span class="badge">@itemAdicional.Qtd</span></li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    //exibe o produto, quantidade escolhida e o valor total
+                    <li>
+                        @p.Produto.Nome <span class="badge">@p.Quantidade</span> R$ @p.ValorTotal
+                    </li>
+                }
             }
         </ul>
 
@@ -28,7 +49,7 @@
             <li>valor total do pedido R$@Session["vlrCarrinho"]</li>
         </ul>
 
-            <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
+        <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
     }
     else
     {
