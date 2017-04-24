@@ -1,0 +1,156 @@
+﻿@if (Session["Produtos"] != null)
+{
+    foreach (ClassesMarmitex.Produto p in (List<ClassesMarmitex.Produto>)Session["Produtos"])
+    {
+        //objeto para realizar um post com ajax e atualizar o conteudo de uma determinada div
+        ClassesMarmitex.DadosPostAjax postAjax = new ClassesMarmitex.DadosPostAjax();
+        postAjax.Recurso = "/Carrinho/AdicionarProduto";
+        postAjax.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra";
+        postAjax.DivASerAtualizada = "#visualizacaoCarrinho";
+
+        //monta a ação de post para atualizar a visualização do carrinho
+        string AdicionarCarrinho = string.Format("Post('{0}', '{1}')",
+            @Html.Raw(Json.Encode(postAjax)), @Html.Raw(Json.Encode(@p)));
+
+        //variáveis para o post de adição de produto que contém produtos adicionais
+        string produtoJson = string.Format("'{0}'", @Html.Raw(Json.Encode(@p)));
+
+        //variável para guardar o id do primeiro item adicional
+        int idPrimeiroAdicional = 0;
+
+        //visão do produto
+        <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
+            <div class="thumbnail">
+                <img src="@p.Imagem" alt="imagem do produto">
+                <div class="caption">
+                    <h3>@p.Nome</h3>
+                    <p>
+                        @p.Descricao<br />
+                        R$ @p.Valor
+                    </p>
+
+                    <!-- se o produto tiver itens adicionais, ao clicar em adicionar o modal de itens adicionais é aberto -->
+                    @if (p.DadosAdicionaisProdutos.Count > 0)
+                    {
+                                    <!-- ao clicar em adicionar produto, o primeiro modal com os itens adicionais é aberto -->
+                        <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                    }
+
+                    <!-- se o produto não tiver itens adicionais, ao clicar em adicionar o produto já é adicionado -->
+                    @if (p.DadosAdicionaisProdutos.Count == 0)
+                    {
+                        <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+        //variável para controlar a navegação dentro do modal
+        int numeroOpcao = 1;
+        string styleNone = "";
+
+        //modal
+        //dados adicionais do produto em questão, por exemplo: ingredientes, tipo de massa e etc
+        <div class="modal fade" id="modalProduto_@p.Id" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+
+                    @*para cada adicional do produto, uma div é criada*@
+                    @foreach (var adicional in p.DadosAdicionaisProdutos)
+                    {
+                        //se for a primeira div, receberá a classe "escondeDiv"
+                        if (numeroOpcao == 1)
+                        {
+                            styleNone = "";
+                        }
+                        else
+                        {
+                            styleNone = "escondeDiv";
+                        }
+
+                        if (adicional.OrdemExibicao == 1)
+                        {
+                            idPrimeiroAdicional = adicional.Id;
+                        }
+
+                        //monta o nome da div anterior
+                        string divAnteriorModal = "'divModal_" + p.Id + (numeroOpcao - 1) + "'";
+
+                        //monta o nome da próxima div
+                        string proximaDivModal = "'divModal_" + p.Id + (numeroOpcao + 1) + "'";
+
+                        //monta o nome da div atual para ser usada no modal
+                        string divAtualModal = "'divModal_" + p.Id + numeroOpcao + "'";
+
+                        //monta o nome da div atual para ser usada como classe de identificação
+                        string classeProdAdicionalAtual = "item-adicional-" + p.Id + numeroOpcao;
+
+                        //variável para armazenar o nome da classe de identificação
+                        string nomeClasseProdAdicionalAtual = "'item-adicional-" + p.Id + numeroOpcao + "'";
+
+                        string nomeDivMensagem = "'mensagemAviso_" + p.Id + numeroOpcao + "'";
+
+                        <div id="divModal_@p.Id@numeroOpcao" class="divModal @styleNone">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title">@adicional.Nome</h3>
+                                <p>escolha entre @adicional.QtdMin e @adicional.QtdMax @adicional.Nome</p>
+                            </div>
+
+                            <div class="modal-body">
+                                <!-- itens do adicional do produto. por exemplo, dentro do adicional
+                                ingredientes temos os itens: cenoura, bacon, brócolis e etc...-->
+                                @foreach (var itemAdicional in adicional.ItensAdicionais)
+                                {
+
+                                    <div class="form-group @classeProdAdicionalAtual">
+                                        <input type="hidden" class="idAdicional" value="@itemAdicional.Id" />
+                                        <label class="nomeAdicional" for="@itemAdicional.Id">@itemAdicional.Nome</label>
+                                        <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional" />
+
+                                        @if (itemAdicional.Valor > 0)
+                                        {
+                                            <p>valor R$ @itemAdicional.Valor</p>
+                                        }
+                                    </div>
+                                }
+
+                                <p id="mensagemAviso_@p.Id@numeroOpcao" class="vermelho-marmitex"></p>
+                            </div>
+
+                            <div class="modal-footer">
+                                @if (numeroOpcao > 1)
+                                {
+                                    <button type="button" class="btn btn-default" onclick="DivAnteriorModal('divModal', @divAnteriorModal)">anterior</button>
+                                }
+                                @if (p.DadosAdicionaisProdutos.Count == numeroOpcao)
+                                {
+                                    <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @produtoJson)">adicionar e concluir</button>
+                                }
+                                @if (p.DadosAdicionaisProdutos.Count > numeroOpcao)
+                                {
+                                    if (numeroOpcao == 1)
+                                    {
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 0, @adicional.QtdMax, @produtoJson)">próximo</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 0, @adicional.QtdMax, @produtoJson)">próximo</button>
+                                    }
+
+                                }
+
+                            </div>
+                        </div>
+
+                        numeroOpcao++;
+                    }
+                </div>
+            </div>
+        </div>
+
+
+    }
+}

@@ -79,7 +79,6 @@ function AtualizarVisualizacaoDiv(recurso, idDiv) {
         });
 }
 
-
 /**
  * esconde as divs de uma classe e exibe as divs de outra classe
  * @param {any} classEsconder
@@ -119,14 +118,14 @@ function EsconderDiv(classEsconder, classExibir) {
  * @param {any} idProduto
  * @param {any} qtdMaxItensAdicional
  */
-function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, produtoJson) {
+function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, produtoJson) {
 
     try {
         //nome da classe que deve ter as divs escondidas
         var classEsconder = 'divModal';
 
         //limpa a div de mensagem
-        document.getElementById('mensagemAviso').textContent = "";
+        document.getElementById(nomeDivMensagem).textContent = "";
 
         //captura o adicional da div em questão
         var itensAdicionais = document.getElementsByClassName(classeProdAdicionalAtual);
@@ -162,7 +161,7 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, idProdutoAdiciona
         //verifica se a quantidade de itens escolhidos é superior ao máximo permitido
         //se sim, exibe uma mensagem ao cliente e não prossegue com o processamento
         if (qtdItensProdAdicional > qtdMaxItensAdicional) {
-            document.getElementById('mensagemAviso').textContent = 'a quantidade escolhida é maior que o máximo permitido';
+            document.getElementById(nomeDivMensagem).textContent = 'a quantidade escolhida é maior que o máximo permitido';
             return;
         }
 
@@ -188,15 +187,19 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, idProdutoAdiciona
             $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
                 function () {
                     AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
-                        '#visualizacaoCarrinho');
+                       '#visualizacaoCarrinho');
+                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
+                        '#visualizacaoCardapio');
                 });
+
+            //fecha o modal
+            var nomeModal = '#modalProduto_' + idProduto;
+            $(nomeModal).modal('hide');
+
+            //recarrega o html da página
+            window.location.reload();
+
         }
-
-
-
-
-        
-
     } catch (e) {
         document.getElementById('mensagemAviso').textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
     }

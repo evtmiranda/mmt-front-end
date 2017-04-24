@@ -17,7 +17,7 @@
                 {
                     //exibe o produto e o valor total
                     <li>
-                        @p.Produto.Nome R$ @p.ValorTotal
+                        <div class="produtos-nome">@p.Produto.Nome</div> R$ @p.ValorTotal
                     </li>
 
                     foreach (var prodAdicional in p.Produto.DadosAdicionaisProdutos)
@@ -28,7 +28,7 @@
                             {
                                 <li>
                                     <ul class="sub-sidebar-nav carrinho-compras">
-                                        <li>@itemAdicional.Nome <span class="badge">@itemAdicional.Qtd</span></li>
+                                        <li><div class="produtos-nome">@itemAdicional.Nome</div> <span class="badge">@itemAdicional.Qtd</span></li>
                                     </ul>
                                 </li>
                             }
@@ -39,7 +39,7 @@
                 {
                     //exibe o produto, quantidade escolhida e o valor total
                     <li>
-                        @p.Produto.Nome <span class="badge">@p.Quantidade</span> R$ @p.ValorTotal
+                        <div class="produtos-nome">@p.Produto.Nome</div> <span class="badge">@p.Quantidade</span><br /> R$ @p.ValorTotal
                     </li>
                 }
             }

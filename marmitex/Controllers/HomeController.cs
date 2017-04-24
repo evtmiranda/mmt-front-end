@@ -67,8 +67,8 @@
                     }
                 }
 
-                //view bag com os produtos
-                ViewBag.Produtos = produtos;
+                //sessão com os produtos
+                Session["Produtos"] = produtos;
 
             }
             catch (Exception ex)

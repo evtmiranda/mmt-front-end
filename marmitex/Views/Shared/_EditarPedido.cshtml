@@ -14,17 +14,38 @@
 
         //exibe os produtos e a quantidade
         <div class="col-md-12 form-group">
-            <div class="col-md-6">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
                 <input name="produto @p.Produto.Id" type="text" style="display:none" value="@p.Produto.Nome" />
                 <label for="@p.Produto.Id">@p.Produto.Nome</label>
             </div>
-            <div class="col-md-6">
-                <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99"
-                       value="@p.Quantidade">
 
-                <a href="#" style="color: #bc2026" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
-            </div>
+            @*Não é possível editar a quantidade de produtos que contenham produtos adicionais, somente excluir do carrinho.*@
+            @if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) == 0)
+            {
+                <div class="col-md-6">
+                    <div class="col-md-5">
+                        <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99"
+                               value="@p.Quantidade">
+                    </div>
+                    <div class="col-md-1">
+                        <a href="#" style="color: #bc2026;" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-6">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-1">
+                        <a href="#" style="color: #bc2026;" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+            }
+
+
         </div>
-        <br />
+            <br />
     }
 }

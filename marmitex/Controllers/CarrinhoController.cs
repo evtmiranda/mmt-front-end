@@ -35,6 +35,7 @@
             {
                 //incrementa a quantidade do produto
                 listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).Quantidade++;
+                listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).ValorTotal += produto.Valor;
             }
             //adiciona o produto se ele ainda não existir no carrinho
             else
@@ -43,6 +44,7 @@
 
                 prodPedido.Produto = produto;
                 prodPedido.Quantidade = 1;
+                prodPedido.ValorTotal = produto.Valor;
 
                 listaProdutoPedido.Add(prodPedido);
             }
@@ -69,6 +71,8 @@
             {
                 //atualiza a quantidade do produto
                 listaProdutoEditar.Where(p => p.Produto.Id == dadosProdAtualizar.idProduto).SingleOrDefault().Quantidade = dadosProdAtualizar.QuantidadeAtualizada;
+                listaProdutoEditar.Where(p => p.Produto.Id == dadosProdAtualizar.idProduto).SingleOrDefault().ValorTotal = 
+                    dadosProdAtualizar.QuantidadeAtualizada * listaProdutoEditar.Where(p => p.Produto.Id == dadosProdAtualizar.idProduto).SingleOrDefault().Produto.Valor;
             }
 
             //atualiza a sessão
@@ -179,6 +183,18 @@
                     Produto = produto,
                     Quantidade = 1
                 };
+
+                //calcula o valor total deste produto
+                prodPedido.ValorTotal = produto.Valor;
+                foreach (var adicional in produto.DadosAdicionaisProdutos)
+                {
+                    foreach (var itemAdicional in adicional.ItensAdicionais)
+                    {
+                        if(itemAdicional.Qtd > 0)
+                            if(itemAdicional.Valor > 0)
+                                prodPedido.ValorTotal += itemAdicional.Qtd * itemAdicional.Valor;
+                    }
+                }
 
                 listaProdutoPedido.Add(prodPedido);
 
