@@ -23,9 +23,28 @@
                     <h3>pedido</h3>
                     foreach (ClassesMarmitex.ProdutoPedido p in pedido.ListaProdutos)
                     {
-                        { valorTotalPedido += @p.ValorTotal; }
-                        //exibe os produtos e a quantidade
-                        <p>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal</p>
+                        //se o produto tiver itens adicionais
+                        if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
+                        {
+                            <p><strong>@p.Produto.Nome</strong></p>
+                            foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
+                            {
+                                foreach (var item in adicional.ItensAdicionais)
+                                {
+                                    if (item.Qtd > 0)
+                                    {
+                                        <small>@item.Nome @item.Qtd</small><br />
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //exibe os produtos e a quantidade
+                            <p><strong>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal </strong></p>
+                        }
+
+                        { valorTotalPedido += p.ValorTotal; }
                     }
 
                     <h3>horário de entrega</h3>

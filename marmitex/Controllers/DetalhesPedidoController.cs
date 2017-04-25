@@ -102,16 +102,6 @@
             DetalhePedido detalhesPedido = new DetalhePedido();
             detalhesPedido = JsonConvert.DeserializeObject<DetalhePedido>(dadosJson);
 
-            //calcula o valor total dos produtos
-            List<ProdutoPedido> listaProdutosPedido = (List<ProdutoPedido>)Session["Carrinho"];
-
-            for (int i = 0; i < listaProdutosPedido.Count; i++)
-            {
-                listaProdutosPedido[i].ValorTotal = (listaProdutosPedido[i].Quantidade * listaProdutosPedido[i].Produto.Valor);
-            }
-
-            Session["Carrinho"] = listaProdutosPedido;
-
             //alimenta as sessões com os detalhes do pedido
             Session["HorarioEntrega"] = detalhesPedido.HorarioEntrega;
             Session["FormaPagamento"] = detalhesPedido.FormaPagamento;
