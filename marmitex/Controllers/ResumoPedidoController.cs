@@ -65,21 +65,21 @@
                 //se o pedido não for cadastrado com sucesso
                 else if (retornoCadastroPedido.HttpStatusCode == HttpStatusCode.NotModified)
                 {
-                    ViewBag.MensagemCadastroPedido = JsonConvert.DeserializeObject<HttpError>(retornoCadastroPedido.objeto.ToString()).Message;
-                    return View("Index", "Erro", ViewBag.MensagemCadastroPedido);
+                    Session["MensagemCadastroPedido"] = JsonConvert.DeserializeObject<HttpError>(retornoCadastroPedido.objeto.ToString()).Message;
+                    return RedirectToAction("Index");
                 }
                 //se ocorrer algum erro inesperado
                 else
                 {
-                    ViewBag.MensagemCadastroPedido = "humm, ocorreu um problema inesperado. por favor, vá em histórico de pedidos e verifique se o pedido foi salvo";
-                    return View("Index", "Erro", ViewBag.MensagemCadastroPedido);
+                    Session["MensagemCadastroPedido"] = "humm, ocorreu um problema inesperado. por favor, vá em histórico de pedidos e verifique se o pedido foi salvo";
+                    return RedirectToAction("Index");
                 }
             }
             //se ocorrer algum erro inesperado
             catch
             {
-                ViewBag.MensagemCadastroPedido = "humm, ocorreu um problema inesperado. por favor, vá em histórico de pedidos e verifique se o pedido foi salvo";
-                return View("Index", "Erro", ViewBag.MensagemCadastroPedido);
+                Session["MensagemCadastroPedido"] = "humm, ocorreu um problema inesperado. por favor, vá em histórico de pedidos e verifique se o pedido foi salvo";
+                return RedirectToAction("Index");
             }
         }
     }

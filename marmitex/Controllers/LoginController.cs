@@ -82,6 +82,17 @@
                         //limpa a sessão "usuarioLogin"
                         Session["usuarioLogin"] = null;
 
+                        //verifica se foi alguma página específica que chamou a tela de login
+                        //se sim, mantém o fluxo de navegação após o login
+                        if(Session["PaginaDestinoAposLogin"] != null)
+                        {
+                            string[] destino = Session["PaginaDestinoAposLogin"].ToString().Split('/');
+                            Session["PaginaDestinoAposLogin"] = null;
+
+                            return RedirectToAction(destino[2], destino[1]);
+                        }
+
+
                         return RedirectToAction("Index", "Home");
                     }
                     //se não for possível consultar os dados do usuário

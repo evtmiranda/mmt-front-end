@@ -201,7 +201,7 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
 
         }
     } catch (e) {
-        document.getElementById('mensagemAviso').textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
+        document.getElementById(nomeDivMensagem).textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
     }
 
 }
@@ -227,11 +227,11 @@ function ProximaDivModal(classEsconder, nomeDivExibir) {
  * @param {any} classEsconder
  * @param {any} nomeDivExibir
  */
-function DivAnteriorModal(classEsconder, nomeDivExibir) {
+function DivAnteriorModal(classEsconder, nomeDivExibir, nomeDivMensagem) {
 
     try {
         //limpa a div de mensagem
-        document.getElementById('mensagemAviso').textContent = "";
+        document.getElementById(nomeDivMensagem).textContent = "";
 
         //esconde divs
         var listaDivsEsconder = document.getElementsByClassName(classEsconder);
@@ -248,7 +248,7 @@ function DivAnteriorModal(classEsconder, nomeDivExibir) {
         divExibir.classList.add("exibeDiv");
     }
     catch (e) {
-        document.getElementById('mensagemAviso').textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
+        document.getElementById(nomeDivMensagem).textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
     }
 
 }

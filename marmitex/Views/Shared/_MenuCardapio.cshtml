@@ -54,7 +54,7 @@
         //modal
         //dados adicionais do produto em questão, por exemplo: ingredientes, tipo de massa e etc
         <div class="modal fade" id="modalProduto_@p.Id" role="dialog">
-            <div class="modal-dialog modal-md">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
 
                     @*para cada adicional do produto, uma div é criada*@
@@ -105,16 +105,24 @@
                                 @foreach (var itemAdicional in adicional.ItensAdicionais)
                                 {
 
-                                    <div class="form-group @classeProdAdicionalAtual">
-                                        <input type="hidden" class="idAdicional" value="@itemAdicional.Id" />
-                                        <label class="nomeAdicional" for="@itemAdicional.Id">@itemAdicional.Nome</label>
-                                        <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional" />
-
-                                        @if (itemAdicional.Valor > 0)
-                                        {
-                                            <p>valor R$ @itemAdicional.Valor</p>
-                                        }
+                                    <div class="form-horizontal">
+                                        <div class="form-group @classeProdAdicionalAtual">
+                                            <input type="hidden" class="idAdicional" value="@itemAdicional.Id" />
+                                            <label class="nomeAdicional control-label col-sm-4" for="@itemAdicional.Id">@itemAdicional.Nome</label>
+                                            <div class="col-sm-7">
+                                                <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional text-center" />
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="control-label col-sm-11">
+                                                @if (itemAdicional.Valor > 0)
+                                                {
+                                                    <p>valor R$ @itemAdicional.Valor</p>
+                                                }
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                        </div>
                                     </div>
+
                                 }
 
                                 <p id="mensagemAviso_@p.Id@numeroOpcao" class="vermelho-marmitex"></p>
@@ -123,7 +131,7 @@
                             <div class="modal-footer">
                                 @if (numeroOpcao > 1)
                                 {
-                                    <button type="button" class="btn btn-default" onclick="DivAnteriorModal('divModal', @divAnteriorModal)">anterior</button>
+                                    <button type="button" class="btn btn-default" onclick="DivAnteriorModal('divModal', @divAnteriorModal, @nomeDivMensagem)">anterior</button>
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count == numeroOpcao)
                                 {

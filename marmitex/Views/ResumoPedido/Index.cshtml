@@ -101,6 +101,14 @@
 
                     <a href="@Session["urlBase"]/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
                     <a href="#" onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" role="button">confirmar</a>
+
+                    if(Session["MensagemCadastroPedido"] != null)
+                    {
+                        <div style="margin-top: 10px">
+                            <p class="vermelho-marmitex">@Session["MensagemCadastroPedido"]</p>
+                            <a href="#">ir para histórico de pedidos</a>
+                        </div>
+                    }
                 }
             </div>
             <div class="col-md-3"></div>

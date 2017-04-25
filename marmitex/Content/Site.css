@@ -157,7 +157,13 @@ a, p {
         border-color: #fff;
     }
 
-    .btn-vermelho-sem-animacao:checked {
+    .btn-vermelho-sem-animacao:visited {
+        color: #fff;
+        background-color: #bc2026;
+        border-color: #fff;
+    }
+
+    .btn-vermelho-sem-animacao:active {
         color: #fff;
         background-color: #bc2026;
         border-color: #fff;
@@ -181,6 +187,18 @@ a, p {
         border-color: #fff;
     }
 
+    .btn-amarelo-sem-animacao:visited {
+        color: #fff;
+        background-color: #f8ac2b;
+        border-color: #fff;
+    }
+
+    .btn-amarelo-sem-animacao:active {
+        color: #fff;
+        background-color: #f8ac2b;
+        border-color: #fff;
+    }
+
 .btn-editar-pedido-dropdown {
     background-color: #f8f8f8;
     border-color: #fff;
@@ -196,8 +214,17 @@ a, p {
         border-color: #fff;
     }
 
+    .btn-editar-pedido-dropdown:visited {
+        background-color: #f8f8f8;
+        border-color: #fff;
+    }
+
 .vermelho-marmitex {
     color: #bc2026;
+}
+
+.amarelo-marmitex {
+    color: #f8ac2b;
 }
 
 /*#endregion */

@@ -7,12 +7,14 @@
         <div class="col-md-12">
             <div class="col-md-3"></div>
             <div class="col-md-6 resumo-pedido" style="text-align: center">
-                <h1>obrigado!!! recebemos o seu pedido e iremos cuidar de cada detalhe <p style="font-style: normal; font-weight: bold; color: #bc2026">;)<p></p></h1>
-                <hr />
+
 
                 @* exibe os detalhes do pedido *@
                 @if (Session["pedidoConcluido"] != null)
                 {
+                    <h1>obrigado!!! recebemos o seu pedido e iremos cuidar de cada detalhe <p style="font-style: normal; font-weight: bold; color: #bc2026">;)<p></p></h1>
+                    <hr />
+
                     ClassesMarmitex.Pedido pedido = new ClassesMarmitex.Pedido();
                     pedido = (ClassesMarmitex.Pedido)Session["pedidoConcluido"];
 
@@ -76,8 +78,9 @@
                 }
                 else
                 {
-                    <h3>não conseguimos receber o seu pedido ;(</h3>
-                    <a href="@Session["urlBase"]/ResumoPedido/Index"><p>clique aqui para tentar enviar novamente</p></a>
+                    <h1>não conseguimos receber o seu pedido ;(</h1>
+                    <hr />
+                    <a href="@Session["urlBase"]/ResumoPedido/Index"><p class="vermelho-marmitex">clique aqui para tentar enviar novamente</p></a>
                 }
 
             </div>

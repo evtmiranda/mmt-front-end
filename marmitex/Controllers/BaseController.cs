@@ -8,8 +8,10 @@
         //esse método é executado para validar se o usuário está logado
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (Session["UsuarioLogado"] == null)
+            if (Session["UsuarioLogado"] == null) {
+                Session["PaginaDestinoAposLogin"] = Request.Url.AbsolutePath;
                 filterContext.HttpContext.Response.Redirect("/Login/Index");
+            }
 
             if (Session["urlBase"] == null)
                 //cria sessão para armazenar a url base

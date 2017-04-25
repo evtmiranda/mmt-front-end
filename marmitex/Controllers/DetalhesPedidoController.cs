@@ -93,6 +93,10 @@
 
         public ActionResult PedidoConcluido()
         {
+            //se houver algum erro vindo da tela de resumo pedido, volta para ela para exibir a mensagem de erro
+            if (Session["MensagemCadastroPedido"] != null)
+                return RedirectToAction("Index", "ResumoPedido");
+
             return View("PedidoConcluido");
         }
 
