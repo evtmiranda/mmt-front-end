@@ -187,7 +187,7 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
             $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
                 function () {
                     AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
-                       '#visualizacaoCarrinho');
+                        '#visualizacaoCarrinho');
                     AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
                         '#visualizacaoCardapio');
                 });
@@ -374,6 +374,35 @@ function ConfirmarPedido(jsonHeaderPost, jsonBodyPost, urlBase, destino) {
         Redirecionar(urlBase, destino);
     });
 }
+
+/**
+ * Faz a pesquisa de um produto pelo valor inserido no input
+ */
+function PesquisarProduto() {
+    // Declare variables 
+    var input, filter, divMae, divClass, div, i;
+    input = document.getElementById("inputPesquisa");
+    filter = input.value.toUpperCase();
+    divMae = document.getElementsByClassName("menuCardapio");
+    divClass = document.getElementsByClassName("nome-produto-pesquisa");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < divMae.length; i++) {
+        //for (var j = 0; j < divClass.length; j++) {
+        div = divClass[i];
+        if (div) {
+            if (div.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                divMae[i].style.display = "";
+            } else {
+                divMae[i].style.display = "none";
+            }
+        }
+        //}
+    }
+}
+
+
+
 
 
 //mascaras

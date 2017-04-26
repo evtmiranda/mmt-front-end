@@ -110,7 +110,7 @@ a, p {
     color: #fff;
     background-color: #bc2026;
     border-color: #fff;
-    margin-bottom: 20px;
+    margin-bottom: 1em;
 }
 
     .btn-detalhes-pedido:focus,
@@ -315,7 +315,7 @@ a, p {
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
         color: #fff;
-        background-color: #bc2026;
+        background-color: transparent;
     }
 
     .navbar-default .navbar-nav > .disabled > a,
@@ -331,7 +331,7 @@ a, p {
 
         .navbar-default .navbar-toggle:hover,
         .navbar-default .navbar-toggle:focus {
-            background-color: #bc2026;
+            background-color: transparent;
         }
 
         .navbar-default .navbar-toggle .icon-bar {
@@ -340,14 +340,14 @@ a, p {
 
     .navbar-default .navbar-collapse,
     .navbar-default .navbar-form {
-        border-color: #e7e7e7;
+        border-color: #bc2026;
     }
 
     .navbar-default .navbar-nav > .open > a,
     .navbar-default .navbar-nav > .open > a:hover,
     .navbar-default .navbar-nav > .open > a:focus {
         color: #fff;
-        background-color: #e7e7e7;
+        background-color: transparent;
     }
 
 @media (max-width: 767px) {

@@ -14,7 +14,7 @@
     <div class="container">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -22,7 +22,7 @@
                 <a href="@Session["urlBase"]/Home" class="navbar-brand">TáSaindo</a>
             </div>
             <div class="collapse navbar-collapse" id="menuResponsivo">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right nav">
 
                     <li class="dropdown" style="margin-right: 10px">
                         @{ if (Session["usuarioLogado"] == null)
@@ -71,5 +71,6 @@
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/marmitex.js"></script>
+
 </body>
 </html>
