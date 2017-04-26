@@ -70,6 +70,8 @@
                 //sessão com os produtos
                 Session["Produtos"] = produtos;
 
+                Session["ExibirBotãoFinalizarPedido"] = true;
+
             }
             catch (Exception ex)
             {

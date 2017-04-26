@@ -18,9 +18,9 @@
                     ClassesMarmitex.Pedido pedido = new ClassesMarmitex.Pedido();
                     pedido = (ClassesMarmitex.Pedido)Session["pedidoConcluido"];
 
-                    <h1>detalhes do pedido</h1>
+                    <h3>Número do pedido: @pedido.Id</h3>
 
-                    decimal valorTotalPedido = 0;
+                    @*decimal valorTotalPedido = 0;
 
                     <h3>pedido</h3>
                     foreach (ClassesMarmitex.ProdutoPedido p in pedido.ListaProdutos)
@@ -70,7 +70,7 @@
                     }
 
                     <h3>valor total do pedido</h3>
-                    <p>R$ @valorTotalPedido</p>
+                    <p>R$ @valorTotalPedido</p>*@
 
                     <br />
 
