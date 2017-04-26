@@ -180,6 +180,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseLoginController.cs" />
     <Compile Include="Controllers\ErroController.cs" />
+    <Compile Include="Controllers\HistoricoPedidosController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\CarrinhoController.cs" />
     <Compile Include="Controllers\DetalhesPedidoController.cs" />
@@ -213,6 +214,7 @@
     <Content Include="Views\Erro\Index.cshtml" />
     <Content Include="Views\DetalhesPedido\PedidoConcluido.cshtml" />
     <Content Include="Views\Shared\_MenuCardapio.cshtml" />
+    <Content Include="Views\HistoricoPedidos\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

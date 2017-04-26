@@ -1,0 +1,71 @@
+﻿@model IList<ClassesMarmitex.PedidoCliente>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<row>
+    <h1 class="text-left">histórico de pedidos</h1>
+
+    @*<div class="text-right">
+            <a href="/Produtos/Adicionar" class="btn btn-success">adicionar produto</a>
+        </div>
+        <hr />*@
+
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>número</th>
+                        <th>data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pedido in Model)
+                    {
+                        <a href="#" data-toggle="modal" data-target="modalPedido_@pedido.IdPedido">detalhes pedido</a>
+                    }
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Spaguetti</td>
+                        <td>Massa ao molho branco</td>
+                        <td>Massas Italianas</td>
+                        <td>R$ 15,50</td>
+                        <td><img src="" class="img-responsive" alt="produto"></td>
+                        <td>
+                            <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
+            </table>
+
+            @foreach (var pedido in Model)
+            {
+                <div class="modal fade" id="modalPedido_@pedido.IdPedido" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <p>@pedido.IdPedido</p>
+                            <p>@pedido.DataPedido</p>
+
+                            @foreach (var produto in pedido.Produtos)
+                            {
+                                <p>@produto.NomeProduto</p>
+                                <p>@produto.QtdProduto</p>
+                            }
+                        </div>
+
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</row>
+
