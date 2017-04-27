@@ -53,6 +53,8 @@
                 //monta a url de chamada na api
                 string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioLoja);
 
+
+
                 //realiza o post passando o usuário no body
                 retornoAutenticacao = rest.Post(urlPost, usuario);
 
