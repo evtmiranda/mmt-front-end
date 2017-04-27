@@ -45,8 +45,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">meus dados</a></li>
-                                    <li><a href="#">histórico de pedidos</a></li>
+                                    @*<li><a href="#">meus dados</a></li>*@
+                                    <li><a href="@Session["urlBase"]/HistoricoPedidos">histórico de pedidos</a></li>
                                     <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
                                 </ul>
                             }

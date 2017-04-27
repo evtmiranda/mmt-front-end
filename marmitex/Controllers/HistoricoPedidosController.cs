@@ -18,15 +18,19 @@ namespace marmitex.Controllers
         public HistoricoPedidosController(RequisicoesREST rest)
         {
             this.rest = rest;
-            //recebe o usuário logado
-            this.usuarioLogado = (UsuarioParceiro)(Session["UsuarioLogado"]);
+            this.listaHistoricoPedido = new List<PedidoCliente>();
         }
 
         // GET: HistoricoPedidos
         public ActionResult Index()
         {
+            //recebe o usuário logado
+
+
+            usuarioLogado = (UsuarioParceiro)(Session["UsuarioLogado"]);
+
             //busca os pedidos do cliente
-            retornoRequest = rest.Get("/Pedido/BuscarHistorico" + usuarioLogado.IdParceiro);
+            retornoRequest = rest.Get("/Pedido/BuscarHistorico/" + usuarioLogado.Id);
 
             //se não encontrar pedidos para este cliente
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NotModified)

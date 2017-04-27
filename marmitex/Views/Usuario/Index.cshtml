@@ -16,8 +16,8 @@
                 <hr />
                 <form method="post" action="@Session["urlBase"]/Usuario/Cadastrar">
                     <div class="form-group">
+                        <p class="vermelho-marmitex">@Html.ValidationMessage("Nome")</p>
                         <label for="nome">nome *</label><br />
-                        @Html.ValidationMessage("Nome", "", new { @class = "text-danger" })
                         <input type="text" class="form-control" required title="O preenchimento do nome é obrigatório" id="nome" name="Nome" placeholder="digite o seu nome">
                     </div>
 
@@ -26,26 +26,26 @@
                         <input type="text" class="form-control" id="apelido" name="Apelido" placeholder="digite como gostaria de ser chamado">
                     </div>
 
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Email")</p>
                     <div class="form-group">
-                        @Html.ValidationMessage("Email")
                         <label for="email">e-mail *</label>
                         <input type="email" class="form-control" required title="o preenchimento do e-mail é obrigatório" id="email" name="Email" placeholder="digite o seu e-mail">
                     </div>
 
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("NumeroCelular")</p>
                     <div class="form-group">
-                        @Html.ValidationMessage("NumeroCelular")
-                        <label for="NumeroCelular">celular</label>
+                        <label for="NumeroCelular">celular *</label>
                         <input type="tel" class="form-control" id="NumeroCelular" name="NumeroCelular" onkeyup="formataTelefone(this, event);" maxlength="15" placeholder="digite o seu número de celular com DDD">
                     </div>
 
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Senha")</p>
                     <div class="form-group">
-                        @Html.ValidationMessage("Senha")
                         <label for="pwd">senha *</label>
                         <input type="password" class="form-control" required title="o preenchimento da senha é obrigatório" id="pwd" name="Senha" placeholder="digite uma senha">
                     </div>
 
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("CodigoParceiro")</p>
                     <div class="form-group">
-                        @Html.ValidationMessage("CodigoParceiro")
                         <label for="codigoParceiro">código de sua empresa *</label>
                         <input type="text" class="form-control" required title="o preenchimento do código da empresa é obrigatório" id="codigoParceiro" name="CodigoParceiro" placeholder="digite o código de sua empresa">
                     </div>

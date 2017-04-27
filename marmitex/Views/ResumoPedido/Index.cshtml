@@ -100,14 +100,17 @@
                     string ConfirmarPedido = string.Format("ConfirmarPedido('{0}', '{1}', '{2}', '{3}')", @Html.Raw(Json.Encode(@postAjax)), @Html.Raw(Json.Encode(pedidoFinal)), @Session["urlBase"], "/DetalhesPedido/PedidoConcluido");
 
                     <a href="@Session["urlBase"]/DetalhesPedido" class="btn btn-amarelo-sem-animacao" role="button">editar</a>
-                    <a href="#" onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" role="button">confirmar</a>
+                    @*<a href="#" onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" role="button" OnClientClick="this.disabled = true; this.value = 'robôs trabalhando...'">confirmar</a>*@
+                    <button onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" OnClientClick="this.disabled = true; this.value = 'robôs trabalhando...'">confirmar</button>
 
                     if(Session["MensagemCadastroPedido"] != null)
                     {
                         <div style="margin-top: 10px">
                             <p class="vermelho-marmitex">@Session["MensagemCadastroPedido"]</p>
-                            <a href="#">ir para histórico de pedidos</a>
+                            <a href="@Session["urlBase"]/HistoricoPedidos">ir para histórico de pedidos</a>
                         </div>
+
+                        Session["MensagemCadastroPedido"] = null;
                     }
                 }
             </div>

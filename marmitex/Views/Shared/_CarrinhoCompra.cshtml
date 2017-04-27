@@ -52,7 +52,8 @@
         <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
 
         //exibe o botão fechar pedido apenas se estiver na página home
-        if (Session["ExibirBotãoFinalizarPedido"] != null && Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])) { 
+        if (Session["ExibirBotãoFinalizarPedido"] != null && Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])
+            || Request.Url.AbsolutePath.Contains("AtualizarVisualizacaoViewParcial")) { 
             <a href="@Session["urlBase"]DetalhesPedido/Index" class="btn btn-vermelho-sem-animacao btn-pedido" role="button"><i class="glyphicon glyphicon-ok"></i> fechar pedido</a>
             Session["ExibirBotãoFinalizarPedido"] = null;
         }
