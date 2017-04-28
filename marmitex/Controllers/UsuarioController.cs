@@ -2,7 +2,6 @@
 {
     using ClassesMarmitex;
     using Newtonsoft.Json;
-    using System;
     using System.Net;
     using System.Web.Http;
     using System.Web.Mvc;
@@ -53,7 +52,8 @@
                 //monta a url de chamada na api
                 string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioLoja);
 
-
+                //criptografa a senha do usuário
+                usuario.Senha = CriptografiaMD5.GerarHashMd5(usuario.Senha);
 
                 //realiza o post passando o usuário no body
                 retornoAutenticacao = rest.Post(urlPost, usuario);

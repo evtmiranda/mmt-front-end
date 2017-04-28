@@ -54,8 +54,13 @@
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
             DadosRequisicaoRest retornoDadosUsuario = new DadosRequisicaoRest();
 
+            string senha = null;
+
             try
             {
+                senha = usuario.Senha;
+                usuario.Senha = CriptografiaMD5.GerarHashMd5(usuario.Senha);
+
                 string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Parceiro, dominioLoja);
 
                 retornoAutenticacao = rest.Post(urlPost, usuario);
@@ -104,6 +109,9 @@
                 }
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
+                    //volta a senha sem criptografia para carregar na tela
+                    usuario.Senha = senha;
+
                     ViewBag.MensagemAutenticacao = "usuário ou senha inválida";
                     return View("Index", usuario);
                 }
@@ -111,12 +119,18 @@
                 //se for algum outro erro
                 else
                 {
+                    //volta a senha sem criptografia para carregar na tela
+                    usuario.Senha = senha;
+
                     ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
                     return View("Index", usuario);
                 }
             }
             catch (Exception)
             {
+                //volta a senha sem criptografia para carregar na tela
+                usuario.Senha = senha;
+
                 ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
                 return View("Index", usuario);
             }

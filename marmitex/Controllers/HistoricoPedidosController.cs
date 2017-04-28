@@ -35,7 +35,7 @@ namespace marmitex.Controllers
             //se não encontrar pedidos para este cliente
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NotModified)
             {
-                ViewBag.MensagemHistoricoPedido = retornoRequest.objeto;
+                ViewBag.MensagemHistoricoPedido = "você ainda não realizou pedidos =/";
                 return View("Index");
             }
 
