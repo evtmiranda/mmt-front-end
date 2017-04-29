@@ -115,9 +115,13 @@
                     Session["ValorTroco"] = detalhesPedido.Troco;
                 else
                     Session["ValorTroco"] = null;
+            else
+                Session["ValorTroco"] = null;
 
             if (!string.IsNullOrEmpty(detalhesPedido.Observacao))
                 Session["Observacao"] = detalhesPedido.Observacao;
+            else
+                Session["Observacao"] = null;
 
             Session["MensagemCamposDetalhesPedido"] = null;
         }

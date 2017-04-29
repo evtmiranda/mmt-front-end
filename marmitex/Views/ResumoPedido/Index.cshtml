@@ -21,14 +21,15 @@
                         //se o produto tiver itens adicionais
                         if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
                         {
-                            <p><strong>@p.Produto.Nome</strong></p>
+                            <h4>@p.Produto.Nome R$ @p.ValorTotal</h4>
                             foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
                             {
+                                <p><strong>@adicional.Nome</strong></p>
                                 foreach (var item in adicional.ItensAdicionais)
                                 {
                                     if (item.Qtd > 0)
                                     {
-                                        <small>@item.Nome @item.Qtd</small><br />
+                                        <p>@item.Nome @item.Qtd</p>
                                     }
                                 }
                             }
@@ -36,7 +37,7 @@
                         else
                         {
                             //exibe os produtos e a quantidade
-                            <p><strong>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal </strong></p>
+                            <h4>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal</h4>
                         }
 
                         { valorTotalPedido += p.ValorTotal; }

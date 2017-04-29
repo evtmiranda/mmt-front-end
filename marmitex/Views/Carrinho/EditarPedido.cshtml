@@ -6,32 +6,30 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-3"></div>
-            <div class="col-md-6 editar-pedido" style="text-align: center">
-                <h1>editar pedido</h1>
+            <div class="col-md-6 editar-pedido">
+                <h1 class="text-center">editar pedido</h1>
                 <hr />
-                <h3>produtos</h3>
+                <h3 class="text-center">produtos</h3>
                 <div id="visualizacaoEdicaoCarrinho" class="form-inline">
                     @{
                         @Html.Partial("_EditarPedido")
                     }
                 </div>
 
-               @{ //objetos utilizados para atualizar a quantidade de um produto
-                   ClassesMarmitex.DadosPostAjax postAtualizarQtd = new ClassesMarmitex.DadosPostAjax();
-                   postAtualizarQtd.Recurso = "/Carrinho/AtualizarQtdProdutos";
-                   //postAtualizarQtd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
-                   //postAtualizarQtd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
-                   string AtualizarQtd = string.Format("PostAtualizarQuantidade('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postAtualizarQtd)), @Session["urlBase"], "Home/Index");
-               }
+                @{ //objetos utilizados para atualizar a quantidade de um produto
+                    ClassesMarmitex.DadosPostAjax postAtualizarQtd = new ClassesMarmitex.DadosPostAjax();
+                    postAtualizarQtd.Recurso = "/Carrinho/AtualizarQtdProdutos";
+                    //postAtualizarQtd.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_EditarPedido";
+                    //postAtualizarQtd.DivASerAtualizada = "#visualizacaoEdicaoCarrinho";
+                    string AtualizarQtd = string.Format("PostAtualizarQuantidade('{0}', '{1}', '{2}')", @Html.Raw(Json.Encode(postAtualizarQtd)), @Session["urlBase"], "Home/Index");
+                }
 
-                <br />
-                <div>
-                    <a href="~/Home" class="btn btn-amarelo-sem-animacao" role="button">adicionar produtos</a>
-                    <a href="#" class="btn btn-vermelho-sem-animacao" role="button" onclick="@AtualizarQtd">salvar</a>
+                <div class="text-center">
+                    <a href="~/Home" class="btn btn-amarelo-sem-animacao" style="margin-top: 3em;" role="button">adicionar produtos</a>
+                    <a href="#" class="btn btn-vermelho-sem-animacao" style="margin-top: 3em;" role="button" onclick="@AtualizarQtd">salvar</a>
                 </div>
             </div>
             <div class="col-md-3"></div>
         </div>
     </div>
 </div>
-

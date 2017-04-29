@@ -135,17 +135,17 @@
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count == numeroOpcao)
                                 {
-                                    <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @produtoJson)">adicionar e concluir</button>
+                                    <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count > numeroOpcao)
                                 {
                                     if (numeroOpcao == 1)
                                     {
-                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 0, @adicional.QtdMax, @produtoJson)">próximo</button>
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 0, @adicional.QtdMax, @produtoJson)">próximo</button>
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
                                     }
 
                                 }

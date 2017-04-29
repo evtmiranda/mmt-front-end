@@ -14,6 +14,7 @@ function Post(jsonHeaderPost, jsonBodyPost) {
 
 
 /**
+ * busca os dados atualizados dos produtos e monta um objeto para atualizar a sessão carrinho com a nova qtd por produto
  * após realizar um post, faz o redirect para o destino enviado como parâmetro
  * @param {any} jsonHeaderPost
  * @param {any} urlBase
@@ -118,7 +119,7 @@ function EsconderDiv(classEsconder, classExibir) {
  * @param {any} idProduto
  * @param {any} qtdMaxItensAdicional
  */
-function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, produtoJson) {
+function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
 
     try {
         //nome da classe que deve ter as divs escondidas
@@ -162,6 +163,13 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
         //se sim, exibe uma mensagem ao cliente e não prossegue com o processamento
         if (qtdItensProdAdicional > qtdMaxItensAdicional) {
             document.getElementById(nomeDivMensagem).textContent = 'a quantidade escolhida é maior que o máximo permitido';
+            return;
+        }
+
+        //verifica se a quantidade de itens escolhidos é menor que o mínimo permitido
+        //se sim, exibe uma mensagem ao cliente e não prossegue com o processamento
+        if (qtdItensProdAdicional < qtdMinItensAdicional) {
+            document.getElementById(nomeDivMensagem).textContent = 'a quantidade escolhida é menor que o mínimo permitido';
             return;
         }
 

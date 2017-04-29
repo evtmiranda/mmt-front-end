@@ -1,7 +1,5 @@
 ﻿@if (Session["Carrinho"] != null)
 {
-    decimal vlrTotal = 0;
-
     foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
     {
 
@@ -13,39 +11,38 @@
         string RemoverProduto = string.Format("Post('{0}', '{1}')", @Html.Raw(Json.Encode(postRemoverProd)), @Html.Raw(Json.Encode(@p)));
 
         //exibe os produtos e a quantidade
-        <div class="col-md-12 form-group">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
+        <div class="col-md-12 form-group" style="margin-top: 2em;">
+            <div class="col-md-1 col-md-offset-2">
+                <a href="#" style="color: #bc2026;" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+            <div class="col-md-4">
                 <input name="produto @p.Produto.Id" type="text" style="display:none" value="@p.Produto.Nome" />
                 <label for="@p.Produto.Id">@p.Produto.Nome</label>
+                @*Se o produto conter produtos adicionais, exibe a lista de adicionais...*@
+                @if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
+                {
+                    foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
+                    {
+                        <p style="margin-left: 1em;"><strong>@adicional.Nome</strong></p>
+                        foreach (var itemAdicional in adicional.ItensAdicionais)
+                        {
+                            if (itemAdicional.Qtd > 0)
+                            {
+                                <p style="margin-left: 2em;">@itemAdicional.Nome @itemAdicional.Qtd</p>
+                            }
+                        }
+                    }
+                }
             </div>
 
-            @*Não é possível editar a quantidade de produtos que contenham produtos adicionais, somente excluir do carrinho.*@
-            @if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) == 0)
-            {
-                <div class="col-md-6">
-                    <div class="col-md-5">
-                        <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99"
-                               value="@p.Quantidade">
-                    </div>
-                    <div class="col-md-1">
-                        <a href="#" style="color: #bc2026;" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="col-md-6">
-                    <div class="col-md-5">
-                    </div>
-                    <div class="col-md-1">
-                        <a href="#" style="color: #bc2026;" onclick="@RemoverProduto"><i class="glyphicon glyphicon-remove"></i></a>
-                    </div>
-                </div>
-            }
-
-
+            <div class="col-md-1">
+                @*só é permitido editar a quantidade de produtos que não contém itens adicionais*@
+                @if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) == 0)
+                {
+                    <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99"
+                           value="@p.Quantidade">
+                }
+            </div>
         </div>
-            <br />
     }
 }
