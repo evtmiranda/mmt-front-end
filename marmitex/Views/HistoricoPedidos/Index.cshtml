@@ -1,4 +1,4 @@
-﻿@model IList<ClassesMarmitex.PedidoCliente>
+﻿@model IList<ClassesMarmitex.Pedido>
 
 @{
     ViewBag.Title = "Index";
@@ -29,8 +29,8 @@
                         @foreach (var pedido in Model)
                         {
                             <tr>
-                                <th><a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.IdPedido">detalhes</a></th>
-                                <td>@pedido.IdPedido</td>
+                                <th><a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">detalhes</a></th>
+                                <td>@pedido.Id</td>
                                 <td>@pedido.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
                             </tr>
                         }
@@ -38,7 +38,7 @@
 
                 @foreach (var pedido in Model)
                 {
-                    <div class="modal fade" id="modalPedido_@pedido.IdPedido" role="dialog">
+                    <div class="modal fade" id="modalPedido_@pedido.Id" role="dialog">
                         <div class="modal-dialog">
                             <!-- Modal content-->
                             <div class="modal-content">
@@ -47,13 +47,13 @@
                                     <h2 class="modal-title text-center">detalhes do pedido</h2>
                                 </div>
                                 <div class="modal-body text-center">
-                                    <p>Número do pedido: @pedido.IdPedido</p>
+                                    <p>Número do pedido: @pedido.Id</p>
                                     <p>Data do pedido: @pedido.DataPedido</p>
 
                                     <h3>Produtos</h3>
-                                    @foreach (var produto in pedido.Produtos)
+                                    @foreach (var produto in pedido.ListaProdutos)
                                     {
-                                        <p>@produto.QtdProduto @produto.NomeProduto</p>
+                                        <p>@produto.Quantidade @produto.Produto.Nome</p>
                                     }
                                 </div>
                                 <div class="modal-footer">

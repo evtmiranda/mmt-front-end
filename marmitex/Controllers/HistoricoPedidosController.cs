@@ -1,6 +1,5 @@
 ﻿using ClassesMarmitex;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
@@ -12,13 +11,13 @@ namespace marmitex.Controllers
         private RequisicoesREST rest;
         private UsuarioParceiro usuarioLogado;
         private DadosRequisicaoRest retornoRequest;
-        private List<PedidoCliente> listaHistoricoPedido;
+        private List<Pedido> listaHistoricoPedido;
 
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
         public HistoricoPedidosController(RequisicoesREST rest)
         {
             this.rest = rest;
-            this.listaHistoricoPedido = new List<PedidoCliente>();
+            this.listaHistoricoPedido = new List<Pedido>();
         }
 
         // GET: HistoricoPedidos
@@ -35,7 +34,8 @@ namespace marmitex.Controllers
             //se não encontrar pedidos para este cliente
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NotModified)
             {
-                ViewBag.MensagemHistoricoPedido = "você ainda não realizou pedidos =/";
+                //ViewBag.MensagemHistoricoPedido = "você ainda não realizou pedidos =/";
+                ViewBag.MensagemHistoricoPedido = retornoRequest.objeto.ToString();
                 return View("Index");
             }
 
@@ -48,7 +48,7 @@ namespace marmitex.Controllers
 
             string jsonHistoricoPedido = retornoRequest.objeto.ToString();
 
-            listaHistoricoPedido = JsonConvert.DeserializeObject<List<PedidoCliente>>(jsonHistoricoPedido);
+            listaHistoricoPedido = JsonConvert.DeserializeObject<List<Pedido>>(jsonHistoricoPedido);
 
             return View(listaHistoricoPedido);
         }
