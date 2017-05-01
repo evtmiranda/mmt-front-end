@@ -33,13 +33,13 @@
                     @if (p.DadosAdicionaisProdutos.Count > 0)
                     {
                                     <!-- ao clicar em adicionar produto, o primeiro modal com os itens adicionais é aberto -->
-                        <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                        <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
                     }
 
                     <!-- se o produto não tiver itens adicionais, ao clicar em adicionar o produto já é adicionado -->
                     @if (p.DadosAdicionaisProdutos.Count == 0)
                     {
-                        <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao pedido</a>
+                        <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
                     }
 
 
