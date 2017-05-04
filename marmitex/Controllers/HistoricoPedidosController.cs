@@ -29,7 +29,7 @@ namespace marmitex.Controllers
 
             //busca os pedidos do cliente
             retornoRequest = rest.Get("/Pedido/BuscarHistorico/" + usuarioLogado.Id);
-
+            
             //se não encontrar pedidos para este cliente
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
             {
