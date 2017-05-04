@@ -32,9 +32,8 @@
         {
             //validação dos campos
             if (!ModelState.IsValid)
-            {
                 return View("Index", usuario);
-            }
+            
 
             //captura a loja em questão
             string dominioLoja = PreencherSessaoDominioLoja();

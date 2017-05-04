@@ -9,16 +9,20 @@
 
     public class HomeController : BaseLoginController
     {
-        private Requisicoes requisicoes;
+        //private Requisicoes requisicoes;
+        private DadosRequisicaoRest retornoRequest;
         private RequisicoesREST rest;
         private Loja loja;
+        private List<MenuCardapio> listaMenuCardapio;
+        private List<Produto> produtos;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
-        public HomeController(RequisicoesREST rest, Requisicoes requisicoes)
+        public HomeController(RequisicoesREST rest)
         {
-            this.requisicoes = requisicoes;
             this.rest = rest;
+            this.listaMenuCardapio = new List<MenuCardapio>();
+            this.produtos = new List<Produto>();
         }
 
         public ActionResult Index()
@@ -36,28 +40,37 @@
             //carrega a tela com os cardápios e produtos
             try
             {
-                DadosRequisicaoRest retornoBuscaLoja = new DadosRequisicaoRest();
+
+                #region busca os dados da loja
+
                 string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", dominioLoja);
 
                 //busca o id da loja
-                retornoBuscaLoja = rest.Get(urlPostLoja);
+                retornoRequest = rest.Get(urlPostLoja);
 
                 //verifica se a loja foi encontrada
-                if (retornoBuscaLoja.HttpStatusCode != HttpStatusCode.OK)
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                     throw new Exception();
 
-                loja = JsonConvert.DeserializeObject<Loja>(retornoBuscaLoja.objeto.ToString());
+                loja = JsonConvert.DeserializeObject<Loja>(retornoRequest.objeto.ToString());
+
+                #endregion
+
+                #region busca os cardápios
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/menucardapio/listar/" + loja.Id);
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
 
                 //view bag com os cardápios
-                ViewBag.MenuCardapio = requisicoes.ListarMenuCardapio(loja.Id);
+                ViewBag.MenuCardapio = listaMenuCardapio;
 
-                //cria uma lista de cardápio
-                List<MenuCardapio> listaMenuCardapio = (List<MenuCardapio>)ViewBag.MenuCardapio;
+                #endregion
 
-                //ViewBag.CardapioTelaHome = listaMenuCardapio.Where(p => p.OrdemExibicao == 1).First().Id;
-
-                //carrega os produtos do cardápio
-                List<Produto> produtos = new List<Produto>();
+                #region monta a lista de produtos
 
                 foreach (var menuCardapio in listaMenuCardapio)
                 {
@@ -69,6 +82,8 @@
 
                 //sessão com os produtos
                 Session["Produtos"] = produtos;
+
+                #endregion
 
                 Session["ExibirBotãoFinalizarPedido"] = true;
 
