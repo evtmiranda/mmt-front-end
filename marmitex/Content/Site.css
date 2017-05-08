@@ -13,7 +13,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Bangers', cursive !important;
+    font-family: 'Oswald', cursive !important;
+    text-transform: uppercase;
 }
 
 a, p {
@@ -21,8 +22,9 @@ a, p {
 }
 
 .navbar-brand {
-    font-family: 'Bangers', cursive !important;
+    font-family: 'Oswald', cursive !important;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .menu-lateral {
