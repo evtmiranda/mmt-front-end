@@ -49,7 +49,7 @@
             try
             {
                 //monta a url de chamada na api
-                string urlPost = string.Format("/usuario/cadastrar/usuarioParceiro/'{0}'", dominioLoja);
+                string urlPost = "/usuario/cadastrar/usuarioParceiro";
 
                 //criptografa a senha do usuário
                 usuario.Senha = CriptografiaMD5.GerarHashMd5(usuario.Senha);

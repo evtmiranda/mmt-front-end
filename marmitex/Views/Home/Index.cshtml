@@ -3,42 +3,7 @@
 }
 
 <div class="container-fluid">
-    @*<div class="col-md-3">
-        <h3>cardápio</h3>
-        <div class="menu-lateral">
-            <ul class="sidebar-nav">
-                @if (ViewBag.MenuCardapio != null)
-                {
-                    foreach (ClassesMarmitex.MenuCardapio mc in ViewBag.MenuCardapio)
-                    {
-                        //monta a função javascript responsavel por esconder e exibir produtos
-                        string EsconderDiv = string.Format("EsconderDiv('menuCardapio', 'idCardapio {0}')", mc.Id);
-                        <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
-                    }
-                }
-            </ul>
-        </div>*@
-
-        @*<h3>meu carrinho</h3>
-        <div id="visualizacaoCarrinho">
-            @{
-                @Html.Partial("_CarrinhoCompra")
-            }
-        </div>*@
-
-
-
-    @*</div>*@
-
     <div class="col-md-3">
-
-        @*<h3>prato do dia</h3>
-        <div>
-            @{
-                @Html.Partial("_PratoDoDia")
-            }
-        </div>*@
-
         <h3>carrinho</h3>
         <div id="visualizacaoCarrinho">
             @{
@@ -84,14 +49,4 @@
             }
         </div>
     </div>
-
-
-    @*<div>
-        <div class="row-fluid">
-            <div style="text-align: center; margin-top: 3em;">
-                
-            </div>
-        </div>
-    </div>*@
-
 </div>
