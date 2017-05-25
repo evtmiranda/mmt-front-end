@@ -26,18 +26,25 @@
                 <h2>horário para entrega</h2>
                 <hr />
                 <div style="padding-left: 20px;">
-                    @foreach (ClassesMarmitex.HorarioEntrega p in ViewBag.HorariosEntrega)
+                    @foreach (ClassesMarmitex.DadosHorarioEntrega p in ViewBag.HorariosEntrega)
                     {
-                        if (p.HorarioDisponivel == false)
+                        foreach (var h in p.HorariosEntrega)
                         {
-                            <div class="radio disabled">
-                                <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@p.Horario" disabled>as @p.Horario horas</label>
-                            </div>
-                        }
-                        else
-                        {
+                            @*if (h.HorarioDisponivel == false)
+                                {
+                                    <div class="radio disabled">
+                                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario" disabled>as @h.Horario horas</label>
+                                    </div>
+                                        }
+                                        else
+                                        {
+                                    < div class="radio">
+                                        <label><input type = "radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">as @h.Horario horas</label>
+                                    </div>
+                                }*@
+
                             <div class="radio">
-                                <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@p.Horario">as @p.Horario horas</label>
+                                <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">as @h.Horario horas</label>
                             </div>
                         }
                     }

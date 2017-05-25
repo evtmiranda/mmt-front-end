@@ -28,7 +28,7 @@ namespace marmitex.Controllers
             usuarioLogado = (UsuarioParceiro)(Session["UsuarioLogado"]);
 
             //busca os pedidos do cliente
-            retornoRequest = rest.Get("/Pedido/BuscarHistorico/" + usuarioLogado.Id);
+            retornoRequest = rest.Get(string.Format("/Pedido/BuscarHistorico/{0}/{1}", usuarioLogado.Id, usuarioLogado.IdLoja));
             
             //se não encontrar pedidos para este cliente
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)

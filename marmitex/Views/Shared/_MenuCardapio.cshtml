@@ -135,7 +135,15 @@
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count == numeroOpcao)
                                 {
-                                    <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                                    <!-- se existir um único produto adicional para o produto, ele é marcado como primeiro e último -->
+                                    if (p.DadosAdicionaisProdutos.Count == 1)
+                                    {
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                                    }
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count > numeroOpcao)
                                 {

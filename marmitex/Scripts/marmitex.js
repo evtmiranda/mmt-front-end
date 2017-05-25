@@ -176,10 +176,32 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
         //dados do produto adicional a ser atualizado
         var produtoAdicionalJson = JSON.stringify(produtoAdicional, null, 0);
 
+        //se for o primeiro e último produto adicional (casos com apenas 1 produto adicional)
+        if (ehPrimeiroAdicional && ehUltimoAdicional) {
+            console.log("entrou no if certo");
+
+            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson });
+
+            //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
+            $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
+                function () {
+                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
+                        '#visualizacaoCarrinho');
+                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
+                        '#visualizacaoCardapio');
+                });
+
+            //fecha o modal
+            var nomeModal = '#modalProduto_' + idProduto;
+            $(nomeModal).modal('hide');
+
+            //recarrega o html da página
+            window.location.reload();
+        }
         //se for a escolha do primeiro adicional do produto o produto deve ser criado
         //e este adicional adicionado a ele. Os próximos adicionais escolhidos serão adicionados a este produto
         //quando for a escolha do último adicional o produto será incluido na sessão "carrinho"
-        if (ehPrimeiroAdicional) {
+        else if (ehPrimeiroAdicional) {
             $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
                 ProximaDivModal(classEsconder, nomeDivExibir));
         }

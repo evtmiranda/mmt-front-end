@@ -13,7 +13,8 @@
         private UsuarioParceiro usuarioLogado;
         private DadosRequisicaoRest retornoGet;
         private List<FormaDePagamento> listaFormaPagamento;
-        private List<HorarioEntrega> listaHorarioEntrega;
+        private List<DadosHorarioEntrega> listaHorarioEntrega;
+        private DadosHorarioEntrega horarioEntrega;
 
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
         public DetalhesPedidoController(RequisicoesREST rest)
@@ -46,7 +47,7 @@
 
                 retornoGet = new DadosRequisicaoRest();
 
-                retornoGet = rest.Get("/FormaPagamento/listar/" + usuarioLogado.IdParceiro);
+                retornoGet = rest.Get("/FormaPagamento/listar/" + usuarioLogado.IdLoja);
 
                 if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
                 {
@@ -66,7 +67,7 @@
 
                 retornoGet = new DadosRequisicaoRest();
 
-                retornoGet = rest.Get("/HorarioEntrega/listar/" + usuarioLogado.IdParceiro);
+                retornoGet = rest.Get("/HorarioEntrega/listar/" + usuarioLogado.IdLoja);
 
                 if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
                 {
@@ -76,13 +77,18 @@
 
                 string jsonHorariosEntrega = retornoGet.objeto.ToString();
 
-                listaHorarioEntrega = JsonConvert.DeserializeObject<List<HorarioEntrega>>(jsonHorariosEntrega);
+                horarioEntrega = JsonConvert.DeserializeObject<DadosHorarioEntrega>(jsonHorariosEntrega);
+
+                listaHorarioEntrega = new List<DadosHorarioEntrega>
+                {
+                    horarioEntrega
+                };
 
                 ViewBag.HorariosEntrega = listaHorarioEntrega;
 
                 #endregion
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ViewBag.MensagemDetalhesPedido = "ocorreu um problema ao exibir os dados. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
                 return View("Index");
