@@ -10,7 +10,7 @@
 }
 
 <div class="container-fluid">
-    <div class="col-md-2 detalhes-pedido-carrinho">
+    <div class="col-md-3 detalhes-pedido-carrinho">
         <h2>pedido</h2>
         <hr />
         <div id="visualizacaoCarrinho">
@@ -20,32 +20,31 @@
         </div>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-9 detalhes-pedido">
+    <div class="col-md-8 detalhes-pedido">
         <div class="row">
             <div class="col-md-5 detalhes-pedido-horario">
                 <h2>horário para entrega</h2>
                 <hr />
                 <div style="padding-left: 20px;">
-                    @foreach (ClassesMarmitex.DadosHorarioEntrega p in ViewBag.HorariosEntrega)
+                    @if (ViewBag.HorariosEntrega != null)
                     {
-                        foreach (var h in p.HorariosEntrega)
+                        foreach (ClassesMarmitex.DadosHorarioEntrega p in ViewBag.HorariosEntrega)
                         {
-                            @*if (h.HorarioDisponivel == false)
+                            foreach (var h in p.HorariosEntrega)
+                            {
+                                if (h.HorarioDisponivel == false)
                                 {
                                     <div class="radio disabled">
                                         <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario" disabled>as @h.Horario horas</label>
                                     </div>
-                                        }
-                                        else
-                                        {
-                                    < div class="radio">
-                                        <label><input type = "radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">as @h.Horario horas</label>
+                                }
+                                else
+                                {
+                                    <div class="radio">
+                                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">as @h.Horario horas</label>
                                     </div>
-                                }*@
-
-                            <div class="radio">
-                                <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">as @h.Horario horas</label>
-                            </div>
+                                }
+                            }
                         }
                     }
                 </div>
@@ -55,21 +54,24 @@
                 <h2>forma de pagamento</h2>
                 <hr />
                 <div style="padding-left: 20px;">
-                    @foreach (ClassesMarmitex.FormaDePagamento p in ViewBag.FormaPagamento)
+                    @if (ViewBag.FormaPagamento != null)
                     {
-                        if (p.Nome == "dinheiro" || p.Nome == "Dinheiro")
+                        foreach (ClassesMarmitex.FormaDePagamento p in ViewBag.FormaPagamento)
                         {
-                            <div class="checkbox">
-                                <label><input type="checkbox" onclick="ExibirCampoTroco()" id="checkDinheiro" value="@p.Nome" class="checkFormaPagamento">@p.Nome</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="@p.Nome" class="checkFormaPagamento">@p.Nome</label>
-                            </div>
-                        }
+                            if (p.Nome == "dinheiro" || p.Nome == "Dinheiro")
+                            {
+                                <div class="checkbox">
+                                    <label><input type="checkbox" onclick="ExibirCampoTroco()" id="checkDinheiro" value="@p.Nome" class="checkFormaPagamento">@p.Nome</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="checkbox">
+                                    <label><input type="checkbox" value="@p.Nome" class="checkFormaPagamento">@p.Nome</label>
+                                </div>
+                            }
 
+                        }
                     }
 
                     <div id="divTroco" style="display:none">
@@ -108,5 +110,3 @@
         </div>
     </div>
 </div>
-
-

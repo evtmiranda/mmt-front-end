@@ -71,7 +71,7 @@
 
                 if (retornoGet.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemDetalhesPedido = "ocorreu um problema ao buscar as formas de pagamento. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                    ViewBag.MensagemDetalhesPedido = "ocorreu um problema ao buscar os horários de entrega. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
                     return View("Index");
                 }
 

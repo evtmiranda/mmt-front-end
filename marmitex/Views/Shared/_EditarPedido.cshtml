@@ -37,7 +37,8 @@
 
             <div class="col-md-1">
                 @*só é permitido editar a quantidade de produtos que não contém itens adicionais*@
-                @if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) == 0)
+                @if(p.Produto.DadosAdicionaisProdutos.Count == 0)
+                //if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) == 0)*@
                 {
                     <input name="@p.Produto.Id" class="js-produtos-atualizar form-control" type="number" min="1" max="99"
                            value="@p.Quantidade">

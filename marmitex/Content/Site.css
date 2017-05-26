@@ -97,9 +97,13 @@ a, p {
     margin-bottom: 1em;
 }
 
+.carrinho-compras-adicional li {
+    margin-top: 0.3em !important;
+}
+
 .produtos-nome {
     white-space: nowrap;
-    width: 5em;
+    width: 8em;
     overflow: hidden;
     text-overflow: ellipsis;
     float: left;

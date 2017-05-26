@@ -200,12 +200,13 @@
 
                 listaProdutoPedido.Add(prodPedido);
 
-                //atualiza a sessão
+
                 Session["Carrinho"] = listaProdutoPedido;
             }
 
-            //limpa a sessão de produto com produto adicional
-            Session["ProdutoComProdutoAdicional"] = null;
+            //se for a adição do último produto adicional, limpa a sessão
+            if (adicionarAoCarrinho)
+                Session["ProdutoComProdutoAdicional"] = null;
         }
 
         /// <summary>

@@ -180,23 +180,23 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
         if (ehPrimeiroAdicional && ehUltimoAdicional) {
             console.log("entrou no if certo");
 
-            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson });
+            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
 
-            //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
-            $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
-                function () {
-                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
-                        '#visualizacaoCarrinho');
-                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
-                        '#visualizacaoCardapio');
-                });
+                //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
+                $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
+                    function () {
+                        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
+                            '#visualizacaoCarrinho');
+                        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
+                            '#visualizacaoCardapio');
 
-            //fecha o modal
-            var nomeModal = '#modalProduto_' + idProduto;
-            $(nomeModal).modal('hide');
+                        //fecha o modal
+                        var nomeModal = '#modalProduto_' + idProduto;
+                        $(nomeModal).modal('hide');
 
-            //recarrega o html da página
-            window.location.reload();
+                        //recarrega o html da página
+                        window.location.reload();
+                    }));
         }
         //se for a escolha do primeiro adicional do produto o produto deve ser criado
         //e este adicional adicionado a ele. Os próximos adicionais escolhidos serão adicionados a este produto
@@ -220,15 +220,14 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
                         '#visualizacaoCarrinho');
                     AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
                         '#visualizacaoCardapio');
+
+                    //fecha o modal
+                    var nomeModal = '#modalProduto_' + idProduto;
+                    $(nomeModal).modal('hide');
+
+                    //recarrega o html da página
+                    window.location.reload();
                 });
-
-            //fecha o modal
-            var nomeModal = '#modalProduto_' + idProduto;
-            $(nomeModal).modal('hide');
-
-            //recarrega o html da página
-            window.location.reload();
-
         }
     } catch (e) {
         document.getElementById(nomeDivMensagem).textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
