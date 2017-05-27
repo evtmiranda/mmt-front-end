@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "detalhes pedido";
 }
 
@@ -106,7 +105,24 @@
         </div>
 
         <div style="text-align: end">
-            <a class="btn btn-detalhes-pedido btn-lg" role="button" onclick="@AvancarParaResumoPedido">avançar</a>
+            @{
+                List<ClassesMarmitex.DadosHorarioEntrega> listaDadosHorarioEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
+
+                int diaAtivo = 0;
+
+                foreach (var dadosHorarioEntrega in listaDadosHorarioEntrega)
+                {
+                    diaAtivo = dadosHorarioEntrega.DiasDeFuncionamento.FindAll(p => p.DiaDisponivel).Count;
+                }
+            }
+
+            @if(diaAtivo == 0) { 
+                <button class="btn btn-detalhes-pedido btn-lg" role="button" onclick="@AvancarParaResumoPedido" disabled title="A loja está fechada hoje. Verifique os dias de funcionamento na guia 'Informações'">avançar</button>
+            }
+            else
+            {
+                <button class="btn btn-detalhes-pedido btn-lg" role="button" onclick="@AvancarParaResumoPedido">avançar</button>
+            }
         </div>
     </div>
 </div>

@@ -15,6 +15,7 @@
         private Loja loja;
         private List<MenuCardapio> listaMenuCardapio;
         private List<Produto> produtos;
+        private DadosHorarioEntrega dadosDiasFuncionamento;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -36,6 +37,9 @@
                 return RedirectToAction("Index", "Erro");
 
             string dominioLoja = Session["dominioLoja"].ToString();
+
+            //limpa a sessão de dia ativo
+            Session["DiaAtivo"] = null;
 
             //carrega a tela com os cardápios e produtos
             try
@@ -84,6 +88,22 @@
                 Session["Produtos"] = produtos;
 
                 #endregion
+
+                #region busca os dias de funcionamento para verificar se a loja está aberta hj
+
+                //busca os dias de funcionamento
+                retornoRequest = rest.Get("/HorarioEntrega/listar/" + loja.Id);
+
+                string jsonDiasFuncionamento = retornoRequest.objeto.ToString();
+
+                dadosDiasFuncionamento = JsonConvert.DeserializeObject<DadosHorarioEntrega>(jsonDiasFuncionamento);
+
+                int diaAtivo = dadosDiasFuncionamento.DiasDeFuncionamento.FindAll(p => p.DiaDisponivel).Count;
+
+                Session["DiaAtivo"] = diaAtivo > 0 ? true : false;
+
+                #endregion
+
 
                 Session["ExibirBotãoFinalizarPedido"] = true;
 

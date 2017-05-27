@@ -75,8 +75,14 @@
                         <p>@Session["Observacao"]</p>
                     }
 
-                    <h3>valor total do pedido</h3>
-                    <p>R$ @valorTotalPedido.ToString("F")</p>
+                    decimal valorFinalPedido = valorTotalPedido + (decimal)Session["TaxaEntrega"];
+                    decimal taxaEntrega = (decimal)Session["TaxaEntrega"];
+
+                    <h3>valor pedido</h3>
+
+                    <p>SubTotal: R$ @valorTotalPedido.ToString("F") </p>
+                    <p>Taxa de entrega: R$ @taxaEntrega.ToString("F") </p>
+                    <p>Total: R$ @valorFinalPedido.ToString("F") </p>
 
                     <br />
 
@@ -95,10 +101,11 @@
 
                     pedidoFinal.ListaFormaPagamento = pagamentos;
 
-                    pedidoFinal.Troco = Session["ValorTroco"] != null ? Session["ValorTroco"].ToString() : "";
+                    pedidoFinal.Troco = Session["ValorTroco"] != null ? (decimal)Session["ValorTroco"] : 0;
 
                     pedidoFinal.Observacao = @Session["Observacao"] != null ? (string)@Session["Observacao"] : "";
 
+                    pedidoFinal.ValorTotalPedido = valorFinalPedido;
 
                     //objeto para realizar um post com ajax e atualizar o conteudo de uma determinada div
                     ClassesMarmitex.DadosPostAjax postAjax = new ClassesMarmitex.DadosPostAjax();
@@ -110,7 +117,7 @@
                     @*<a href="#" onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" role="button" OnClientClick="this.disabled = true; this.value = 'robôs trabalhando...'">confirmar</a>*@
                     <button onclick="@ConfirmarPedido" class="btn btn-vermelho-sem-animacao" OnClientClick="this.disabled = true; this.value = 'robôs trabalhando...'">confirmar</button>
 
-                    if(Session["MensagemCadastroPedido"] != null)
+                    if (Session["MensagemCadastroPedido"] != null)
                     {
                         <div style="margin-top: 10px">
                             <p class="vermelho-marmitex">@Session["MensagemCadastroPedido"]</p>

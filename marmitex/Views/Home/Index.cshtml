@@ -2,6 +2,19 @@
     ViewBag.Title = "cardápio";
 }
 
+@if((bool)Session["DiaAtivo"] == false)
+{
+    <script>
+        swal(
+            'Atenção',
+            'A loja está fechada hoje. Verifique os dias de funcionamento na guia Informações',
+            'warning'
+        )
+
+
+    </script>
+}
+
 <div class="container-fluid">
     <div class="col-md-3">
         <h3>carrinho</h3>

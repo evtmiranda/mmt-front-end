@@ -33,6 +33,7 @@
             usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
 
             Session["EnderecoEntrega"] = usuarioLogado.Endereco;
+            Session["TaxaEntrega"] = usuarioLogado.TaxaEntrega;
 
             return View();
         }
@@ -78,6 +79,7 @@
                     Session["usuarioLogado"] = usuarioLogado;
                     Session["pedidoConcluido"] = pedidoConcluido;
                     Session["EnderecoEntrega"] = usuarioLogado.Endereco;
+                    Session["TaxaEntrega"] = usuarioLogado.TaxaEntrega;
 
                     return RedirectToAction("PedidoConcluido", "DetalhesPedido");
                 }
