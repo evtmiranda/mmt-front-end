@@ -21,7 +21,7 @@
         //visão do produto
         <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
             <div class="thumbnail">
-                <img src="@p.Imagem" alt="imagem do produto" class="img-responsive img-rounded" style="max-height: 100px">
+                <img src="~/Images/@Session["dominioLoja"]/@p.Imagem" alt="imagem do produto" class="img-responsive img-rounded" style="max-height: 100px">
                 <div class="caption">
                     <h3 class="nome-produto-pesquisa">@p.Nome</h3>
                     <p>

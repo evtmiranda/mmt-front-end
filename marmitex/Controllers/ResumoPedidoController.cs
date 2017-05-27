@@ -9,6 +9,7 @@
     public class ResumoPedidoController : BaseController
     {
         private RequisicoesREST rest;
+        private UsuarioParceiro usuarioLogado;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -23,6 +24,16 @@
             if (Session["Carrinho"] == null)
                 return RedirectToAction("Index", "Home");
 
+            //valida se o usuário está logado
+            //se não estiver, direciona para a tela de login
+            if (Session["usuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //cria um usuário com a sessão existente
+            usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
+
+            Session["EnderecoEntrega"] = usuarioLogado.Endereco;
+
             return View();
         }
 
@@ -34,6 +45,14 @@
             //tratamento de erros
             try
             {
+                //valida se o usuário está logado
+                //se não estiver, direciona para a tela de login
+                if (Session["usuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //cria um usuário com a sessão existente
+                usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
+
                 Pedido pedido = JsonConvert.DeserializeObject<Pedido>(dadosJson);
 
                 //monta a url de chamada na api
@@ -50,7 +69,6 @@
 
                     //guarda as sessões que devem ser mantidas
                     var urlBase = Session["urlBase"];
-                    var usuarioLogado = Session["usuarioLogado"];
 
                     //limpa todas as sessões
                     Session.Clear();
@@ -59,6 +77,7 @@
                     Session["urlBase"] = urlBase;
                     Session["usuarioLogado"] = usuarioLogado;
                     Session["pedidoConcluido"] = pedidoConcluido;
+                    Session["EnderecoEntrega"] = usuarioLogado.Endereco;
 
                     return RedirectToAction("PedidoConcluido", "DetalhesPedido");
                 }

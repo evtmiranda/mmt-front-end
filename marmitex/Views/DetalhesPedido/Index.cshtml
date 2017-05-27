@@ -35,13 +35,13 @@
                                 if (h.HorarioDisponivel == false)
                                 {
                                     <div class="radio disabled">
-                                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario" disabled>as @h.Horario horas</label>
+                                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario" disabled>hoje as @h.Horario horas</label>
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="radio">
-                                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">as @h.Horario horas</label>
+                                        <label><input type="radio" name="optradio" class="radioHorarioEntrega" value="@h.Horario">hoje as @h.Horario horas</label>
                                     </div>
                                 }
                             }
@@ -75,17 +75,17 @@
                     }
 
                     <div id="divTroco" style="display:none">
-                        <label for="valorTroco">precisa de troco?</label>
+                        <label for="valorTroco">troco pra quanto?</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                            <input type="text" class="form-control" id="valorTroco" onkeyup="formataValor(this, event)" placeholder="de quanto precisa?">
+                            <input type="text" class="form-control" id="valorTroco" onkeyup="formataValor(this, event)" placeholder="troco pra quanto?">
                         </div>
                     </div>
 
                     <div>
                         <br />
                         <label>observação:</label>
-                        <input type="text" placeholder="alguma observação? escreva aqui..." class="form-control" id="textObservacao" value="" />
+                        <textarea placeholder="alguma observação? escreva aqui..." class="form-control" id="textObservacao" rows="3"></textarea>
                     </div>
                 </div>
             </div>

@@ -37,7 +37,7 @@
                         else
                         {
                             //exibe os produtos e a quantidade
-                            <h4>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal</h4>
+                            <h4>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal.ToString("F")</h4>
                         }
 
                         { valorTotalPedido += p.ValorTotal; }
@@ -46,7 +46,13 @@
                     <h3>horário de entrega</h3>
                     if (Session["HorarioEntrega"] != null)
                     {
-                        <p>as @Session["HorarioEntrega"] horas</p>
+                        <p>@Session["HorarioEntrega"] horas</p>
+                    }
+
+                    <h3>endereço de entrega</h3>
+                    if (Session["EnderecoEntrega"] != null)
+                    {
+                        <p>@Session["EnderecoEntrega"]</p>
                     }
 
                     <h3>formas de pagamento</h3>
@@ -60,7 +66,7 @@
 
                     if (Session["ValorTroco"] != null)
                     {
-                        <p>R$ @Session["ValorTroco"] de troco</p>
+                        <p>troco para R$ @Session["ValorTroco"]</p>
                     }
 
                     if (Session["Observacao"] != null)
@@ -70,7 +76,7 @@
                     }
 
                     <h3>valor total do pedido</h3>
-                    <p>R$ @valorTotalPedido</p>
+                    <p>R$ @valorTotalPedido.ToString("F")</p>
 
                     <br />
 
