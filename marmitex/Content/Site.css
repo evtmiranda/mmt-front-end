@@ -33,6 +33,12 @@ a, p {
     margin-bottom: 10px;
 }
 
+.menu-lateral-brinde {
+    /*background-color: #f8f8f8;*/
+    padding: 2px;
+    margin-bottom: 30px;
+}
+
 .cardapio {
     background-color: #fff;
 }

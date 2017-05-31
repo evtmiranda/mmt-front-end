@@ -6,6 +6,7 @@
     using System;
     using Newtonsoft.Json;
     using ClassesMarmitex;
+    using System.Linq;
 
     public class HomeController : BaseLoginController
     {
@@ -13,6 +14,7 @@
         private DadosRequisicaoRest retornoRequest;
         private RequisicoesREST rest;
         private Loja loja;
+        private List<Brinde> listaBrindes;
         private List<MenuCardapio> listaMenuCardapio;
         private List<Produto> produtos;
         private DadosHorarioEntrega dadosDiasFuncionamento;
@@ -104,13 +106,34 @@
 
                 #endregion
 
+                #region busca o brinde
+
+                //se o usuário estiver logado, o brinde é exibido no menu lateral
+                if (Session["usuarioLogado"] != null)
+                {
+                    UsuarioParceiro usuarioLogado = new UsuarioParceiro();
+                    usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
+
+                    usuarioLogado.IdLoja = loja.Id;
+
+                    //busca todos os cardápios da loja
+                    retornoRequest = rest.Get(string.Format("/Brinde/ListarPorParceiro/{0}/{1}", usuarioLogado.IdParceiro, usuarioLogado.IdLoja));
+
+                    string jsonBrinde = retornoRequest.objeto.ToString();
+
+                    listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrinde);
+
+                    Session["Brinde"] = listaBrindes.Where(p => p.Ativo).FirstOrDefault();
+                }
+
+                #endregion
 
                 Session["ExibirBotãoFinalizarPedido"] = true;
 
             }
             catch (Exception ex)
             {
-                ViewBag.MenuCardapioMensagem = "ocorreu um problema ao buscar o cardápio. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                ViewBag.MenuCardapioMensagem = "Ocorreu um problema ao buscar o cardápio. Por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
                 return RedirectToAction("Index", "Erro");
             }
 

@@ -215,6 +215,7 @@
     <Content Include="Views\DetalhesPedido\PedidoConcluido.cshtml" />
     <Content Include="Views\Shared\_MenuCardapio.cshtml" />
     <Content Include="Views\HistoricoPedidos\Index.cshtml" />
+    <Content Include="Views\Shared\_Brinde.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

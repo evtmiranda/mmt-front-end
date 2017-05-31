@@ -9,15 +9,27 @@
 }
 
 <div class="container-fluid">
-    <div class="col-md-3 detalhes-pedido-carrinho">
-        <h2>pedido</h2>
-        <hr />
-        <div id="visualizacaoCarrinho">
+    <div class="col-md-3">
+
+        <div id="visualizacaoCarrinho" class="col-md-12 detalhes-pedido-carrinho">
+            <h3>carrinho</h3>
             @{
                 @Html.Partial("_CarrinhoCompra")
             }
         </div>
+
+        @if (Session["Brinde"] != null)
+        {
+            <div id="visualizacaoBrindes" class="col-md-12">
+                <h3>brinde</h3>
+                @{
+                    @Html.Partial("_Brinde")
+                }
+            </div>
+                    }
     </div>
+
+
     <div class="col-md-1"></div>
     <div class="col-md-8 detalhes-pedido">
         <div class="row">
@@ -116,7 +128,8 @@
                 }
             }
 
-            @if(diaAtivo == 0) { 
+            @if (diaAtivo == 0)
+            {
                 <button class="btn btn-detalhes-pedido btn-lg" role="button" onclick="@AvancarParaResumoPedido" disabled title="A loja está fechada hoje. Verifique os dias de funcionamento na guia 'Informações'">avançar</button>
             }
             else
