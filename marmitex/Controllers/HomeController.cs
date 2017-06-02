@@ -117,13 +117,13 @@
                     usuarioLogado.IdLoja = loja.Id;
 
                     //busca todos os cardápios da loja
-                    retornoRequest = rest.Get(string.Format("/Brinde/ListarPorParceiro/{0}/{1}", usuarioLogado.IdParceiro, usuarioLogado.IdLoja));
+                    retornoRequest = rest.Get(string.Format("/BrindeParceiro/ListarPorParceiro/{0}/{1}", usuarioLogado.IdParceiro, usuarioLogado.IdLoja));
 
                     string jsonBrinde = retornoRequest.objeto.ToString();
 
                     listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrinde);
 
-                    Session["Brinde"] = listaBrindes.Where(p => p.Ativo).FirstOrDefault();
+                    Session["Brinde"] = listaBrindes.Where(p => p.Ativo).ToList();
                 }
 
                 #endregion

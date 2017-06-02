@@ -1,10 +1,11 @@
 ﻿<div class="menu-lateral-brinde">
     @if (Session["Brinde"] != null)
     {
-        string descricaoBrinde = ((ClassesMarmitex.Brinde)Session["Brinde"]).Descricao;
-        string imagem = ((ClassesMarmitex.Brinde)Session["Brinde"]).Imagem;
-
-        <p>@descricaoBrinde</p>
-        <img src="~/Images/@Session["dominioLoja"]/@imagem" alt="imagem do brinde" class="img-responsive img-rounded" style="max-height: 100px">
+        foreach (var brinde in (List<ClassesMarmitex.Brinde>)Session["Brinde"])
+        {
+            <p>@brinde.Descricao</p>
+            <img src="~/Images/@Session["dominioLoja"]/Brindes/@brinde.Imagem" alt="imagem do brinde" class="img-responsive img-rounded" style="max-height: 100px">
+            <hr />
+        }
     }
 </div>
