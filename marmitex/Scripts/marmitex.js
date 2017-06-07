@@ -431,9 +431,6 @@ function PesquisarProduto() {
 }
 
 
-
-
-
 //mascaras
 function formataMascara(campo, evt, formato) {
     evt = getEvent(evt);

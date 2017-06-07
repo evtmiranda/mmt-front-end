@@ -133,8 +133,9 @@
             }
             catch (Exception ex)
             {
-                ViewBag.MenuCardapioMensagem = "Ocorreu um problema ao buscar o cardápio. Por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
-                return RedirectToAction("Index", "Erro");
+                ViewBag.HomeMensagem = "Não foi possivel carregar todas as informações. Por favor, tente novamente ou entre em contato com nosso suporte.";
+                return View();
+                //return RedirectToAction("Index", "Erro");
             }
 
             return View();

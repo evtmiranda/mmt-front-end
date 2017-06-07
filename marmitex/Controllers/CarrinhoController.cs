@@ -20,57 +20,66 @@
         /// <param name="dadosJson"></param>
         public void AdicionarProduto(string dadosJson)
         {
-            listaProdutoPedido = new List<ProdutoPedido>();
-
-            //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
-            if (Session["Carrinho"] != null)
-                listaProdutoPedido = (List<ProdutoPedido>)Session["Carrinho"];
-
-            Produto produto = new Produto();
-
-            //verifica se recebeu realmente um produto
-            if (dadosJson != null)
-                produto = JsonConvert.DeserializeObject<Produto>(dadosJson);
-            else
-                return;
-
-            //se já existir na lista este produto, somente a quantidade é atualizada
-            if (listaProdutoPedido.Where(p => p.Produto.Id == produto.Id).Count() > 0)
+            try
             {
-                //incrementa a quantidade do produto
-                listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).Quantidade++;
-                listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).ValorTotal += produto.Valor;
-            }
-            //adiciona o produto se ele ainda não existir no carrinho
-            else
-            {
-                ProdutoPedido prodPedido = new ProdutoPedido
-                {
-                    Produto = produto,
-                    Quantidade = 1,
-                    ValorTotal = produto.Valor
-                };
+                listaProdutoPedido = new List<ProdutoPedido>();
 
-                //cria um id temporário para o produto pedido
-                Random rnd = new Random();
-                prodPedido.Id = rnd.Next();
+                //verifica se a sessão de pedidos está preenchida. Se estiver, popula a listaProdutoPedido
+                if (Session["Carrinho"] != null)
+                    listaProdutoPedido = (List<ProdutoPedido>)Session["Carrinho"];
 
-                //se já existir um produto pedido com o id gerado, gera um novo id para o produto atual antes de adicioná-lo a lista
-                while (true)
+                Produto produto = new Produto();
+
+                //verifica se recebeu realmente um produto
+                if (dadosJson != null)
+                    produto = JsonConvert.DeserializeObject<Produto>(dadosJson);
+                else
+                    return;
+
+
+                //se já existir na lista este produto, somente a quantidade é atualizada
+                if (listaProdutoPedido.Where(p => p.Produto.Id == produto.Id).Count() > 0)
                 {
-                    if (listaProdutoPedido.Where(p => p.Id == prodPedido.Id).Count() > 0)
+                    //incrementa a quantidade do produto
+                    listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).Quantidade++;
+                    listaProdutoPedido.Find(p => p.Produto.Id == produto.Id).ValorTotal += produto.Valor;
+                }
+                //adiciona o produto se ele ainda não existir no carrinho
+                else
+                {
+                    ProdutoPedido prodPedido = new ProdutoPedido
                     {
-                        prodPedido.Id = rnd.Next();
+                        Produto = produto,
+                        Quantidade = 1,
+                        ValorTotal = produto.Valor
+                    };
+
+                    //cria um id temporário para o produto pedido
+                    Random rnd = new Random();
+                    prodPedido.Id = rnd.Next();
+
+                    //se já existir um produto pedido com o id gerado, gera um novo id para o produto atual antes de adicioná-lo a lista
+                    while (true)
+                    {
+                        if (listaProdutoPedido.Where(p => p.Id == prodPedido.Id).Count() > 0)
+                        {
+                            prodPedido.Id = rnd.Next();
+                        }
+                        else
+                            break;
                     }
-                    else
-                        break;
+
+                    listaProdutoPedido.Add(prodPedido);
                 }
 
-                listaProdutoPedido.Add(prodPedido);
+                //atualiza a sessão
+                Session["Carrinho"] = listaProdutoPedido;
             }
+            catch (Exception)
+            {
 
-            //atualiza a sessão
-            Session["Carrinho"] = listaProdutoPedido;
+                throw;
+            }
         }
 
         /// <summary>

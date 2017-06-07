@@ -5,7 +5,13 @@
 @*Se a sessão tiver alguma mensagem, lança um alert com a mensagem*@
 @if (Session["MensagemCamposDetalhesPedido"] != null)
 {
-    <script>alert(Session["MensagemCamposDetalhesPedido"])</script>
+    <script>
+        swal(
+            'Oops...',
+            Session["MensagemCamposDetalhesPedido"],
+            'error'
+        )
+    </script>
 }
 
 <div class="container-fluid">
@@ -26,7 +32,8 @@
                     @Html.Partial("_Brinde")
                 }
             </div>
-                    }
+        }
+
     </div>
 
 
@@ -118,13 +125,16 @@
 
         <div style="text-align: end">
             @{
-                List<ClassesMarmitex.DadosHorarioEntrega> listaDadosHorarioEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
-
+                List<ClassesMarmitex.DadosHorarioEntrega> listaDadosHorarioEntrega = new List<ClassesMarmitex.DadosHorarioEntrega>();
                 int diaAtivo = 0;
 
-                foreach (var dadosHorarioEntrega in listaDadosHorarioEntrega)
-                {
-                    diaAtivo = dadosHorarioEntrega.DiasDeFuncionamento.FindAll(p => p.DiaDisponivel).Count;
+                if (ViewBag.HorariosEntrega != null) {
+                    listaDadosHorarioEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
+
+                    foreach (var dadosHorarioEntrega in listaDadosHorarioEntrega)
+                    {
+                        diaAtivo = dadosHorarioEntrega.DiasDeFuncionamento.FindAll(p => p.DiaDisponivel).Count;
+                    }
                 }
             }
 
