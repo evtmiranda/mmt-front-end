@@ -36,7 +36,6 @@
                 else
                     return;
 
-
                 //se já existir na lista este produto, somente a quantidade é atualizada
                 if (listaProdutoPedido.Where(p => p.Produto.Id == produto.Id).Count() > 0)
                 {

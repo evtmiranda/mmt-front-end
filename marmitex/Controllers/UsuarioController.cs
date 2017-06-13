@@ -66,25 +66,25 @@
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.NotFound)
                 {
                     ViewBag.MensagemCadastro = JsonConvert.DeserializeObject<HttpError>(retornoAutenticacao.objeto.ToString()).Message;
-                    return View("Index");
+                    return View("Index", usuario);
                 }
                 //se já existir um usuário com o e-mail digitado
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
                     ViewBag.MensagemCadastro = JsonConvert.DeserializeObject<HttpError>(retornoAutenticacao.objeto.ToString()).Message;
-                    return View("Index");
+                    return View("Index", usuario);
                 }
                 //se ocorrer algum erro inesperado
                 else { 
                     ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
-                    return View("Index");
+                    return View("Index", usuario);
                 }
             }
             //se ocorrer algum erro inesperado
             catch
             {
                 ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
-                return View("Index");
+                return View("Index", usuario);
             }
         }
 
