@@ -26,6 +26,8 @@
         //Tela onde o consumidor irá escolher o horário de entrega e a forma de pagamento
         public ActionResult Index()
         {
+            Session["ExibirBotãoFinalizarPedido"] = false;
+
             //se o carrinho estiver vazio direciona para a tela de produtos
             if (Session["Carrinho"] == null)
                 return RedirectToAction("Index", "Home");

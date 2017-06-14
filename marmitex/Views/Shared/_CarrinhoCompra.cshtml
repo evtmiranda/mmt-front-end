@@ -7,6 +7,11 @@
         <ul class="sidebar-nav carrinho-compras">
             @foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
             {
+                if (p.Produto.DadosAdicionaisProdutos.Count > 1)
+                {
+                    Session["QtdProdAdicionais"] = p.Produto.DadosAdicionaisProdutos.Count;
+                }
+
                 //soma o valor total do carrinho
                 vlrCarrinho = Convert.ToDecimal(Session["vlrCarrinho"]);
                 vlrCarrinho += p.ValorTotal;
@@ -53,18 +58,21 @@
 
             <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
         }
+
         //exibe o botão fechar pedido apenas se estiver na página home
-        if (Session["ExibirBotãoFinalizarPedido"] != null && Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])
-                    || Request.Url.AbsolutePath.Contains("AtualizarVisualizacaoViewParcial"))
+        if (Session["ExibirBotãoFinalizarPedido"] != null)
         {
-            if (Convert.ToDecimal(Session["vlrCarrinho"]) > 0)
+            if (Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])
+                        || Request.Url.AbsolutePath.Contains("AtualizarVisualizacaoViewParcial"))
             {
-                <a href="@Session["urlBase"]DetalhesPedido/Index" class="btn btn-vermelho-sem-animacao btn-pedido" role="button"><i class="glyphicon glyphicon-ok"></i> fechar pedido</a>
-                Session["ExibirBotãoFinalizarPedido"] = null;
-            }
-            else
-            {
-                <p>seu carrinho ainda está vazio ;(</p>
+                if (Convert.ToDecimal(Session["vlrCarrinho"]) > 0)
+                {
+                    <a href="@Session["urlBase"]DetalhesPedido/Index" class="btn btn-vermelho-sem-animacao btn-pedido" role="button"><i class="glyphicon glyphicon-ok"></i> fechar pedido</a>
+                }
+                else
+                {
+                    <p>seu carrinho ainda está vazio ;(</p>
+                }
             }
         }
     }
