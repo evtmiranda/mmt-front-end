@@ -15,6 +15,7 @@
         private RequisicoesREST rest;
         private Loja loja;
         private List<Brinde> listaBrindes;
+        private DadosBrindeParceiro dadosBrindesParceiro;
         private List<MenuCardapio> listaMenuCardapio;
         private List<Produto> produtos;
         private DadosHorarioEntrega dadosDiasFuncionamento;
@@ -34,19 +35,32 @@
             //a loja é utilizada para validar se o usuário existe e se pertence a loja onde está tentando logar
             Session["dominioLoja"] = PreencherSessaoDominioLoja();
 
+            #region valida usuário logado
+
             //se não conseguir capturar a rede, direciona para a tela de erro
-            if (Session["dominioLoja"] == null)
-                return RedirectToAction("Index", "Erro");
+            if (Session["dominioLoja"] == null) {
+                ViewBag.HomeMensagem = "Não foi possivel identificar a loja";
+                return View();
+            }
 
             string dominioLoja = Session["dominioLoja"].ToString();
 
-            //limpa a sessão de dia ativo
+            #endregion
+
+            #region limpa as viewbags de mensagem e sessões
+
             Session["DiaAtivo"] = null;
+            Session["Produtos"] = null;
+            Session["Brinde"] = null;
+            Session["ExibirBotãoFinalizarPedido"] = null;
+            ViewBag.HomeMensagem = null;
+            ViewBag.MenuCardapio = null;
+
+            #endregion
 
             //carrega a tela com os cardápios e produtos
             try
             {
-
                 #region busca os dados da loja
 
                 string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", dominioLoja);
@@ -66,6 +80,9 @@
 
                 //busca todos os cardápios da loja
                 retornoRequest = rest.Get("/menucardapio/listar/" + loja.Id);
+
+                //filtra os produtos ativos
+
 
                 string jsonPedidos = retornoRequest.objeto.ToString();
 
@@ -121,9 +138,12 @@
 
                     string jsonBrinde = retornoRequest.objeto.ToString();
 
-                    listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrinde);
+                    dadosBrindesParceiro = JsonConvert.DeserializeObject<DadosBrindeParceiro>(jsonBrinde);
 
-                    Session["Brinde"] = listaBrindes.Where(p => p.Ativo).ToList();
+                    listaBrindes = dadosBrindesParceiro.Brindes;
+
+                    if(listaBrindes.Where(p => p.Ativo).ToList().Count() > 0)
+                        Session["Brinde"] = listaBrindes.Where(p => p.Ativo).ToList();
                 }
 
                 #endregion

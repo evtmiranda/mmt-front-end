@@ -2,71 +2,81 @@
     ViewBag.Title = "cardápio";
 }
 
-@if ((bool)Session["DiaAtivo"] == false)
+@if (ViewBag.HomeMensagem != null)
 {
     <script>
-        swal(
-            'Atenção',
-            'A loja está fechada hoje. Verifique os dias de funcionamento na guia Informações',
-            'warning'
-        )
+        window.location.href = "@Session["urlBase"]/Login";
     </script>
 }
+else
+{
 
-<div class="container-fluid">
-    <div class="col-md-3">
-        <h3>carrinho</h3>
-        <div id="visualizacaoCarrinho">
-            @{
-                @Html.Partial("_CarrinhoCompra")
-            }
-        </div>
-        @if (Session["Brinde"] != null)
-        {
-            <h3>brindes</h3>
-            <div id="visualizacaoBrindes">
+    if ((bool)Session["DiaAtivo"] == false)
+    {
+        <script>
+            swal(
+                'Atenção',
+                'A loja está fechada hoje. Verifique os dias de funcionamento na guia Informações',
+                'warning'
+            )
+        </script>
+    }
+
+    <div class="container-fluid">
+        <div class="col-md-3">
+            <h3>carrinho</h3>
+            <div id="visualizacaoCarrinho">
                 @{
-                    @Html.Partial("_Brinde")
+                    @Html.Partial("_CarrinhoCompra")
                 }
             </div>
+            @if (Session["Brinde"] != null)
+            {
+                <h3>brindes</h3>
+                <div id="visualizacaoBrindes">
+                    @{
+                        @Html.Partial("_Brinde")
                     }
-    </div>
-
-    @*filtro de categoria e pesquisa de produto*@
-    <div class="col-md-9">
-        <div class="input-group">
-            <div class="input-group-btn search-panel">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span id="search_concept">categorias</span> <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-
-                    @if (ViewBag.MenuCardapio != null)
-                    {
-                        foreach (ClassesMarmitex.MenuCardapio mc in ViewBag.MenuCardapio)
-                        {
-                            //monta a função javascript responsavel por esconder e exibir produtos
-                            string EsconderDiv = string.Format("EsconderDiv('menuCardapio', 'idCardapio {0}')", mc.Id);
-                            <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
-                        }
-                        <hr />
-                        <li><a href="@Session["urlBase"]/Home" class="btnCardapio">Mostrar todos</a></li>
-                    }
-                </ul>
-            </div>
-            <input type="hidden" name="search_param" value="all" id="search_param">
-            <input type="text" id="inputPesquisa" class="form-control" name="inputPesquisa" onkeyup="PesquisarProduto()" placeholder="nome do produto">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
-        </div>
-    </div>
-
-    <div class="col-md-9 cardapio" style="margin-top: 15px;">
-        <div id="visualizacaoCardapio">
-            @{
-                @Html.Partial("_MenuCardapio")
+                </div>
             }
         </div>
+
+        @*filtro de categoria e pesquisa de produto*@
+        <div class="col-md-9">
+            <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span id="search_concept">categorias</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+
+                        @if (ViewBag.MenuCardapio != null)
+                        {
+                            foreach (ClassesMarmitex.MenuCardapio mc in ViewBag.MenuCardapio)
+                            {
+                                //monta a função javascript responsavel por esconder e exibir produtos
+                                string EsconderDiv = string.Format("EsconderDiv('menuCardapio', 'idCardapio {0}')", mc.Id);
+                                <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
+                            }
+                            <hr />
+                            <li><a href="@Session["urlBase"]/Home" class="btnCardapio">Mostrar todos</a></li>
+                        }
+                    </ul>
+                </div>
+                <input type="hidden" name="search_param" value="all" id="search_param">
+                <input type="text" id="inputPesquisa" class="form-control" name="inputPesquisa" onkeyup="PesquisarProduto()" placeholder="nome do produto">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-9 cardapio" style="margin-top: 15px;">
+            <div id="visualizacaoCardapio">
+                @{
+                    @Html.Partial("_MenuCardapio")
+                }
+            </div>
+        </div>
     </div>
-</div>
+                    }

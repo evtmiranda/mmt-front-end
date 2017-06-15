@@ -27,15 +27,33 @@
 
                     foreach (var prodAdicional in p.Produto.DadosAdicionaisProdutos)
                     {
+                        if (prodAdicional.ItensAdicionais.Where(a => a.Qtd > 0).ToList().Count() > 0)
+                        {
+                            <small>@prodAdicional.Nome</small>
+                        }
                         foreach (var itemAdicional in prodAdicional.ItensAdicionais)
                         {
                             if (itemAdicional.Qtd > 0)
                             {
-                                <li style="margin-top: 0em !important;">
-                                    <ul class="sub-sidebar-nav carrinho-compras">
-                                        <li style="margin-top: 0em !important;"><div class="" title="@itemAdicional.Nome"><small> @itemAdicional.Qtd @itemAdicional.Nome</small></div></li>
-                                    </ul>
-                                </li>
+
+
+                                if (itemAdicional.Valor > 0)
+                                {
+                                    <li style="margin-top: 0em !important;">
+                                        <ul class="sub-sidebar-nav carrinho-compras">
+                                            <li style="margin-top: 0em !important;"><div class="" title="@itemAdicional.Nome"><small> @itemAdicional.Qtd @itemAdicional.Nome R$ @itemAdicional.Valor.ToString("F")</small></div></li>
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li style="margin-top: 0em !important;">
+                                        <ul class="sub-sidebar-nav carrinho-compras">
+                                            <li style="margin-top: 0em !important;"><div class="" title="@itemAdicional.Nome"><small> @itemAdicional.Qtd @itemAdicional.Nome</small></div></li>
+                                        </ul>
+                                    </li>
+                                }
+
                             }
                         }
                     }

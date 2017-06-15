@@ -45,11 +45,17 @@
             //variável para armazenar o retorno da api
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
 
+            //variável para armazenar a senha original
+            string senhaSemCrip = null;
+
             //tratamento de erros
             try
             {
                 //monta a url de chamada na api
                 string urlPost = "/usuario/cadastrar/usuarioParceiro";
+
+                //variável para armazenar a senha original
+                senhaSemCrip = usuario.Senha;
 
                 //criptografa a senha do usuário
                 usuario.Senha = CriptografiaMD5.GerarHashMd5(usuario.Senha);
@@ -62,20 +68,16 @@
                     Session["MensagemCadastroSucesso"] = "usuário cadastrado com sucesso. realize o login";
                     return RedirectToAction("Index", "Login", ViewBag.MensagemCadastroSucesso);
                 }
-                //se a empresa não for encontrada pelo código digitado
-                else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.NotFound)
-                {
-                    ViewBag.MensagemCadastro = JsonConvert.DeserializeObject<HttpError>(retornoAutenticacao.objeto.ToString()).Message;
-                    return View("Index", usuario);
-                }
-                //se já existir um usuário com o e-mail digitado
+                //se o cadastro não for autorizado
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
+                    usuario.Senha = senhaSemCrip;
                     ViewBag.MensagemCadastro = JsonConvert.DeserializeObject<HttpError>(retornoAutenticacao.objeto.ToString()).Message;
                     return View("Index", usuario);
                 }
                 //se ocorrer algum erro inesperado
-                else { 
+                else {
+                    usuario.Senha = senhaSemCrip;
                     ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
                     return View("Index", usuario);
                 }
@@ -83,6 +85,7 @@
             //se ocorrer algum erro inesperado
             catch
             {
+                usuario.Senha = senhaSemCrip;
                 ViewBag.MensagemCadastro = "humm, ocorreu um problema inesperado. por favor, tente novamente";
                 return View("Index", usuario);
             }

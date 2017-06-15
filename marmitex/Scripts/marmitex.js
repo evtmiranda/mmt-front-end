@@ -1,4 +1,8 @@
-﻿/**
+﻿var corConfirmacao = '#bc2026';
+var corCancelar = '#f8ac2b';
+
+
+/**
  * após realizar um post, chama o método para atualizar
   a visualização de uma view parcial
  * @param {any} jsonHeaderPost
@@ -428,6 +432,72 @@ function PesquisarProduto() {
         }
         //}
     }
+}
+
+function CancelarPedido(urlPost, idPedido) {
+    swal({
+        title: 'Confirma o cancelamento do pedido?',
+        html: "Não será possível desfazer a ação",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: corConfirmacao,
+        cancelButtonColor: corCancelar,
+        cancelButtonText: 'Voltar',
+        confirmButtonText: 'Sim, cancelar!'
+    }).then(function () {
+        swal({
+            title: 'Escreva o motivo do cancelamento',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonColor: corConfirmacao,
+            cancelButtonColor: corCancelar,
+            cancelButtonText: 'Voltar',
+            confirmButtonText: 'Confirmar'
+        }).then(function (motivoCancelamento) {
+
+            dadosCancelamento = new Object();
+            dadosCancelamento.IdPedido = idPedido;
+            dadosCancelamento.MotivoCancelamento = motivoCancelamento;
+
+            var dadosCancelamentoJson = JSON.stringify(dadosCancelamento, null, 0);
+
+            $.getJSON(urlPost, { jsonDadosCancelamento: dadosCancelamentoJson }, function (result) {
+                if (!result.success) {
+                    if (result.mensagem == "Não foi possível cancelar o pedido. Por favor, tente novamente ou entre em contato conosco.") {
+                        swal({
+                            title: 'Oops',
+                            html: result.mensagem,
+                            type: 'error',
+                            confirmButtonColor: corConfirmacao,
+                            cancelButtonColor: corCancelar,
+                        })
+                    }
+                    else {
+                        swal({
+                            title: 'Aviso',
+                            html: result.mensagem,
+                            type: 'warning',
+                            confirmButtonColor: corConfirmacao,
+                            cancelButtonColor: corCancelar,
+                        })
+                    }
+                }
+                else {
+                    swal({
+                        title: 'Sucesso',
+                        html: "Cancelamento realizada com sucesso.",
+                        type: 'success',
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    }).then(function () {
+                        //recarrega a pagina
+                        window.location.reload();
+                    });
+                }
+            });
+        })
+    });
 }
 
 

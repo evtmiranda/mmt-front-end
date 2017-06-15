@@ -21,13 +21,13 @@
         //visão do produto
         <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
             <div class="thumbnail">
-                <img src="~/Images/@Session["dominioLoja"]/Produtos/@p.Imagem" alt="imagem do produto" class="img-responsive img-rounded" style="max-height: 100px">
+                <img src="~/Images/@Session["dominioLoja"]/Produtos/@p.Imagem" alt="imagem do produto" class="img-responsive img-rounded img-produtos">
                 <div class="caption">
-                    <h3 class="nome-produto-pesquisa">@p.Nome</h3>
-                    <p>
-                        @p.Descricao<br />
-                        R$ @p.Valor
+                    <h3 class="nome-produto-pesquisa produtos-nome" title="@p.Nome">@p.Nome</h3>
+                    <p class="produto-descricao" title="@p.Descricao">
+                        @p.Descricao
                     </p>
+                    <p> R$ @p.Valor.ToString("F")</p>
 
                     <!-- se o produto tiver itens adicionais, ao clicar em adicionar o modal de itens adicionais é aberto -->
                     @if (p.DadosAdicionaisProdutos.Count > 0)
