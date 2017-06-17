@@ -64,7 +64,7 @@
                 senha = usuario.Senha;
                 usuario.Senha = CriptografiaMD5.GerarHashMd5(usuario.Senha);
 
-                string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Parceiro, dominioLoja);
+                string urlPost = string.Format("/usuario/autenticar/{0}/{1}", TipoUsuario.Parceiro, dominioLoja);
 
                 retornoAutenticacao = rest.Post(urlPost, usuario);
 
@@ -76,7 +76,7 @@
                     try
                     {
                         //busca os dados do usuário
-                        retornoDadosUsuario = rest.Post(string.Format("usuario/buscarPorEmail/{0}", TipoUsuario.Parceiro), usuario);
+                        retornoDadosUsuario = rest.Post(string.Format("usuario/buscarPorEmail/{0}/{1}", TipoUsuario.Parceiro, dominioLoja), usuario);
 
                         //verifica se os dados do usuário foram encontrados
                         if (retornoDadosUsuario.HttpStatusCode != HttpStatusCode.OK)

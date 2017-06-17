@@ -113,7 +113,7 @@
 
                     pedidoFinal.ListaFormaPagamento = pagamentos;
 
-                    pedidoFinal.Troco = Session["ValorTroco"] != null ? Convert.ToDecimal(Session["ValorTroco"].ToString().Replace(",",".")) : 0;
+                    pedidoFinal.Troco = Session["ValorTroco"] != null ? Convert.ToDecimal(Session["ValorTroco"].ToString()) : Convert.ToDecimal("0,00");
 
                     pedidoFinal.Observacao = @Session["Observacao"] != null ? (string)@Session["Observacao"] : "";
 

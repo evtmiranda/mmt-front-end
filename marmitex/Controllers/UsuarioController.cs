@@ -33,7 +33,6 @@
             //validação dos campos
             if (!ModelState.IsValid)
                 return View("Index", usuario);
-            
 
             //captura a loja em questão
             string dominioLoja = PreencherSessaoDominioLoja();
@@ -52,7 +51,7 @@
             try
             {
                 //monta a url de chamada na api
-                string urlPost = "/usuario/cadastrar/usuarioParceiro";
+                string urlPost = "/usuario/cadastrar/usuarioParceiro/" + dominioLoja;
 
                 //variável para armazenar a senha original
                 senhaSemCrip = usuario.Senha;

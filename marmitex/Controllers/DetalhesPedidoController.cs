@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Linq;
 
     public class DetalhesPedidoController : BaseController
     {
@@ -15,6 +16,8 @@
         private List<FormaDePagamento> listaFormaPagamento;
         private List<DadosHorarioEntrega> listaHorarioEntrega;
         private DadosHorarioEntrega horarioEntrega;
+        private List<Brinde> listaBrindes;
+        private DadosBrindeParceiro dadosBrindesParceiro;
 
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
         public DetalhesPedidoController(RequisicoesREST rest)
@@ -87,6 +90,29 @@
                 };
 
                 ViewBag.HorariosEntrega = listaHorarioEntrega;
+
+                #endregion
+
+                #region busca o brinde
+
+                //se o usuário estiver logado, o brinde é exibido no menu lateral
+                if (Session["usuarioLogado"] != null)
+                {
+                    UsuarioParceiro usuarioLogado = new UsuarioParceiro();
+                    usuarioLogado = (UsuarioParceiro)Session["usuarioLogado"];
+
+                    //busca todos os cardápios da loja
+                    retornoGet = rest.Get(string.Format("/BrindeParceiro/ListarPorParceiro/{0}/{1}", usuarioLogado.IdParceiro, usuarioLogado.IdLoja));
+
+                    string jsonBrinde = retornoGet.objeto.ToString();
+
+                    dadosBrindesParceiro = JsonConvert.DeserializeObject<DadosBrindeParceiro>(jsonBrinde);
+
+                    listaBrindes = dadosBrindesParceiro.Brindes;
+
+                    if (listaBrindes.Where(p => p.Ativo).ToList().Count() > 0)
+                        Session["Brinde"] = listaBrindes.Where(p => p.Ativo).ToList();
+                }
 
                 #endregion
             }

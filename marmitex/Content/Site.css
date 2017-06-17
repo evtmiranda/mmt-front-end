@@ -130,6 +130,12 @@ a, p {
     text-overflow: ellipsis;
 }
 
+.border-pedido-mmt {
+    background-color: #f7f7f7;
+    padding: 10px 0 10px 6px;
+    margin-top: 10px;
+}
+
 /*#region botões */
 .btn-detalhes-pedido,
 .btn-pedido {

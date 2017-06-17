@@ -88,12 +88,12 @@
                 //busca todos os cardápios da loja
                 retornoRequest = rest.Get("/menucardapio/listar/" + loja.Id);
 
-                //filtra os produtos ativos
-
-
                 string jsonPedidos = retornoRequest.objeto.ToString();
 
                 listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                //filtra os cardapios ativos
+                listaMenuCardapio = listaMenuCardapio.Where(c => c.Ativo).ToList();
 
                 //view bag com os cardápios
                 ViewBag.MenuCardapio = listaMenuCardapio;
@@ -101,11 +101,28 @@
                 #endregion
 
                 #region monta a lista de produtos
-
                 foreach (var menuCardapio in listaMenuCardapio)
                 {
+                    //filtra os produtos ativos
+                    menuCardapio.Produtos = menuCardapio.Produtos.Where(p => p.Ativo).ToList();
+
                     foreach (var produto in menuCardapio.Produtos)
                     {
+                        //verifica se o produto está a venda no dia de hoje. se não estiver, parte para o próximo produto
+                        int numDiaAtual = DateTime.Now.DayOfWeek.GetHashCode();
+
+                        if (produto.ProdutoDiasVenda.FindAll(p => p == numDiaAtual).Count == 0)
+                            continue;
+
+                        //filtra os produtos adicionais ativos
+                        produto.DadosAdicionaisProdutos = produto.DadosAdicionaisProdutos.Where(pa => pa.Ativo).ToList();
+
+                        //filtra os itens adicionais ativos
+                        foreach (var pa in produto.DadosAdicionaisProdutos)
+                        {
+                            pa.ItensAdicionais = pa.ItensAdicionais.Where(ia => ia.Ativo).ToList();
+                        }
+
                         produtos.Add(produto);
                     }
                 }
