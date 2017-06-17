@@ -7,6 +7,7 @@
     using Newtonsoft.Json;
     using ClassesMarmitex;
     using System.Linq;
+    using marmitex.Utils;
 
     public class HomeController : BaseLoginController
     {
@@ -19,6 +20,7 @@
         private List<MenuCardapio> listaMenuCardapio;
         private List<Produto> produtos;
         private DadosHorarioEntrega dadosDiasFuncionamento;
+        private SqlServer sqlConn = new SqlServer();
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -44,6 +46,11 @@
             }
 
             string dominioLoja = Session["dominioLoja"].ToString();
+
+            //guarda apenas o dominio do cliente. por exemplo,
+            //o dominio do cliente vem como teste.tasaindo.com.br e vira teste.
+            dominioLoja = dominioLoja.Split('.')[0];
+            Session["dominioLoja"] = dominioLoja;
 
             #endregion
 

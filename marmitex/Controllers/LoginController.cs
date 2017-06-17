@@ -20,6 +20,9 @@
 
         public ActionResult Index()
         {
+            //preenche o nome da loja
+            ViewBag.NomeLoja = PreencherSessaoDominioLoja();
+
             return View();
         }
 

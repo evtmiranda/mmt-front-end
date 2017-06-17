@@ -1,9 +1,13 @@
 ﻿using System.Web.Mvc;
+using ClassesMarmitex;
+using marmitex.Utils;
+
 
 namespace marmitex.Controllers
 {
     public class BaseLoginController : Controller
     {
+        SqlServer sqlConn = new SqlServer();
 
         //sempre que uma requisição é feita em uma classe que herda esta, 
         //esse método é executado para preencher a sessão urlBase
@@ -24,7 +28,11 @@ namespace marmitex.Controllers
         public string PreencherSessaoDominioLoja()
         {
             //captura o host atual
-            return Request.Url.Host.Replace('"', ' ').Trim();
+            string host = Request.Url.Host.Replace('"', ' ').Trim();
+
+            host = host.Split('.')[0];
+
+            return host;
         }
     }
 }
