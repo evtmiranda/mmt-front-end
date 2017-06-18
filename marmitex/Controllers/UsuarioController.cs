@@ -5,10 +5,13 @@
     using System.Net;
     using System.Web.Http;
     using System.Web.Mvc;
+    using System;
 
     public class UsuarioController : BaseLoginController
     {
         private RequisicoesREST rest;
+        private UsuarioParceiro usuarioLogado;
+        private DadosRequisicaoRest retornoRequest;
 
         //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -20,6 +23,9 @@
         // GET: CadastroUsuario
         public ActionResult Index()
         {
+            //preenche o nome da loja
+            ViewBag.NomeLoja = PreencherSessaoDominioLoja();
+
             return View();
         }
 
@@ -90,14 +96,113 @@
             }
         }
 
-        public ActionResult Atualizar()
+        public ActionResult Editar(int id)
         {
-            return null;
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioParceiro)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarUsuario = null;
+
+                #endregion
+
+                UsuarioParceiro usuarioParceiro = new UsuarioParceiro();
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/Usuario/BuscarUsuarioParceiro/" + id);
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarUsuario = retornoRequest.objeto.ToString();
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                usuarioParceiro = JsonConvert.DeserializeObject<UsuarioParceiro>(jsonRetorno);
+
+                return View(usuarioParceiro);
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemCarregamentoEditarUsuario = "Não foi consultar o usuário. Por favor, tente novamente ou entre em contato com nosso suporte.";
+                return View();
+            }
+
         }
 
-        public ActionResult Excluir()
+        public ActionResult EditarUsuario(UsuarioParceiro usuarioParceiro)
         {
-            return null;
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Home");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioParceiro)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarUsuario = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", usuarioParceiro);
+
+            #endregion
+
+            //variável para armazenar a senha original
+            string senhaSemCrip = null;
+
+            //variável para armazenar o retorno da requisição
+            DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
+
+            try
+            {
+                string urlPost = string.Format("/Usuario/AtualizarUsuarioParceiro");
+
+                //variável para armazenar a senha original
+                senhaSemCrip = usuarioParceiro.Senha;
+
+                //criptografa a senha do usuário
+                usuarioParceiro.Senha = CriptografiaMD5.GerarHashMd5(usuarioParceiro.Senha);
+
+                usuarioParceiro.IdLoja = usuarioLogado.IdLoja;
+                retornoRequest = rest.Post(urlPost, usuarioParceiro);
+
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemEditarUsuario = retornoRequest.objeto.ToString();
+                    return View("Editar", usuarioParceiro);
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception)
+            {
+                usuarioParceiro.Senha = senhaSemCrip;
+                ViewBag.MensagemEditarUsuario = "Não foi possível atualizar o usuario. Por favor, tente novamente ou entre em contato com nosso suporte.";
+                return View("Editar", usuarioParceiro);
+            }
         }
     }
 }

@@ -218,6 +218,8 @@
     <Content Include="Views\Shared\_MenuCardapio.cshtml" />
     <Content Include="Views\HistoricoPedidos\Index.cshtml" />
     <Content Include="Views\Shared\_Brinde.cshtml" />
+    <Content Include="Views\Shared\_FormUsuario.cshtml" />
+    <Content Include="Views\Usuario\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

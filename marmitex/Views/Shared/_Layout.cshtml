@@ -70,8 +70,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    @*<li><a href="#">meus dados</a></li>*@
                                     <li><a href="@Session["urlBase"]/HistoricoPedidos">histórico de pedidos</a></li>
+                                    <li><a href="@Session["urlBase"]/Usuario/Editar">meus dados</a></li>
                                     <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
                                 </ul>
                             }
@@ -90,7 +90,7 @@
         <footer></footer>
     </div>
 
-    @*<script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/marmitex.js"></script>

@@ -10,18 +10,18 @@
         <div class="col-md-12">
             <div class="col-md-3"></div>
             <div class="col-md-6" style="text-align: center">
-                <h1>quero me cadastrar</h1>
+                <h1>meus dados</h1>
                 <p style="font:italic; color:#bc2026">os campos com * são de preenchimento obrigatório</p>
                 <hr />
-                <form method="post" action="@Session["urlBase"]/Usuario/Cadastrar">
-                   @Html.Partial("_FormUsuario")
+                <form method="post" action="@Session["urlBase"]/Usuario/EditarUsuario">
+                    @Html.Partial("_FormUsuario")
 
-                    <input type="submit" class="btn btn-vermelho-sem-animacao" value="cadastrar" />
+                    <div class="col-md-12">
+                        <div class="buttons-formcontrol">
+                            <input type="submit" class="btn btn-success" value="salvar" />
+                        </div>
+                    </div>
                 </form>
-
-                <br />
-                <br />
-                <p><a href="@Session["urlBase"]/Login"> já sou cadastrado e quero fazer login</a></p>
 
             </div>
         </div>
