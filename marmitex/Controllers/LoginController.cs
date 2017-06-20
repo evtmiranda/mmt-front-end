@@ -21,7 +21,7 @@
         public ActionResult Index()
         {
             //preenche o nome da loja
-            ViewBag.NomeLoja = PreencherSessaoDominioLoja();
+            Session["NomeLoja"] = PreencherSessaoDominioLoja();
 
             return View();
         }
@@ -48,9 +48,9 @@
             //captura a loja em questão
             Session["dominioLoja"] = PreencherSessaoDominioLoja();
 
-            //se não conseguir capturar a loja, direciona para a tela de erro
+            //se não conseguir capturar a loja, direciona para a tela de login
             if (Session["dominioLoja"] == null)
-                return RedirectToAction("Index", "Erro");
+                return RedirectToAction("Index", "Login");
 
             string dominioLoja = Session["dominioLoja"].ToString();
 
@@ -106,8 +106,11 @@
                     //se não for possível consultar os dados do usuário
                     catch (Exception)
                     {
+                        //volta a senha sem criptografia para carregar na tela
+                        usuario.Senha = senha;
+
                         ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
-                        return View("Index");
+                        return View("Index", usuario);
                     }
                 }
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)

@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @if (ViewBag.NomeLoja != null)
+    @if (Session["NomeLoja"] != null)
     {
-        <title>@ViewBag.Title - @ViewBag.NomeLoja</title>
+        <title>@ViewBag.Title - @Session["NomeLoja"]</title>
     }
     else
     {
@@ -17,15 +17,20 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Oswald:500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <script src="~/Scripts/marmitex.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.css">
 </head>
 <body>
     <div class="container">
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 
-                @if (ViewBag.NomeLoja != null)
+                @if (Session["NomeLoja"] != null)
                 {
-                    <a class="navbar-brand">@ViewBag.NomeLoja</a>
+                    <a href="~/Login" class="navbar-brand">@Session["NomeLoja"]</a>
                 }
                 else
                 {
@@ -43,9 +48,9 @@
         <footer></footer>
     </div>
 
-    @*<script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/marmitex.js"></script>
+    
 </body>
 </html>

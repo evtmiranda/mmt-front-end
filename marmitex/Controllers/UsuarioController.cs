@@ -133,10 +133,19 @@
 
                 usuarioParceiro = JsonConvert.DeserializeObject<UsuarioParceiro>(jsonRetorno);
 
+                //na edição do cadastro o usuário não pode alterar o código da empresa, então o campo não deve ser habilitado.
+                ViewBag.NaoExibirCodigoEmpresa = true;
+
+                //limpa a senha do usuário, pois não é possível descriptografar
+                usuarioParceiro.Senha = null;
+
                 return View(usuarioParceiro);
             }
             catch (Exception)
             {
+                //na edição do cadastro o usuário não pode alterar o código da empresa, então o campo não deve ser habilitado.
+                ViewBag.NaoExibirCodigoEmpresa = true;
+
                 ViewBag.MensagemCarregamentoEditarUsuario = "Não foi consultar o usuário. Por favor, tente novamente ou entre em contato com nosso suporte.";
                 return View();
             }
@@ -166,7 +175,13 @@
 
             //validação dos campos
             if (!ModelState.IsValid)
+            {
+                //na edição do cadastro o usuário não pode alterar o código da empresa, então o campo não deve ser habilitado.
+                ViewBag.NaoExibirCodigoEmpresa = true;
+
                 return View("Editar", usuarioParceiro);
+            }
+                
 
             #endregion
 
@@ -191,6 +206,9 @@
 
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
+                    //na edição do cadastro o usuário não pode alterar o código da empresa, então o campo não deve ser habilitado.
+                    ViewBag.NaoExibirCodigoEmpresa = true;
+
                     ViewBag.MensagemEditarUsuario = retornoRequest.objeto.ToString();
                     return View("Editar", usuarioParceiro);
                 }
@@ -199,6 +217,9 @@
             }
             catch (Exception)
             {
+                //na edição do cadastro o usuário não pode alterar o código da empresa, então o campo não deve ser habilitado.
+                ViewBag.NaoExibirCodigoEmpresa = true;
+
                 usuarioParceiro.Senha = senhaSemCrip;
                 ViewBag.MensagemEditarUsuario = "Não foi possível atualizar o usuario. Por favor, tente novamente ou entre em contato com nosso suporte.";
                 return View("Editar", usuarioParceiro);

@@ -5,6 +5,7 @@
     <label for="nome">nome *</label><br />
     @if (Model != null)
     {
+        <input type="hidden" name="Id" value="@Model.Id"/>
         <input type="text" class="form-control" required title="O preenchimento do nome é obrigatório" id="nome" name="Nome" value="@Model.Nome" placeholder="digite o seu nome">
     }
     else
@@ -51,11 +52,11 @@
 
     @if (Model != null)
     {
-        <input type="tel" class="form-control" id="NumeroCelular" name="NumeroCelular" onkeyup="formataTelefone(this, event);" maxlength="15" value="@Model.NumeroCelular" placeholder="digite o seu número de celular com DDD">
+        <input type="tel" class="form-control" required id="NumeroCelular" name="NumeroCelular" onkeyup="formataTelefone(this, event);" maxlength="15" value="@Model.NumeroCelular" placeholder="digite o seu número de celular com DDD">
     }
     else
     {
-        <input type="tel" class="form-control" id="NumeroCelular" name="NumeroCelular" onkeyup="formataTelefone(this, event);" maxlength="15" placeholder="digite o seu número de celular com DDD">
+        <input type="tel" class="form-control" required id="NumeroCelular" name="NumeroCelular" onkeyup="formataTelefone(this, event);" maxlength="15" placeholder="digite o seu número de celular com DDD">
     }
 
 
@@ -67,11 +68,11 @@
 
     @if (Model != null)
     {
-        <textarea class="form-control" id="DicaDeLocalizacao" name="DicaDeLocalizacao" placeholder="digite uma dica de localização, por exemplo: 5° andar, mesa 10. Ramal: 555">@Model.DicaDeLocalizacao</textarea>
+        <textarea class="form-control" required id="DicaDeLocalizacao" name="DicaDeLocalizacao" placeholder="digite uma dica de localização, por exemplo: 5° andar, mesa 10. Ramal: 555">@Model.DicaDeLocalizacao</textarea>
     }
     else
     {
-        <textarea class="form-control" id="DicaDeLocalizacao" name="DicaDeLocalizacao" placeholder="digite uma dica de localização, por exemplo: 5° andar, mesa 10. Ramal: 555"></textarea>
+        <textarea class="form-control" required id="DicaDeLocalizacao" name="DicaDeLocalizacao" placeholder="digite uma dica de localização, por exemplo: 5° andar, mesa 10. Ramal: 555"></textarea>
     }
 
 
@@ -94,21 +95,29 @@
 
 </div>
 
-<p class="vermelho-marmitex">@Html.ValidationMessage("CodigoParceiro")</p>
-<div class="form-group">
-    <label for="codigoParceiro">código de sua empresa *</label>
+@if (ViewBag.NaoExibirCodigoEmpresa == null)
+{
+    <p class="vermelho-marmitex">@Html.ValidationMessage("CodigoParceiro")</p>
+    <div class="form-group">
+        <label for="codigoParceiro">código de sua empresa *</label>
 
-    @if (Model != null)
-    {
-        <input type="text" class="form-control" required title="o preenchimento do código da empresa é obrigatório" id="codigoParceiro" name="CodigoParceiro" value="@Model.CodigoParceiro" placeholder="digite o código de sua empresa">
-    }
-    else
-    {
-        <input type="text" class="form-control" required title="o preenchimento do código da empresa é obrigatório" id="codigoParceiro" name="CodigoParceiro" placeholder="digite o código de sua empresa">
-    }
+        @if (Model != null)
+        {
+            <input type="text" class="form-control" required title="o preenchimento do código da empresa é obrigatório" id="codigoParceiro" name="CodigoParceiro" value="@Model.CodigoParceiro" placeholder="digite o código de sua empresa">
+        }
+        else
+        {
+            <input type="text" class="form-control" required title="o preenchimento do código da empresa é obrigatório" id="codigoParceiro" name="CodigoParceiro" placeholder="digite o código de sua empresa">
+        }
 
 
-</div>
+    </div>
+}
+else
+{
+    <input type="hidden" id="codigoParceiro" name="CodigoParceiro" value="@Model.CodigoParceiro">
+}
+
 
 @if (ViewBag.MensagemCadastro != null)
 { <br /><p style="color: #bc2026">@ViewBag.MensagemCadastro</p><br />}

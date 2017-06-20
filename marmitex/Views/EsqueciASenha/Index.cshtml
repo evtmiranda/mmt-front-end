@@ -12,12 +12,35 @@
                 <h1>olá, vamos te ajudar a recuperar a senha</h1>
                 <hr />
 
-                <div class="form-group">
-                    <label for="email">digite o seu e-mail:</label>
-                    <input type="email" class="form-control" id="email">
-                    <br />
-                    <a href="#" class="btn btn-vermelho-sem-animacao" role="button">enviar senha</a>
-                </div>
+                @if (ViewBag.MensagemRecuperarSenha != null)
+                {
+                    <script>
+                    swal({
+                        title: 'Oops',
+                        html: "@ViewBag.MensagemRecuperarSenha",
+                        type: 'error',
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar
+                    }).then(function () {
+                        //window.location = "Session["urlBase"]/Parceiro/";
+                        });
+                    </script>
+                }
+
+                <form method="post" action="@Session["urlBase"]/EsqueciASenha/EnviarSenhaParaEmail">
+
+                    <div class="form-group">
+                        <label for="email">digite o seu e-mail:</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                        <br />
+
+                        <input type="submit" class="btn btn-vermelho-sem-animacao" value="enviar senha" />
+
+                    </div>
+                </form>
+
+
             </div>
         </div>
     </div>
