@@ -23,7 +23,11 @@
                 {
                     foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
                     {
-                        <p style="margin-left: 1em;"><strong>@adicional.Nome</strong></p>
+                        if (adicional.ItensAdicionais.Where(a => a.Qtd > 0).ToList().Count() > 0)
+                        {
+                            <p style="margin-left: 1em;"><strong>@adicional.Nome</strong></p>
+                        }
+
                         foreach (var itemAdicional in adicional.ItensAdicionais)
                         {
                             if (itemAdicional.Qtd > 0)

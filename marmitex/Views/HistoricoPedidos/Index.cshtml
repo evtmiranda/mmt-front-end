@@ -108,14 +108,10 @@
                                                                 <p><span class="badge">1</span> @p.Produto.Nome R$@p.ValorTotal.ToString("F")</p>
                                                                 @foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
                                                                 {
-                                                                    <p class="vermelho-marmitex">@adicional.Nome</p>
-                                                                    if (adicional.ItensAdicionais.Sum(k => k.Qtd) == 0)
+                                                                    if (adicional.ItensAdicionais.Sum(k => k.Qtd) > 0)
                                                                     {
-                                                                        <p style="margin-left: 2em;">nenhum</p>
-                                                                        <br />
-                                                                    }
-                                                                    else
-                                                                    {
+                                                                        <p class="vermelho-marmitex">@adicional.Nome</p>
+
                                                                         foreach (var item in adicional.ItensAdicionais)
                                                                         {
                                                                             if (item.Qtd > 0)
@@ -155,8 +151,6 @@
 
                                                     <h4>Valor total do pedido</h4>
                                                     <p>R$ @pedido.ValorTotalPedido.ToString("F")</p>
-
-                                                    <br />
 
                                                     @if (!string.IsNullOrEmpty(pedido.Observacao))
                                                     {
