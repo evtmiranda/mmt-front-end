@@ -16,6 +16,11 @@ namespace marmitex
 
         //protected void Application_Error(object sender, EventArgs e)
         //{
+        //    Response.Redirect("~/Login");
+        //}
+
+        //protected void Application_Error(object sender, EventArgs e)
+        //{
         //    var app = (MvcApplication)sender;
         //    var context = app.Context;
         //    var ex = app.Server.GetLastError();
