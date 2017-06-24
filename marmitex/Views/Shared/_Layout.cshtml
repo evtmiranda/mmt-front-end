@@ -42,7 +42,15 @@
                     }
                     else
                     {
-                        <a href="/Home" class="navbar-brand">TáSaindo</a>
+                        if (Session["NomeLoja"] != null)
+                        {
+                            <a href="/Home" class="navbar-brand">@Session["NomeLoja"]</a>
+                        }
+                        else
+                        {
+                            <a href="/Home" class="navbar-brand"> </a>
+                        }
+
                     }
                 }
 
