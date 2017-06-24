@@ -148,8 +148,12 @@
         /// <returns></returns>
         public ActionResult Deslogar()
         {
+            var nomeLoja = Session["NomeLoja"];
+
             //Limpa todas as sessões
             Session.Clear();
+
+            Session["NomeLoja"] = nomeLoja;
 
             //Direciona para a tela de login
             return View("Index");

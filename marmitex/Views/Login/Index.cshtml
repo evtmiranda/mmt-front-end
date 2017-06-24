@@ -10,7 +10,15 @@
         <div class="col-md-12">
             <div class="col-md-3"></div>
             <div class="col-md-6 mmt-bg-cinza" style="text-align: center">
-                <h1 style="margin-top: 2em; margin-bottom: 2em;">entrar</h1>
+                @if (Session["PaginaDestinoAposLogin"] != null)
+                {
+                    <h1 style="margin-top: 1em; margin-bottom: 1em;">faça login para concluir o pedido</h1>
+                }
+                else
+                {
+                    <h1 style="margin-top: 1em; margin-bottom: 1em;">fazer login</h1>
+                }
+                
                 <hr />
                 <form method="post" action="@Session["urlBase"]/Login/Autenticar">
                     <div class="form-group">
