@@ -123,11 +123,11 @@ function EsconderDiv(classEsconder, classExibir) {
  * @param {any} idProduto
  * @param {any} qtdMaxItensAdicional
  */
-function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
+function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
 
     try {
         //nome da classe que deve ter as divs escondidas
-        var classEsconder = 'divModal';
+        var classEsconder = 'divModal_' + idProduto;
 
         //limpa a div de mensagem
         document.getElementById(nomeDivMensagem).textContent = "";
@@ -189,17 +189,42 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
                 //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
                 $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
                     function () {
-                        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
-                            '#visualizacaoCarrinho');
-                        AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
-                            '#visualizacaoCardapio');
+                        var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra/";
+                        $("#visualizacaoCarrinho").load(url);
+
+                        var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio/";
+                        $("#visualizacaoCardapio").load(url);
 
                         //fecha o modal
                         var nomeModal = '#modalProduto_' + idProduto;
                         $(nomeModal).modal('hide');
 
-                        //recarrega o html da página
-                        window.location.reload();
+                        //$('#your-modal-id').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+
+                        //volta a navegação do modal para o primeiro adicional
+                        var listaDivsEsconder = document.getElementsByClassName(classEsconder);
+
+                        for (i = 0; i < listaDivsEsconder.length; i++) {
+                            listaDivsEsconder[i].classList.add("escondeDiv");
+                            listaDivsEsconder[i].classList.remove("exibeDiv");
+                        }
+
+                        //exibe divs
+                        var divExibir = document.getElementById(primeiraDivModal);
+
+                        divExibir.classList.remove("escondeDiv");
+                        divExibir.classList.add("exibeDiv");
+
+                        //limpa os inputs do modal
+                        $(classEsconder)
+                            .find("input,textarea,select")
+                            .val('')
+                            .end()
+                            .find("input[type=checkbox], input[type=radio]")
+                            .prop("checked", "")
+                            .end();
                     }));
         }
         //se for a escolha do primeiro adicional do produto o produto deve ser criado
@@ -234,6 +259,29 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
                     //$('#your-modal-id').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
+
+                    //volta a navegação do modal para o primeiro adicional
+                    var listaDivsEsconder = document.getElementsByClassName(classEsconder);
+
+                    for (i = 0; i < listaDivsEsconder.length; i++) {
+                        listaDivsEsconder[i].classList.add("escondeDiv");
+                        listaDivsEsconder[i].classList.remove("exibeDiv");
+                    }
+
+                    //exibe divs
+                    var divExibir = document.getElementById(primeiraDivModal);
+
+                    divExibir.classList.remove("escondeDiv");
+                    divExibir.classList.add("exibeDiv");
+
+                    //limpa os inputs do modal
+                    $(classEsconder)
+                        .find("input,textarea,select")
+                        .val('')
+                        .end()
+                        .find("input[type=checkbox], input[type=radio]")
+                        .prop("checked", "")
+                        .end();
 
                 });
         }

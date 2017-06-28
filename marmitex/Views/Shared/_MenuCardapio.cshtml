@@ -50,13 +50,14 @@
         //variável para controlar a navegação dentro do modal
         int numeroOpcao = 1;
         string styleNone = "";
+        string primeiraDivModal = "";
 
         //modal
         //dados adicionais do produto em questão, por exemplo: ingredientes, tipo de massa e etc
         <div class="modal fade" id="modalProduto_@p.Id" role="dialog">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-
+                    
                     @*para cada adicional do produto, uma div é criada*@
                     @foreach (var adicional in p.DadosAdicionaisProdutos)
                     {
@@ -64,6 +65,7 @@
                         if (numeroOpcao == 1)
                         {
                             styleNone = "";
+                            primeiraDivModal = "'divModal_" + p.Id + (numeroOpcao) + "'";
                         }
                         else
                         {
@@ -74,6 +76,7 @@
                         {
                             idPrimeiroAdicional = adicional.Id;
                         }
+
 
                         //monta o nome da div anterior
                         string divAnteriorModal = "'divModal_" + p.Id + (numeroOpcao - 1) + "'";
@@ -92,7 +95,7 @@
 
                         string nomeDivMensagem = "'mensagemAviso_" + p.Id + numeroOpcao + "'";
 
-                        <div id="divModal_@p.Id@numeroOpcao" class="divModal @styleNone">
+                        <div id="divModal_@p.Id@numeroOpcao" class="divModal_@p.Id @styleNone">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h3 class="modal-title">@adicional.Nome</h3>
@@ -140,22 +143,22 @@
                                     <!-- se existir um único produto adicional para o produto, ele é marcado como primeiro e último -->
                                     if (p.DadosAdicionaisProdutos.Count == 1)
                                     {
-                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
                                     }
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count > numeroOpcao)
                                 {
                                     if (numeroOpcao == 1)
                                     {
-                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 1, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
+                                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @p.Id, 0, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
                                     }
 
                                 }
