@@ -220,17 +220,21 @@ function NavegarModal(nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, 
             //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
             $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
                 function () {
-                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra',
-                        '#visualizacaoCarrinho');
-                    AtualizarVisualizacaoDiv('/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio',
-                        '#visualizacaoCardapio');
+
+                    var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra/";
+                    $("#visualizacaoCarrinho").load(url);
+
+                    var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio/";
+                    $("#visualizacaoCardapio").load(url);
 
                     //fecha o modal
                     var nomeModal = '#modalProduto_' + idProduto;
                     $(nomeModal).modal('hide');
 
-                    //recarrega o html da página
-                    window.location.reload();
+                    //$('#your-modal-id').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
                 });
         }
     } catch (e) {

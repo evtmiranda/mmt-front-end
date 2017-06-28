@@ -37,6 +37,9 @@
             //a loja é utilizada para validar se o usuário existe e se pertence a loja onde está tentando logar
             Session["dominioLoja"] = PreencherSessaoDominioLoja();
 
+            //preenche o nome da loja
+            Session["NomeLoja"] = PreencherSessaoDominioLoja();
+
             #region valida usuário logado
 
             //se não conseguir capturar a rede, direciona para a tela de erro

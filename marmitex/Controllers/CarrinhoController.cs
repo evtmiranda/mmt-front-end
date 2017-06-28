@@ -288,14 +288,12 @@
             return View();
         }
 
-        public PartialViewResult AtualizarVisualizacaoViewParcial(string id)
+        public ActionResult AtualizarVisualizacaoViewParcial(string id)
         {
             string nomeViewParcial = id;
 
             return PartialView(nomeViewParcial);
         }
-
-
 
     }
 }

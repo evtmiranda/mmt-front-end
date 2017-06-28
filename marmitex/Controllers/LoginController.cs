@@ -100,6 +100,8 @@
                             return RedirectToAction(destino[2], destino[1]);
                         }
 
+                        //preenche o nome da loja
+                        Session["NomeLoja"] = usuarioLogado.NomeLoja;
 
                         return RedirectToAction("Index", "Home");
                     }
