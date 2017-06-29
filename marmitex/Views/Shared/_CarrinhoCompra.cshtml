@@ -3,6 +3,7 @@
     {
         decimal vlrCarrinho = 0;
         Session["vlrCarrinho"] = 0;
+        Session["qtdCarrinho"] = 0;
 
         <ul class="sidebar-nav carrinho-compras">
             @foreach (ClassesMarmitex.ProdutoPedido p in (List<ClassesMarmitex.ProdutoPedido>)Session["Carrinho"])
@@ -16,13 +17,14 @@
                 vlrCarrinho = Convert.ToDecimal(Session["vlrCarrinho"]);
                 vlrCarrinho += p.ValorTotal;
                 Session["vlrCarrinho"] = vlrCarrinho;
+                Session["qtdCarrinho"] = 1 + Convert.ToInt32(Session["qtdCarrinho"]);
 
                 //exibe os produtos adicionais se houver
                 if (p.Produto.DadosAdicionaisProdutos.Count > 0)
                 {
                     //exibe o produto e o valor total
                     <li>
-                        <div class="produtos-nome" title="@p.Produto.Nome">@p.Quantidade @p.Produto.Nome</div> R$ @p.ValorTotal.ToString("F")
+                        <div class="produtos-nome" title="@p.Produto.Nome"><b>@p.Quantidade @p.Produto.Nome </b></div><b>R$ @p.Produto.Valor.ToString("F")</b>
                     </li>
 
                     foreach (var prodAdicional in p.Produto.DadosAdicionaisProdutos)
@@ -35,8 +37,6 @@
                         {
                             if (itemAdicional.Qtd > 0)
                             {
-
-
                                 if (itemAdicional.Valor > 0)
                                 {
                                     <li style="margin-top: 0em !important;">
@@ -68,7 +68,7 @@
             }
         </ul>
 
-        if (Convert.ToDecimal(Session["vlrCarrinho"]) > 0)
+        if (Convert.ToInt32(Session["qtdCarrinho"]) > 0)
         {
             <ul class="sidebar-nav carrinho-compras">
                 <li>valor total do pedido R$@Convert.ToDecimal(Session["vlrCarrinho"]).ToString("F")</li>
@@ -83,7 +83,7 @@
             if (Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])
                         || Request.Url.AbsolutePath.Contains("AtualizarVisualizacaoViewParcial"))
             {
-                if (Convert.ToDecimal(Session["vlrCarrinho"]) > 0)
+                if (Convert.ToInt32(Session["qtdCarrinho"]) > 0)
                 {
                     <a href="@Session["urlBase"]DetalhesPedido/Index" class="btn btn-vermelho-sem-animacao btn-pedido" role="button"><i class="glyphicon glyphicon-ok"></i> fechar pedido</a>
                 }

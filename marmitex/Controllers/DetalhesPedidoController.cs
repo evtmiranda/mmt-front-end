@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Linq;
+    using marmitex.Utils;
 
     public class DetalhesPedidoController : BaseController
     {
@@ -134,11 +135,24 @@
             return View("PedidoConcluido");
         }
 
-        public void AtualizarDetalhesPedido(string dadosJson)
+        [MyErrorHandler]
+        public ActionResult AtualizarDetalhesPedido(string dadosJson)
         {
             //monta o objeto detalhesPedido com os dados preenchidos pelo usuário
             DetalhePedido detalhesPedido = new DetalhePedido();
             detalhesPedido = JsonConvert.DeserializeObject<DetalhePedido>(dadosJson);
+
+            #region validação dos campos
+
+            if(detalhesPedido.FormaPagamento == null || detalhesPedido.FormaPagamento.Count == 0)
+                return Json(new { success = false, message = "escolha a forma de pagamento" }, JsonRequestBehavior.AllowGet);
+
+            if(detalhesPedido.HorarioEntrega == null)
+                return Json(new { success = false, message = "escolha o horário de entrega" }, JsonRequestBehavior.AllowGet);
+
+            #endregion
+
+
 
             //alimenta as sessões com os detalhes do pedido
             Session["HorarioEntrega"] = detalhesPedido.HorarioEntrega;
@@ -158,6 +172,8 @@
                 Session["Observacao"] = null;
 
             Session["MensagemCamposDetalhesPedido"] = null;
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -314,28 +314,19 @@ function ProximaDivModal(classEsconder, nomeDivExibir) {
  */
 function DivAnteriorModal(classEsconder, nomeDivExibir, nomeDivMensagem) {
 
-    try {
-        //limpa a div de mensagem
-        document.getElementById(nomeDivMensagem).textContent = "";
+    //esconde divs
+    var listaDivsEsconder = document.getElementsByClassName(classEsconder);
 
-        //esconde divs
-        var listaDivsEsconder = document.getElementsByClassName(classEsconder);
-
-        for (i = 0; i < listaDivsEsconder.length; i++) {
-            listaDivsEsconder[i].classList.add("escondeDiv");
-            listaDivsEsconder[i].classList.remove("exibeDiv");
-        }
-
-        //exibe divs
-        var divExibir = document.getElementById(nomeDivExibir);
-
-        divExibir.classList.remove("escondeDiv");
-        divExibir.classList.add("exibeDiv");
-    }
-    catch (e) {
-        document.getElementById(nomeDivMensagem).textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
+    for (i = 0; i < listaDivsEsconder.length; i++) {
+        listaDivsEsconder[i].classList.add("escondeDiv");
+        listaDivsEsconder[i].classList.remove("exibeDiv");
     }
 
+    //exibe divs
+    var divExibir = document.getElementById(nomeDivExibir);
+
+    divExibir.classList.remove("escondeDiv");
+    divExibir.classList.add("exibeDiv");
 }
 
 
@@ -400,12 +391,20 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
 
     //verifica se os checkbox foram preenchidos
     if (horarioEntrega == null) {
-        alert('selecione o horário de entrega');
+        swal({
+            title: 'Aviso',
+            html: 'selecione o horário de entrega',
+            type: 'warning'
+        })
         return;
     }
 
-    if (formaPagamento == null) {
-        alert('selecione a forma de pagamento');
+    if (formaPagamento.length == 0) {
+        swal({
+            title: 'Aviso',
+            html: 'selecione a forma de pagamento',
+            type: 'warning'
+        })
         return;
     }
 
@@ -435,9 +434,22 @@ function AvancarParaResumoPedido(jsonHeaderPost, urlBase, destino) {
     var dadosPost = JSON.parse(jsonHeaderPost);
     var detalhesPedidoJson = JSON.stringify(detalhesPedido, null, 0);
 
-    $.post(dadosPost.Recurso, { dadosJson: detalhesPedidoJson }, function () {
-        Redirecionar(urlBase, destino);
+    $.getJSON(dadosPost.Recurso, { dadosJson: detalhesPedidoJson }, function (result) {
+        if (!result.success) {
+            swal({
+                title: 'Aviso',
+                html: result.message,
+                type: 'warning'
+            })
+        }
+        else {
+            Redirecionar(urlBase, destino);
+        }
     });
+
+    //$.post(dadosPost.Recurso, { dadosJson: detalhesPedidoJson }, function () {
+    //    Redirecionar(urlBase, destino);
+    //});
 
 }
 

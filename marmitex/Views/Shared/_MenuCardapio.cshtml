@@ -115,7 +115,13 @@
                                                 <label class="nomeAdicional control-label" style="text-align: left !important" for="@itemAdicional.Id">@itemAdicional.Nome</label>
                                             </div>
                                             <div class="col-sm-4">
-                                                <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional text-center" />
+                                                @*<input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional text-center" />*@
+                                                <select class="form-control qtdAdicional text-center">
+                                                    @for(int i = 0; i <= adicional.QtdMax; i++)
+                                                    {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                </select>
                                             </div>
                                             <div class="col-md-1"></div>
                                             <div class="control-label col-sm-11">
@@ -136,7 +142,7 @@
                             <div class="modal-footer">
                                 @if (numeroOpcao > 1)
                                 {
-                                    <button type="button" class="btn btn-default" onclick="DivAnteriorModal('divModal', @divAnteriorModal, @nomeDivMensagem)">anterior</button>
+                                    <button type="button" class="btn btn-default" onclick="DivAnteriorModal('divModal_@p.Id', @divAnteriorModal, @nomeDivMensagem)">anterior</button>
                                 }
                                 @if (p.DadosAdicionaisProdutos.Count == numeroOpcao)
                                 {

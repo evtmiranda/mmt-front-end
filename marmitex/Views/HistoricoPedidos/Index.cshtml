@@ -53,7 +53,7 @@
                                     @if (status == "na fila")
                                     {
                                         <td>
-                                            <button class="btn-link" style="color: #bc2026" onclick="CancelarPedido('/HistoricoPedidos/CancelarPedido/', @pedido.Id)" title="Desativar">cancelar pedido</button>
+                                            <button class="btn-link" style="color: #bc2026" onclick="CancelarPedido('/HistoricoPedidos/CancelarPedido/', @pedido.Id)" title="Cancelar o pedido">cancelar pedido</button>
                                         </td>
                                     }
                                     else
@@ -146,7 +146,7 @@
 
                                                     @if (Convert.ToDecimal(pedido.Troco) > 0)
                                                     {
-                                                        <p>R$ @pedido.Troco.ToString("F") de troco</p>
+                                                        <p>Troco para R$ @pedido.Troco.ToString("F")</p>
                                                     }
 
                                                     <h4>Valor total do pedido</h4>
