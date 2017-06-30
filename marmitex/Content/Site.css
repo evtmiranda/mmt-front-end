@@ -259,10 +259,16 @@ a, p {
     color: #f8ac2b;
 }
 
+@media (max-width: 767px) {
+    .menu-responsivo {
+        display: none !important;
+    }
+}
+
+
+
 /*#endregion */
-
 /*#region paginação */
-
 .pager-cardapio {
     padding-left: 0;
     margin: 20px 0;
