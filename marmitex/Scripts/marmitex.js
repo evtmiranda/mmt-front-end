@@ -123,7 +123,7 @@ function EsconderDiv(classEsconder, classExibir) {
  * @param {any} idProduto
  * @param {any} qtdMaxItensAdicional
  */
-function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
+function NavegarModal(prodVendeHj, primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
 
     try {
         //nome da classe que deve ter as divs escondidas
@@ -182,8 +182,6 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
 
         //se for o primeiro e último produto adicional (casos com apenas 1 produto adicional)
         if (ehPrimeiroAdicional && ehUltimoAdicional) {
-            console.log("entrou no if certo");
-
             $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
 
                 //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
@@ -289,6 +287,14 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
         document.getElementById(nomeDivMensagem).textContent = 'ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador.';
     }
 
+}
+
+function avisoVendaNaoDisponivel() {
+    swal({
+        title: 'Aviso',
+        html: 'produto não disponível para venda hoje',
+        type: 'warning'
+    })
 }
 
 function ProximaDivModal(classEsconder, nomeDivExibir) {

@@ -111,11 +111,7 @@
 
                     foreach (var produto in menuCardapio.Produtos)
                     {
-                        //verifica se o produto está a venda no dia de hoje. se não estiver, parte para o próximo produto
-                        int numDiaAtual = DateTime.Now.DayOfWeek.GetHashCode();
 
-                        if (produto.ProdutoDiasVenda.FindAll(p => p == numDiaAtual).Count == 0)
-                            continue;
 
                         //filtra os produtos adicionais ativos
                         produto.DadosAdicionaisProdutos = produto.DadosAdicionaisProdutos.Where(pa => pa.Ativo).ToList();

@@ -32,14 +32,36 @@
                     <!-- se o produto tiver itens adicionais, ao clicar em adicionar o modal de itens adicionais é aberto -->
                     @if (p.DadosAdicionaisProdutos.Count > 0)
                     {
-                        <!-- ao clicar em adicionar produto, o primeiro modal com os itens adicionais é aberto -->
-                        <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        //verifica se o produto está a venda no dia de hoje. se não estiver, parte para o próximo produto
+                        int numDiaAtual = DateTime.Now.DayOfWeek.GetHashCode();
+
+                        if (p.ProdutoDiasVenda.FindAll(x => x == numDiaAtual).Count == 0)
+                        {
+                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="avisoVendaNaoDisponivel()"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+                        else
+                        {
+                            <!-- ao clicar em adicionar produto, o primeiro modal com os itens adicionais é aberto -->
+                            <a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+
                     }
 
                     <!-- se o produto não tiver itens adicionais, ao clicar em adicionar o produto já é adicionado -->
                     @if (p.DadosAdicionaisProdutos.Count == 0)
                     {
-                        <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        //verifica se o produto está a venda no dia de hoje. se não estiver, parte para o próximo produto
+                        int numDiaAtual = DateTime.Now.DayOfWeek.GetHashCode();
+
+                        if (p.ProdutoDiasVenda.FindAll(x => x == numDiaAtual).Count == 0)
+                        {
+                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="avisoVendaNaoDisponivel()"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+
                     }
 
 
@@ -57,7 +79,7 @@
         <div class="modal fade" id="modalProduto_@p.Id" role="dialog">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-                    
+
                     @*para cada adicional do produto, uma div é criada*@
                     @foreach (var adicional in p.DadosAdicionaisProdutos)
                     {
@@ -117,7 +139,7 @@
                                             <div class="col-sm-4">
                                                 @*<input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional text-center" />*@
                                                 <select class="form-control qtdAdicional text-center">
-                                                    @for(int i = 0; i <= adicional.QtdMax; i++)
+                                                    @for (int i = 0; i <= adicional.QtdMax; i++)
                                                     {
                                                         <option value="@i">@i</option>
                                                     }
