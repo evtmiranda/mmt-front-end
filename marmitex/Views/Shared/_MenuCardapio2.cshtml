@@ -1,0 +1,92 @@
+﻿<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.ls-modal').on('click', function (e) {
+            e.preventDefault();
+            $('#ModalAdicionais').modal('show').find('.modal-content').load($(this).attr('href'));
+        })
+    });
+</script>
+
+@if (Session["Produtos"] != null)
+{
+    foreach (ClassesMarmitex.Produto p in (List<ClassesMarmitex.Produto>)Session["Produtos"])
+    {
+        //objeto para realizar um post com ajax e atualizar o conteudo de uma determinada div
+        ClassesMarmitex.DadosPostAjax postAjax = new ClassesMarmitex.DadosPostAjax();
+        postAjax.Recurso = "/Carrinho/AdicionarProduto";
+        postAjax.ViewParcial = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra";
+        postAjax.DivASerAtualizada = "#visualizacaoCarrinho";
+
+        //monta a ação de post para atualizar a visualização do carrinho
+        string AdicionarCarrinho = string.Format("Post('{0}', '{1}')",
+            @Html.Raw(Json.Encode(postAjax)), @Html.Raw(Json.Encode(@p)));
+
+        //variáveis para o post de adição de produto que contém produtos adicionais
+        string produtoJson = string.Format("'{0}'", @Html.Raw(Json.Encode(@p)));
+
+        //visão do produto
+        <div class="idCardapio @p.IdMenuCardapio menuCardapio col-md-4">
+            <div class="thumbnail">
+                <img src="~/Images/@Session["dominioLoja"]/Produtos/@p.Imagem" alt="imagem do produto" class="img-responsive img-rounded img-produtos">
+                <div class="caption">
+                    <h3 class="nome-produto-pesquisa produtos-nome" title="@p.Nome">@p.Nome</h3>
+                    <p class="produto-descricao" title="@p.Descricao">
+                        @p.Descricao
+                    </p>
+                    <p> R$ @p.Valor.ToString("F")</p>
+
+                    <!-- se o produto tiver itens adicionais, ao clicar em adicionar o modal de itens adicionais é aberto -->
+                    @if (p.DadosAdicionaisProdutos.Count > 0)
+                    {
+                        //verifica se o produto está a venda no dia de hoje. se não estiver, parte para o próximo produto
+                        int numDiaAtual = DateTime.Now.DayOfWeek.GetHashCode();
+
+                        if (p.ProdutoDiasVenda.FindAll(x => x == numDiaAtual).Count == 0)
+                        {
+                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="avisoVendaNaoDisponivel()"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+                        else
+                        {
+                            <!-- ao clicar em adicionar produto, o primeiro modal com os itens adicionais é aberto -->
+                            @*<a href="#" data-toggle="modal" data-target="#modalProduto_@p.Id" class="btn btn-amarelo-sem-animacao" role="button"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>*@
+                            <a href="/Adicionais/Index/@p.Id" class="ls-modal btn btn-amarelo-sem-animacao"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+
+                    }
+
+                    <!-- se o produto não tiver itens adicionais, ao clicar em adicionar o produto já é adicionado -->
+                    @if (p.DadosAdicionaisProdutos.Count == 0)
+                    {
+                        //verifica se o produto está a venda no dia de hoje. se não estiver, parte para o próximo produto
+                        int numDiaAtual = DateTime.Now.DayOfWeek.GetHashCode();
+
+                        if (p.ProdutoDiasVenda.FindAll(x => x == numDiaAtual).Count == 0)
+                        {
+                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="avisoVendaNaoDisponivel()"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-amarelo-sem-animacao" role="button" onclick="@AdicionarCarrinho"><i class="glyphicon glyphicon-plus"></i> adicionar ao carrinho</a>
+                        }
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    }
+
+    //modal
+    //dados adicionais do produto em questão, por exemplo: ingredientes, tipo de massa e etc
+    <div class="modal fade" id="ModalAdicionais" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                @*carregar modal aqui*@
+            </div>
+        </div>
+    </div>
+}
+

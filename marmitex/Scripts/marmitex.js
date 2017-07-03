@@ -123,7 +123,7 @@ function EsconderDiv(classEsconder, classExibir) {
  * @param {any} idProduto
  * @param {any} qtdMaxItensAdicional
  */
-function NavegarModal(prodVendeHj, primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
+function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual, nomeDivMensagem, idProdutoAdicional, idProduto, ehPrimeiroAdicional, ehUltimoAdicional, qtdMaxItensAdicional, qtdMinItensAdicional, produtoJson) {
 
     try {
         //nome da classe que deve ter as divs escondidas
@@ -194,7 +194,8 @@ function NavegarModal(prodVendeHj, primeiraDivModal, nomeDivExibir, classeProdAd
                         $("#visualizacaoCardapio").load(url);
 
                         //fecha o modal
-                        var nomeModal = '#modalProduto_' + idProduto;
+                        //var nomeModal = '#modalProduto_' + idProduto;
+                        var nomeModal = '#ModalAdicionais';
                         $(nomeModal).modal('hide');
 
                         //$('#your-modal-id').modal('hide');
@@ -251,7 +252,8 @@ function NavegarModal(prodVendeHj, primeiraDivModal, nomeDivExibir, classeProdAd
                     $("#visualizacaoCardapio").load(url);
 
                     //fecha o modal
-                    var nomeModal = '#modalProduto_' + idProduto;
+                    //var nomeModal = '#modalProduto_' + idProduto;
+                    var nomeModal = '#ModalAdicionais';
                     $(nomeModal).modal('hide');
 
                     //$('#your-modal-id').modal('hide');

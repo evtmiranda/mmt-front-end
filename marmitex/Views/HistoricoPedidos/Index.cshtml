@@ -38,9 +38,12 @@
                                                 status = "na fila";
                                                 break;
                                             case 1:
-                                                status = "entregue";
+                                                status = "em andamento";
                                                 break;
                                             case 2:
+                                                status = "entregue";
+                                                break;
+                                            case 3:
                                                 status = "cancelado";
                                                 break;
                                         }
@@ -50,7 +53,7 @@
                                         @status
                                     </td>
 
-                                    @if (status == "na fila")
+                                    @if (status == "na fila" || status == "em andamento")
                                     {
                                         <td>
                                             <button class="btn-link" style="color: #bc2026" onclick="CancelarPedido('/HistoricoPedidos/CancelarPedido/', @pedido.Id)" title="Cancelar o pedido">cancelar pedido</button>
@@ -61,7 +64,7 @@
                                         <td></td>
                                     }
                                 </tr>
-                                        }
+                                }
                     </table>
 
                     <div>

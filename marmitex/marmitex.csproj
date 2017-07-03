@@ -181,6 +181,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdicionaisController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseLoginController.cs" />
     <Compile Include="Controllers\HistoricoPedidosController.cs" />
@@ -219,6 +220,8 @@
     <Content Include="Views\Shared\_Brinde.cshtml" />
     <Content Include="Views\Shared\_FormUsuario.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
+    <Content Include="Views\Adicionais\Index.cshtml" />
+    <Content Include="Views\Shared\_MenuCardapio2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -17,7 +17,6 @@
             this.rest = rest;
         }
 
-
         public ActionResult Index()
         {
             //preenche o nome da loja

@@ -135,6 +135,12 @@
                                             <input type="hidden" class="idAdicional" value="@itemAdicional.Id" />
                                             <div class="col-sm-7">
                                                 <label class="nomeAdicional control-label" style="text-align: left !important" for="@itemAdicional.Id">@itemAdicional.Nome</label>
+                                                
+                                                @if (!string.IsNullOrEmpty(itemAdicional.Descricao))
+                                                {
+                                                    <small class="nomeAdicional">@itemAdicional.Descricao</small>
+                                                }
+                                                
                                             </div>
                                             <div class="col-sm-4">
                                                 @*<input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional text-center" />*@

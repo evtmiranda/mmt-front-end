@@ -1,0 +1,143 @@
+﻿@model ClassesMarmitex.Produto
+
+@{ 
+    Layout = null;
+}
+
+<div class="modal-content">
+
+    @{//variável para controlar a navegação dentro do modal
+        int numeroOpcao = 1;
+        string styleNone = "";
+        string primeiraDivModal = "";
+
+        //variável para guardar o id do primeiro item adicional
+        int idPrimeiroAdicional = 0;
+
+        //variáveis para o post de adição de produto que contém produtos adicionais
+        string produtoJson = string.Format("'{0}'", @Html.Raw(Json.Encode(Model)));
+        }
+
+    @*para cada adicional do produto, uma div é criada*@
+    @foreach (var adicional in Model.DadosAdicionaisProdutos)
+    {
+        //se for a primeira div, receberá a classe "escondeDiv"
+        if (numeroOpcao == 1)
+        {
+            styleNone = "";
+            primeiraDivModal = "'divModal_" + Model.Id + (numeroOpcao) + "'";
+        }
+        else
+        {
+            styleNone = "escondeDiv";
+        }
+
+        if (adicional.OrdemExibicao == 1)
+        {
+            idPrimeiroAdicional = adicional.Id;
+        }
+
+
+        //monta o nome da div anterior
+        string divAnteriorModal = "'divModal_" + Model.Id + (numeroOpcao - 1) + "'";
+
+        //monta o nome da próxima div
+        string proximaDivModal = "'divModal_" + Model.Id + (numeroOpcao + 1) + "'";
+
+        //monta o nome da div atual para ser usada no modal
+        string divAtualModal = "'divModal_" + Model.Id + numeroOpcao + "'";
+
+        //monta o nome da div atual para ser usada como classe de identificação
+        string classeProdAdicionalAtual = "item-adicional-" + Model.Id + numeroOpcao;
+
+        //variável para armazenar o nome da classe de identificação
+        string nomeClasseProdAdicionalAtual = "'item-adicional-" + Model.Id + numeroOpcao + "'";
+
+        string nomeDivMensagem = "'mensagemAviso_" + Model.Id + numeroOpcao + "'";
+
+        <div id="divModal_@Model.Id@numeroOpcao" class="divModal_@Model.Id @styleNone">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">@adicional.Nome</h3>
+                <p>escolha entre @adicional.QtdMin e @adicional.QtdMax @adicional.Nome</p>
+            </div>
+
+            <div class="modal-body">
+                <!-- itens do adicional do produto. por exemplo, dentro do adicional
+                ingredientes temos os itens: cenoura, bacon, brócolis e etc...-->
+                @foreach (var itemAdicional in adicional.ItensAdicionais)
+                {
+
+                    <div class="form-horizontal">
+                        <div class="form-group @classeProdAdicionalAtual">
+                            <input type="hidden" class="idAdicional" value="@itemAdicional.Id" />
+                            <div class="col-sm-7">
+                                <label class="nomeAdicional control-label" style="text-align: left !important" for="@itemAdicional.Id">@itemAdicional.Nome</label>
+
+                                @if (!string.IsNullOrEmpty(itemAdicional.Descricao))
+                                {
+                                    <small class="nomeAdicional">@itemAdicional.Descricao</small>
+                                }
+
+                            </div>
+                            <div class="col-sm-4">
+                                @*<input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" value="0" class="form-control qtdAdicional text-center" />*@
+                                <select class="form-control qtdAdicional text-center">
+                                    @for (int i = 0; i <= adicional.QtdMax; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="control-label col-sm-11">
+                                @if (itemAdicional.Valor > 0)
+                                {
+                                    <p>valor R$ @itemAdicional.Valor</p>
+                                }
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                }
+
+                <p id="mensagemAviso_@Model.Id@numeroOpcao" class="vermelho-marmitex"></p>
+            </div>
+
+            <div class="modal-footer">
+                @if (numeroOpcao > 1)
+                {
+                    <button type="button" class="btn btn-default" onclick="DivAnteriorModal('divModal_@Model.Id', @divAnteriorModal, @nomeDivMensagem)">anterior</button>
+                }
+                @if (Model.DadosAdicionaisProdutos.Count == numeroOpcao)
+                {
+                                    <!-- se existir um único produto adicional para o produto, ele é marcado como primeiro e último -->
+                    if (Model.DadosAdicionaisProdutos.Count == 1)
+                    {
+                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @Model.Id, 1, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @Model.Id, 0, 1, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">adicionar e concluir</button>
+                    }
+                }
+                @if (Model.DadosAdicionaisProdutos.Count > numeroOpcao)
+                {
+                    if (numeroOpcao == 1)
+                    {
+                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @Model.Id, 1, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-default" onclick="NavegarModal(@primeiraDivModal, @proximaDivModal, @nomeClasseProdAdicionalAtual, @nomeDivMensagem, @adicional.Id, @Model.Id, 0, 0, @adicional.QtdMax, @adicional.QtdMin, @produtoJson)">próximo</button>
+                    }
+
+                }
+
+            </div>
+        </div>
+
+        numeroOpcao++;
+    }
+</div>

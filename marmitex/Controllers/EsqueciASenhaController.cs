@@ -40,6 +40,7 @@
                 return RedirectToAction("Index", "Login");
 
             string dominioLoja = Session["dominioLoja"].ToString();
+            //ClassesMarmitex.Email envioEmail = new Email();
 
             try
             {
@@ -75,12 +76,9 @@
                         return View("Index");
                     }
 
-                    //envia a nova senha por e-mail
-                    string urlPostEmail = string.Format("/Email/EnviarEmailUnitario");
-
                     DadosEnvioEmailUnitario dadosEmail = new DadosEnvioEmailUnitario
                     {
-                        From = usuarioParceiro.NomeLoja + "@tasaindo.com.br",
+                        From = "naoresponder@tasaindo.com.br",
                         To = usuario.Email,
                         Subject = "Recuperação de senha",
                         Text = string.Format("<h1>Olá {0}</h1> <p>A sua nova senha de acesso é: {1}</p>", usuarioParceiro.Nome, novaSenha)
@@ -88,7 +86,13 @@
 
                     retornoRequest = rest.Post("Email/EnviarEmailUnitario", dadosEmail);
 
-                    return RedirectToAction("Index", "Login");
+                    if(retornoRequest.HttpStatusCode == HttpStatusCode.OK)
+                        return RedirectToAction("Index", "Login");
+                    else
+                    {
+                        ViewBag.MensagemRecuperarSenha = "não foi possível enviar a senha. por favor, tente novamente";
+                        return View("Index");
+                    }
                 }
                 else if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
                 {

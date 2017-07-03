@@ -21,7 +21,7 @@
                         //se o produto tiver itens adicionais
                         if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
                         {
-                            <h4>@p.Produto.Nome R$ @p.ValorTotal.ToString("F")</h4>
+                            <h4>@p.Produto.Nome R$ @p.Produto.Valor.ToString("F")</h4>
                             foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
                             {
                                 if (adicional.ItensAdicionais.Where(a => a.Qtd > 0).ToList().Count() > 0)
@@ -35,7 +35,9 @@
                                     {
                                         if (item.Valor > 0)
                                         {
-                                            <p>@item.Qtd @item.Nome R$ @item.Valor.ToString("F")</p>
+                                            decimal valorTotalItem = item.Qtd * item.Valor;
+
+                                            <p>@item.Qtd @item.Nome R$ @valorTotalItem.ToString("F")</p>
                                         }
                                         else
                                         {
