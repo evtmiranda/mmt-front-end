@@ -190,7 +190,7 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
                         var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra/";
                         $("#visualizacaoCarrinho").load(url);
 
-                        var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio/";
+                        var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio2/";
                         $("#visualizacaoCardapio").load(url);
 
                         //fecha o modal
@@ -248,7 +248,7 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
                     var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra/";
                     $("#visualizacaoCarrinho").load(url);
 
-                    var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio/";
+                    var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio2/";
                     $("#visualizacaoCardapio").load(url);
 
                     //fecha o modal

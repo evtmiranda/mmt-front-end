@@ -54,51 +54,51 @@
                                             <li style="margin-top: 0em !important;"><div class="" title="@itemAdicional.Nome"><small> @itemAdicional.Qtd @itemAdicional.Nome</small></div></li>
                                         </ul>
                                     </li>
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    //exibe o produto, quantidade escolhida e o valor total
-                                    <li>
-                                        <div class="produtos-nome" title="@p.Produto.Nome">@p.Quantidade @p.Produto.Nome</div> R$ @p.ValorTotal.ToString("F")
-                                    </li>
-                                    }
-                                }
-                </ul>
-
-                                if (Convert.ToInt32(Session["qtdCarrinho"]) > 0)
-                                {
-                                    <ul class="sidebar-nav carrinho-compras">
-                                        <li>valor total do pedido R$@Convert.ToDecimal(Session["vlrCarrinho"]).ToString("F")</li>
-                                    </ul>
-
-                                    <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
                                 }
 
-                                //exibe o botão fechar pedido apenas se estiver na página home
-                                if (Session["ExibirBotãoFinalizarPedido"] != null)
-                                {
-                                    if (Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])
-                                                || Request.Url.AbsolutePath.Contains("AtualizarVisualizacaoViewParcial"))
-                                    {
-                                        if (Convert.ToInt32(Session["qtdCarrinho"]) > 0)
-                                        {
-                                            <a href="@Session["urlBase"]DetalhesPedido/Index" class="btn btn-vermelho-sem-animacao btn-pedido" role="button"><i class="glyphicon glyphicon-ok"></i> fechar pedido</a>
-                                        }
-                                        else
-                                        {
-                                            <p>seu carrinho ainda está vazio ;(</p>
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    <p>seu carrinho ainda está vazio ;(</p>
-                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    //exibe o produto, quantidade escolhida e o valor total
+                    <li>
+                        <div class="produtos-nome" title="@p.Produto.Nome">@p.Quantidade @p.Produto.Nome</div> R$ @p.ValorTotal.ToString("F")
+                    </li>
+                }
+            }
+        </ul>
+
+        if (Convert.ToInt32(Session["qtdCarrinho"]) > 0)
+        {
+            <ul class="sidebar-nav carrinho-compras">
+                <li>valor total do pedido R$@Convert.ToDecimal(Session["vlrCarrinho"]).ToString("F")</li>
+            </ul>
+
+            <a href="#" class="btn btn-amarelo-sem-animacao btn-carrinho-compras" role="button" onclick="window.location = '@Session["urlBase"]/Carrinho/EditarPedido'"><i class="glyphicon glyphicon-edit"></i> editar</a>
+        }
+
+        //exibe o botão fechar pedido apenas se estiver na página home
+        if (Session["ExibirBotãoFinalizarPedido"] != null)
+        {
+            if (Convert.ToBoolean(Session["ExibirBotãoFinalizarPedido"])
+                        || Request.Url.AbsolutePath.Contains("AtualizarVisualizacaoViewParcial"))
+            {
+                if (Convert.ToInt32(Session["qtdCarrinho"]) > 0)
+                {
+                    <a href="@Session["urlBase"]DetalhesPedido/Index" class="btn btn-vermelho-sem-animacao btn-pedido" role="button"><i class="glyphicon glyphicon-ok"></i> fechar pedido</a>
+                }
+                else
+                {
+                    <p>seu carrinho ainda está vazio ;(</p>
+                }
+            }
+        }
+    }
+    else
+    {
+        <p>seu carrinho ainda está vazio ;(</p>
+    }
 
 </div>
