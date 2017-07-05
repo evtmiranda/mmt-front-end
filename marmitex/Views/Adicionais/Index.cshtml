@@ -1,6 +1,6 @@
 ﻿@model ClassesMarmitex.Produto
 
-@{ 
+@{
     Layout = null;
 }
 
@@ -16,7 +16,7 @@
 
         //variáveis para o post de adição de produto que contém produtos adicionais
         string produtoJson = string.Format("'{0}'", @Html.Raw(Json.Encode(Model)));
-        }
+    }
 
     @*para cada adicional do produto, uma div é criada*@
     @foreach (var adicional in Model.DadosAdicionaisProdutos)
@@ -80,16 +80,24 @@
                                 }
 
                             </div>
-                            <div class="col-sm-4">
-                                <input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" placeholder="0" class="form-control qtdAdicional text-center" />
+                            <div class="col-sm-5">
+                                @*<input type="number" min="@adicional.QtdMin" max="@adicional.QtdMax" placeholder="0" class="form-control qtdAdicional text-center" />*@
                                 @*<select class="form-control qtdAdicional text-center">
-                                    @for (int i = 0; i <= adicional.QtdMax; i++)
-                                    {
-                                        <option value="@i">@i</option>
-                                    }
-                                </select>*@
+                                        @for (int i = 0; i <= adicional.QtdMax; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>*@
+                                <button onclick="DecrementarQtdProduto('label_@itemAdicional.Id', @adicional.QtdMin)">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+
+                                <label id="label_@itemAdicional.Id" class="qtdAdicional">0</label>
+
+                                <button onclick="IncrementarQtdProduto('label_@itemAdicional.Id', @adicional.QtdMax)">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
                             </div>
-                            <div class="col-md-1"></div>
                             <div class="control-label col-sm-11">
                                 @if (itemAdicional.Valor > 0)
                                 {

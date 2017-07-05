@@ -145,7 +145,8 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
         for (var i = 0; i < itensAdicionais.length; i++) {
             itemAdicional = new Object();
             itemAdicional.Id = itensAdicionais[i].getElementsByClassName('idAdicional')[0].value;
-            itemAdicional.Qtd = itensAdicionais[i].getElementsByClassName('qtdAdicional')[0].value;
+            //itemAdicional.Qtd = itensAdicionais[i].getElementsByClassName('qtdAdicional')[0].value;
+            itemAdicional.Qtd = Number(itensAdicionais[i].getElementsByClassName('qtdAdicional')[0].innerText);
 
             //se o item vier em branco, é marcado como 0.
             if (itemAdicional.Qtd == "")
@@ -337,6 +338,30 @@ function DivAnteriorModal(classEsconder, nomeDivExibir, nomeDivMensagem) {
     divExibir.classList.add("exibeDiv");
 }
 
+
+function IncrementarQtdProduto(nomeLabel, max) {
+    var qtdAtual = document.getElementById(nomeLabel).innerText;
+    var qtdAtualNumber = Number(qtdAtual);
+
+    if (qtdAtualNumber == max)
+        return;
+
+    qtdAtualNumber = qtdAtualNumber + 1;
+
+    document.getElementById(nomeLabel).innerText = qtdAtualNumber;
+}
+
+function DecrementarQtdProduto(nomeLabel, min) {
+    var qtdAtual = document.getElementById(nomeLabel).innerText;
+    var qtdAtualNumber = Number(qtdAtual);
+
+    if (qtdAtualNumber == min)
+        return;
+
+    qtdAtualNumber = qtdAtualNumber - 1;
+
+    document.getElementById(nomeLabel).innerText = qtdAtualNumber;
+}
 
 /**
  * Redireciona o cliente para um determinado destino
