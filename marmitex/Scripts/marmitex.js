@@ -183,49 +183,62 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
 
         //se for o primeiro e último produto adicional (casos com apenas 1 produto adicional)
         if (ehPrimeiroAdicional && ehUltimoAdicional) {
-            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
+            //$.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
 
-                //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
-                $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
-                    function () {
-                        var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra/";
-                        $("#visualizacaoCarrinho").load(url);
+            //$.ajax({
+            //    type: 'POST',
+            //    url: '/Carrinho/AdicionarProdutoComAdicional',
+            //    data: { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
+            //    success: success,
+            //    dataType: dataType,
+            //    async: false
+            //});
 
-                        var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio2/";
-                        $("#visualizacaoCardapio").load(url);
+            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson });
 
-                        //fecha o modal
-                        //var nomeModal = '#modalProduto_' + idProduto;
-                        var nomeModal = '#ModalAdicionais';
-                        $(nomeModal).modal('hide');
+            //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
+            $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
+                //$.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
+                function () {
+                    var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_CarrinhoCompra/";
+                    $("#visualizacaoCarrinho").load(url);
 
-                        //$('#your-modal-id').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
+                    var url = "/Carrinho/AtualizarVisualizacaoViewParcial/_MenuCardapio2/";
+                    $("#visualizacaoCardapio").load(url);
 
-                        //volta a navegação do modal para o primeiro adicional
-                        var listaDivsEsconder = document.getElementsByClassName(classEsconder);
+                    //fecha o modal
+                    //var nomeModal = '#modalProduto_' + idProduto;
+                    var nomeModal = '#ModalAdicionais';
+                    $(nomeModal).modal('hide');
 
-                        for (i = 0; i < listaDivsEsconder.length; i++) {
-                            listaDivsEsconder[i].classList.add("escondeDiv");
-                            listaDivsEsconder[i].classList.remove("exibeDiv");
-                        }
+                    //$('#your-modal-id').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
 
-                        //exibe divs
-                        var divExibir = document.getElementById(primeiraDivModal);
+                    //volta a navegação do modal para o primeiro adicional
+                    var listaDivsEsconder = document.getElementsByClassName(classEsconder);
 
-                        divExibir.classList.remove("escondeDiv");
-                        divExibir.classList.add("exibeDiv");
+                    for (i = 0; i < listaDivsEsconder.length; i++) {
+                        listaDivsEsconder[i].classList.add("escondeDiv");
+                        listaDivsEsconder[i].classList.remove("exibeDiv");
+                    }
 
-                        //limpa os inputs do modal
-                        $(classEsconder)
-                            .find("input,textarea,select")
-                            .val('')
-                            .end()
-                            .find("input[type=checkbox], input[type=radio]")
-                            .prop("checked", "")
-                            .end();
-                    }));
+                    //exibe divs
+                    var divExibir = document.getElementById(primeiraDivModal);
+
+                    divExibir.classList.remove("escondeDiv");
+                    divExibir.classList.add("exibeDiv");
+
+                    //limpa os inputs do modal
+                    $(classEsconder)
+                        .find("input,textarea,select")
+                        .val('')
+                        .end()
+                        .find("input[type=checkbox], input[type=radio]")
+                        .prop("checked", "")
+                        .end();
+                })
+                );
         }
         //se for a escolha do primeiro adicional do produto o produto deve ser criado
         //e este adicional adicionado a ele. Os próximos adicionais escolhidos serão adicionados a este produto
