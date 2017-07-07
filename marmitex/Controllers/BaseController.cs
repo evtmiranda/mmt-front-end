@@ -10,7 +10,7 @@
         {
             if (Session["UsuarioLogado"] == null) {
                 Session["PaginaDestinoAposLogin"] = Request.Url.AbsolutePath;
-                filterContext.HttpContext.Response.Redirect("/Login/Index");
+                filterContext.HttpContext.Response.Redirect("/Login/Index", false);
             }
 
             if (Session["urlBase"] == null)

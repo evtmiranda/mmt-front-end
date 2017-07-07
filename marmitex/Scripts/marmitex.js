@@ -185,7 +185,9 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
         if (ehPrimeiroAdicional && ehUltimoAdicional) {
             //$.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
 
-            $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
+            AdicionarProdutoComAdicional(produtoJson, produtoAdicionalJson);
+
+            //$.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
                 //faz um post para atualizar o produto adicional do produto e incluir na sessão "carrinho"
                 $.post('/Carrinho/AtualizarProdutoAdicional', { adicionalProdutoJson: produtoAdicionalJson, adicionarAoCarrinho: true },
                     //$.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson },
@@ -229,7 +231,7 @@ function NavegarModal(primeiraDivModal, nomeDivExibir, classeProdAdicionalAtual,
                             .end();
                     }
                 )
-            );
+            //);
         }
         //se for a escolha do primeiro adicional do produto o produto deve ser criado
         //e este adicional adicionado a ele. Os próximos adicionais escolhidos serão adicionados a este produto
@@ -303,6 +305,12 @@ function avisoVendaNaoDisponivel() {
         type: 'warning'
     })
 }
+
+function AdicionarProdutoComAdicional(produtoJson, produtoAdicionalJson) {
+    $.post('/Carrinho/AdicionarProdutoComAdicional', { produtoJson: produtoJson, adicionalProdutoJson: produtoAdicionalJson })
+}
+
+
 
 function ProximaDivModal(classEsconder, nomeDivExibir) {
     //esconde divs

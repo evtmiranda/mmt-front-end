@@ -16,6 +16,14 @@ namespace marmitex
 
         protected void Application_Error(object sender, EventArgs e)
         {
+            var app = (MvcApplication)sender;
+            var context = app.Context;
+            var ex = app.Server.GetLastError();
+            context.Response.Clear();
+            context.ClearError();
+
+            var httpException = ex as HttpException;
+
             Response.Redirect("~/Login");
         }
 
