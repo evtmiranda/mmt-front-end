@@ -32,12 +32,12 @@ else
             </div>
             @if (Session["Brinde"] != null)
             {
-                <h3>brindes</h3>
-                <div id="visualizacaoBrindes">
-                    @{
-                        @Html.Partial("_Brinde")
-                    }
-                </div>
+            <h3>brindes</h3>
+            <div id="visualizacaoBrindes">
+                @{
+                    @Html.Partial("_Brinde")
+                }
+            </div>
             }
         </div>
 
@@ -56,10 +56,10 @@ else
                             {
                                 //monta a função javascript responsavel por esconder e exibir produtos
                                 string EsconderDiv = string.Format("EsconderDiv('menuCardapio', 'idCardapio {0}')", mc.Id);
-                                <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
+                        <li><a href="#" class="btnCardapio" onclick="@EsconderDiv">@mc.Nome</a></li>
                             }
-                            <hr />
-                            <li><a href="@Session["urlBase"]/Home" class="btnCardapio">Mostrar todos</a></li>
+                        <hr />
+                        <li><a href="@Session["urlBase"]/Home" class="btnCardapio">Mostrar todos</a></li>
                         }
                     </ul>
                 </div>
@@ -73,20 +73,12 @@ else
 
         <div class="col-md-9 cardapio" style="margin-top: 15px;">
             <div id="visualizacaoCardapio">
-                @{
-                    @Html.Partial("_MenuCardapio2")
-                }
+                @Html.Partial("_MenuCardapio2")
             </div>
         </div>
 
-       <div class="rodape rodape-responsivo">
-            <div class="col-md-4">
-                <p>Dias de funcionamento</p>
-            </div>
-
-            <div class="col-md-4">
-                <p>Endereço</p>
-            </div>
+        <div class="rodape rodape-responsivo">
+            @Html.Partial("_Informacoes")
         </div>
 
     </div>

@@ -1,0 +1,36 @@
+﻿<div class="col-md-3 col-md-offset-3">
+    <h5>Horários de entrega</h5>
+
+    @if (ViewBag.HorariosEntrega != null)
+    {
+
+        List<ClassesMarmitex.DadosHorarioEntrega> listaHorariosEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
+
+        foreach (var dadosHorarioEntrega in listaHorariosEntrega)
+        {
+            foreach (var horarioEntrega in dadosHorarioEntrega.HorariosEntrega)
+            {
+                <p>@horarioEntrega.Horario</p>
+            }
+        }
+    }
+
+</div>
+
+<div class="col-md-3">
+    <h5>formas de pagamento</h5>
+
+    @if (ViewBag.HorariosEntrega != null)
+    {
+        List<ClassesMarmitex.DadosHorarioEntrega> listaHorariosEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
+
+        foreach (var dadosHorarioEntrega in listaHorariosEntrega)
+        {
+            foreach (var horarioEntrega in dadosHorarioEntrega.HorariosEntrega)
+            {
+                <p>@horarioEntrega.Horario</p>
+            }
+        }
+    }
+
+</div>

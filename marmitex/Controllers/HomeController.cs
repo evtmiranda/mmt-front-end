@@ -20,6 +20,7 @@
         private List<MenuCardapio> listaMenuCardapio;
         private List<Produto> produtos;
         private DadosHorarioEntrega dadosDiasFuncionamento;
+        private List<DadosHorarioEntrega> listaHorarioEntrega;
         private SqlServer sqlConn = new SqlServer();
 
         //construtor do controller recebe um RequisicoesREST
@@ -139,6 +140,13 @@
                 string jsonDiasFuncionamento = retornoRequest.objeto.ToString();
 
                 dadosDiasFuncionamento = JsonConvert.DeserializeObject<DadosHorarioEntrega>(jsonDiasFuncionamento);
+
+                listaHorarioEntrega = new List<DadosHorarioEntrega>
+                {
+                    dadosDiasFuncionamento
+                };
+
+                ViewBag.HorariosEntrega = listaHorarioEntrega;
 
                 int diaAtivo = dadosDiasFuncionamento.DiasDeFuncionamento.FindAll(p => p.DiaDisponivel).Count;
 

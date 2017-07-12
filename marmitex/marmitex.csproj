@@ -225,6 +225,7 @@
     <Content Include="Views\Adicionais\Index.cshtml" />
     <Content Include="Views\Shared\_MenuCardapio2.cshtml" />
     <Content Include="Views\Informacoes\Index.cshtml" />
+    <Content Include="Views\Shared\_Informacoes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
