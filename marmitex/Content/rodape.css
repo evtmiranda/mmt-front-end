@@ -1,0 +1,20 @@
+﻿@media (min-width: 992px){
+    .rodape {
+        position: fixed;
+        bottom: 0;
+        background-color: #f8f8f8;
+        border-radius: 4px;
+        padding: 2% 1% 1% 1%;
+        width: 100%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        box-sizing: content-box;
+    }
+}
+
+@media (max-width: 991px) {
+    .rodape {
+        display: none;
+    }
+}

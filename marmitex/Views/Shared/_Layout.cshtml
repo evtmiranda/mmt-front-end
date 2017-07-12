@@ -17,6 +17,7 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/simple-sidebar.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/rodape.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Oswald:500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -59,7 +60,7 @@
             <div class="collapse navbar-collapse" id="menuResponsivo">
                 <ul class="nav navbar-nav navbar-right">
 
-                    @*<li class="dropdown" style="margin-right: 10px">  *@
+                    <li><a href="@Session["urlBase"]/Informacoes">informações</a></li>
                     @{ if (Session["usuarioLogado"] == null)
                         {
                             <li><a href="~/Login">fazer login</a></li>
