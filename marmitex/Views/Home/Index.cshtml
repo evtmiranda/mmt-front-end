@@ -77,9 +77,12 @@ else
             </div>
         </div>
 
-        <div class="rodape rodape-responsivo">
+        @*<div class="rodape rodape-responsivo">
             @Html.Partial("_Informacoes")
-        </div>
+        </div>*@
 
     </div>
-}
+    <footer class="rodape">
+        @Html.Partial("_Informacoes")
+    </footer>
+                    }

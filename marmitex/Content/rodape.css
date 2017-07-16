@@ -1,16 +1,15 @@
-﻿@media (min-width: 992px){
-    .rodape {
-        position: fixed;
-        bottom: 0;
-        background-color: #f8f8f8;
-        border-radius: 4px;
-        padding: 2% 1% 1% 1%;
-        width: 100%;
-        left: 0;
-        right: 0;
-        text-align: center;
-        box-sizing: content-box;
-    }
+﻿/*html{
+    height: 100% !important;
+}*/
+
+.rodape {
+    bottom: 0;
+    margin-bottom: 0;
+    border-radius: 5px;
+    padding: 2em;
+    margin-top: 20%;
+    background-color: #f8f8f8;
+    height: 300px;
 }
 
 @media (max-width: 991px) {
@@ -18,3 +17,22 @@
         display: none;
     }
 }
+
+@media (min-width: 992px) {
+    .rodape {
+        height: 300px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .rodape {
+        height: 300px;
+    }
+}
+
+
+/*
+
+    #e7e7e7
+#f8f8f8
+*/

@@ -74,7 +74,7 @@ namespace marmitex.Controllers
 
                 #endregion
             }
-            catch (System.Exception)
+            catch (Exception)
             {
 
                 throw;

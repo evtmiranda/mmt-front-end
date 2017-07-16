@@ -1,36 +1,44 @@
-﻿<div class="col-md-3 col-md-offset-3">
-    <h5>Horários de entrega</h5>
+﻿<link href="~/Content/informacoes.css" rel="stylesheet" type="text/css" />
 
-    @if (ViewBag.HorariosEntrega != null)
-    {
+<div class="informacoes">
+    <div class="col-md-3 col-md-offset-3 ">
+        <h5>dias de funcionamento</h5>
 
-        List<ClassesMarmitex.DadosHorarioEntrega> listaHorariosEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
-
-        foreach (var dadosHorarioEntrega in listaHorariosEntrega)
+        @if (ViewBag.HorariosEntrega != null)
         {
-            foreach (var horarioEntrega in dadosHorarioEntrega.HorariosEntrega)
+            List<ClassesMarmitex.DadosHorarioEntrega> listaDiasFuncionamento = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
+
+            foreach (var dadosDiasFuncionamento in listaDiasFuncionamento)
             {
-                <p>@horarioEntrega.Horario</p>
+                <p>
+                    @foreach (var diaFuncionamento in dadosDiasFuncionamento.DiasDeFuncionamento)
+                    {
+                        @diaFuncionamento.DiaDaSemana <br />
+                    }
+                </p>
             }
         }
-    }
 
-</div>
+    </div>
 
-<div class="col-md-3">
-    <h5>formas de pagamento</h5>
+    <div class="col-md-4">
+        <h5>Horários de entrega</h5>
+        <small>(os horários listados são para todos os dias)</small>
 
-    @if (ViewBag.HorariosEntrega != null)
-    {
-        List<ClassesMarmitex.DadosHorarioEntrega> listaHorariosEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
-
-        foreach (var dadosHorarioEntrega in listaHorariosEntrega)
+        @if (ViewBag.HorariosEntrega != null)
         {
-            foreach (var horarioEntrega in dadosHorarioEntrega.HorariosEntrega)
+            List<ClassesMarmitex.DadosHorarioEntrega> listaHorariosEntrega = (List<ClassesMarmitex.DadosHorarioEntrega>)ViewBag.HorariosEntrega;
+
+            foreach (var dadosHorarioEntrega in listaHorariosEntrega)
             {
-                <p>@horarioEntrega.Horario</p>
+                <p>
+                    @foreach (var horarioEntrega in dadosHorarioEntrega.HorariosEntrega)
+                    {
+                        @horarioEntrega.Horario <br />
+                    }
+                </p>
             }
         }
-    }
 
+    </div>
 </div>

@@ -148,6 +148,7 @@
     <None Include="Properties\PublishProfiles\Bevakana - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Content\informacoes.css" />
     <Content Include="Content\rodape.css" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
